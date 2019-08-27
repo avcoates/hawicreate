@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
+  selector: 'hawicreate-root',
+  template: `
+    <hawicreate-base></hawicreate-base>
+  `,
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
