@@ -1,2 +1,8 @@
 import { Routes } from '@angular/router';
-export const AppRoutes: Routes = [];
+import { BaseComponent } from './base/components/base/base.component';
+export const AppRoutes: Routes = [
+    {
+        path: '',
+        component: BaseComponent
+    }
+];

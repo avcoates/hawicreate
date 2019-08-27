@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material/material.module';
-import { NavbarComponent } from './base/components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { AppRoutes } from './app.routing';
 import { BaseModule } from './base/base.module';
@@ -15,16 +14,15 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent,
-    AdminModule,
-    PortfolioModule
+    AppComponent
   ],
   imports: [
     BrowserModule,
     RouterModule.forRoot(AppRoutes),
     MaterialModule,
     BaseModule,
+    AdminModule,
+    PortfolioModule,
     NgxsModule.forRoot([
     ]),
     NgxsReduxDevtoolsPluginModule.forRoot()
