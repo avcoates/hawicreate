@@ -1,8 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home.component';
-import { GalleryComponent } from './gallery/gallery.component';
-import { ContactComponent } from './contact/contact.component';
+import { HomeComponent } from './components/home/home.component';
+import { GalleryComponent } from './components/gallery/gallery.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { RouterModule } from '@angular/router';
+import { PortfolioRoutes } from './portfolio.routes';
+import { PortfolioComponent } from './components/portfolio/portfolio.component';
 
 
 
@@ -10,10 +13,12 @@ import { ContactComponent } from './contact/contact.component';
   declarations: [
     HomeComponent,
     GalleryComponent,
-    ContactComponent
+    ContactComponent,
+    PortfolioComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    RouterModule.forChild(PortfolioRoutes)
   ]
 })
 export class PortfolioModule { }

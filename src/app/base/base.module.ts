@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { BaseComponent } from './components/base/base.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
+import { BaseRoutes } from './base.routes';
 
 
 @NgModule({
@@ -12,7 +13,7 @@ import { RouterModule } from '@angular/router';
   ],
   imports: [
     CommonModule,
-    RouterModule
+    RouterModule.forChild(BaseRoutes)
   ],
   exports: [
     BaseComponent
