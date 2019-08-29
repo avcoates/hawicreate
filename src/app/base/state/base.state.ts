@@ -1,6 +1,8 @@
 import { Route } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { UpdatePageRoutesFromChild } from '../actions/base.actions';
+import { NavbarRoute } from 'src/app/shared/models';
+import { StringUtilities } from 'src/app/utilities/string.utilities';
 
 export interface BaseStateModel {
     routes: Array<Route>;
@@ -16,8 +18,8 @@ export interface BaseStateModel {
 export class BaseState {
 
     @Selector()
-    public static routes(state: BaseStateModel): Array<string> {
-        return state.routes.map((route: Route) => route.path);
+    public static routes(state: BaseStateModel): Array<NavbarRoute> {
+        return state.routes.map((route: Route) => new NavbarRoute(StringUtilities.capitalizeFirstLetter(route.path), route.path));
     }
 
     @Action(UpdatePageRoutesFromChild)

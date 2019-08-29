@@ -4,6 +4,8 @@ import { BaseComponent } from './components/base/base.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { RouterModule } from '@angular/router';
 import { BaseRoutes } from './base.routes';
+import { MaterialModule } from '../material/material.module';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -13,7 +15,9 @@ import { BaseRoutes } from './base.routes';
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(BaseRoutes)
+    MaterialModule,
+    RouterModule.forChild(BaseRoutes),
+    SharedModule
   ],
   exports: [
     BaseComponent

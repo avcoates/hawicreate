@@ -11,11 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class BaseComponent {
 
-  @Select(BaseState.routes)
-  public routes$: Observable<Array<Route>>;
-
   constructor(private store: Store) {
-    this.routes$.subscribe(r => console.log(r));
   }
 
 

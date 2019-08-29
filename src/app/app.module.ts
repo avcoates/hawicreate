@@ -13,6 +13,8 @@ import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { BaseModule } from './base/base.module';
 import { BaseState } from './base/state/base.state';
 import { environment } from 'src/environments/environment';
+import { SharedModule } from './shared/shared.module';
+import { UtilitesModule } from './utilities/utilites.module';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,11 @@ import { environment } from 'src/environments/environment';
     BaseModule,
     NgxsModule.forRoot([BaseState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot()
+  ],
+  exports: [
+    SharedModule,
+    UtilitesModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

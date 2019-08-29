@@ -11,7 +11,6 @@ import { PortfolioRoutes } from '../../portfolio.routes';
 export class PortfolioComponent implements OnInit {
 
   constructor(private store: Store) {
-    console.log('sd');
     this.store.dispatch(new UpdatePageRoutesFromChild(PortfolioRoutes));
   }
 
