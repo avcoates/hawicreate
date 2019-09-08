@@ -30,7 +30,6 @@ export class NavbarComponent implements OnInit {
   }
 
   public onNavigate(path: string): void {
-    console.log(this.router.url, path);
     this.router.navigateByUrl(path);
   }
 }
