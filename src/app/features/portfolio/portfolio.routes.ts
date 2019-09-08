@@ -1,19 +1,17 @@
-import { Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { GalleryComponent } from './components/gallery/gallery.component';
-import { ContactComponent } from './components/contact/contact.component';
+import { NavbarRoute } from 'src/app/shared/models';
 
-export const PortfolioRoutes: Routes = [
+export const PortfolioRoutes: Array<NavbarRoute> = [
+
     {
-        path: 'home',
-        component: HomeComponent
+        path: 'portfolio/home',
+        header: 'Home'
     },
     {
-        path: 'gallery',
-        component: GalleryComponent
+        path: 'portfolio/gallery',
+        header: 'Gallery'
     },
     {
-        path: 'contact',
-        component: ContactComponent
+        path: 'portfolio/contact',
+        header: 'Contact'
     }
 ];

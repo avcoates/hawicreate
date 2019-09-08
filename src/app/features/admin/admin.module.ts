@@ -10,7 +10,7 @@ import { AdminComponent } from './components/admin/admin.component';
   declarations: [AdminComponent],
   imports: [
     CommonModule,
-    RouterModule.forChild(AdminRoutes)
+    RouterModule
   ]
 })
 export class AdminModule { }

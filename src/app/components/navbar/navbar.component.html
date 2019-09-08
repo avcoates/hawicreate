@@ -1,7 +1,7 @@
 <mat-toolbar>
     <ng-container *ngIf="routes$ | async as routes">
         <ng-container *ngFor="let route of routes">
-            <button mat-button>
+            <button mat-button (click)="onNavigate(route.path)">
                 {{route.header}}
             </button>
         </ng-container>

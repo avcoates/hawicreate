@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
-import { BaseState } from '../../state/base.state';
 import { Observable } from 'rxjs';
 import { Route } from '@angular/compiler/src/core';
 import { NavbarRoute } from 'src/app/shared/models';
+import { Router } from '@angular/router';
+import { AppState } from 'src/app/state/app.state';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'hawicreate-navbar',
@@ -12,13 +14,23 @@ import { NavbarRoute } from 'src/app/shared/models';
 })
 export class NavbarComponent implements OnInit {
 
-  @Select(BaseState.routes)
+  @Select(AppState.routes)
   public routes$: Observable<Array<NavbarRoute>>;
 
-  constructor(private store: Store) {
+  @Select(AppState.pageBase)
+  public pageBase$: Observable<string>;
+
+  constructor(private store: Store,
+              private router: Router) {
+    console.log('navbar');
+    this.routes$.pipe(tap(console.log));
   }
 
   ngOnInit() {
   }
 
+  public onNavigate(path: string): void {
+    console.log(this.router.url, path);
+    this.router.navigateByUrl(path);
+  }
 }

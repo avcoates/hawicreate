@@ -1,11 +1,41 @@
 import { Routes } from '@angular/router';
-import { AppComponent } from './app.component';
-import { PortfolioComponent } from './features/portfolio/components/portfolio/portfolio.component';
+import { PortfolioComponent } from './features/portfolio/portfolio/portfolio.component';
 import { AdminComponent } from './features/admin/components/admin/admin.component';
-import { BaseComponent } from './base/components/base/base.component';
+import { HomeComponent } from './features/portfolio/components/home/home.component';
+import { GalleryComponent } from './features/portfolio/components/gallery/gallery.component';
+import { ContactComponent } from './features/portfolio/components/contact/contact.component';
 export const AppRoutes: Routes = [
+
+    {
+        path: 'portfolio',
+        component: PortfolioComponent,
+        children: [
+            {
+                path: 'home',
+                component: HomeComponent
+            },
+            {
+                path: 'gallery',
+                component: GalleryComponent
+            },
+            {
+                path: 'contact',
+                component: ContactComponent
+            }
+        ]
+    },
+    {
+        path: 'admin',
+        component: AdminComponent
+    },
     {
         path: '',
-        component: AppComponent
+        redirectTo: 'portfolio/home',
+        pathMatch: 'full'
+    },
+    {
+        path: '**',
+        redirectTo: '',
+        pathMatch: 'full'
     }
 ];

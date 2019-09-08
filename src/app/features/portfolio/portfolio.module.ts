@@ -4,8 +4,7 @@ import { HomeComponent } from './components/home/home.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { RouterModule } from '@angular/router';
-import { PortfolioRoutes } from './portfolio.routes';
-import { PortfolioComponent } from './components/portfolio/portfolio.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 
 
@@ -18,7 +17,7 @@ import { PortfolioComponent } from './components/portfolio/portfolio.component';
   ],
   imports: [
     CommonModule,
-    RouterModule.forChild(PortfolioRoutes)
+    RouterModule
   ]
 })
 export class PortfolioModule { }
