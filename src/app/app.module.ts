@@ -16,6 +16,11 @@ import { UtilitesModule } from './utilities/utilites.module';
 import { AppState } from './state/app.state';
 import { NavbarComponent } from './components/navbar/navbar.component';
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,7 +33,10 @@ import { NavbarComponent } from './components/navbar/navbar.component';
     AdminModule,
     PortfolioModule,
     NgxsModule.forRoot([AppState], { developmentMode: !environment.production }),
-    NgxsReduxDevtoolsPluginModule.forRoot()
+    NgxsReduxDevtoolsPluginModule.forRoot(),
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireStorageModule,
+    AngularFirestoreModule
   ],
   exports: [
     SharedModule,
