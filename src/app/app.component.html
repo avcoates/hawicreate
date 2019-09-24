@@ -1,9 +1,10 @@
 <hawicreate-navbar></hawicreate-navbar>
 <div class="content">
     <router-outlet></router-outlet>
-    <ng-container *ngIf="url$ | async as url">
+    <ng-container *ngIf="urls$ | async as urls">
+        <ng-container *ngFor="let url of urls">
             <img [src]="url">
-
+        </ng-container>
     </ng-container>
 
     
