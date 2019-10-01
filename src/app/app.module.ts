@@ -19,6 +19,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { ImagesApiService } from './services/images-api.service';
 
 
 @NgModule({
@@ -43,7 +44,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
     UtilitesModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [ImagesApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

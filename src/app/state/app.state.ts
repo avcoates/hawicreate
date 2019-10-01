@@ -3,6 +3,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { UpdatePageRoutesFromChild, ChangeFeature } from '../actions/app.actions';
 import { NavbarRoute } from 'src/app/shared/models';
 import { StringUtilities } from 'src/app/utilities/string.utilities';
+import { ImagesState } from './images.state';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
@@ -14,7 +15,8 @@ export interface AppStateModel {
     defaults: {
       routes: [],
       pageBase: ''
-    }
+    },
+    children: [ImagesState]
 })
 
 export class AppState {
