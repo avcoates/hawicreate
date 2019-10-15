@@ -1,6 +1,7 @@
-<p>home works!</p>
-<ng-container *ngIf="urls$ | async as urls">
-    <ng-container *ngFor="let url of urls">
-        <img [src]="url">
-    </ng-container>
+<ng-container *ngIf="state$ | async as state">
+    <div class="home_container" *ngIf="isHidden$ | async as isHidden">
+        {{isHidden}}
+        <img class="featured_image" [@changeImage]="isHidden ? 'hidden' : 'visible'" [src]="state.featuredImages[state.imageIndex]">
+    </div>
 </ng-container>
+<button mat-button (click)="onChangeImage()">Change</button>

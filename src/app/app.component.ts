@@ -6,6 +6,8 @@ import { FirebaseDatabase } from '@angular/fire';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { map, tap, switchMap, flatMap, combineAll } from 'rxjs/operators';
 import { combineLatest } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { GetAllPhotos } from './actions/images.actions';
 
 
 @Component({
@@ -18,8 +20,9 @@ export class AppComponent {
 
 
 
-  constructor(private storage: AngularFireStorage, private firestore: AngularFirestore) {
+  constructor(private storage: AngularFireStorage, private firestore: AngularFirestore, private store: Store) {
     console.log('appcomponent');
+    this.store.dispatch(new GetAllPhotos());
   }
 
 }

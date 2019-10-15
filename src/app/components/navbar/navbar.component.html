@@ -1,12 +1,13 @@
-<!-- <ng-container class="toolbar"> -->
-    <mat-toolbar class="toolbar" color="primary">
-        <ng-container *ngIf="routes$ | async as routes">
-            <ng-container *ngFor="let route of routes">
-                <button color="accent" mat-button (click)="onNavigate(route.path)">
-                    {{route.header}}
-                </button>
-            </ng-container>
+<mat-toolbar class="toolbar mat-elevation-z6" color="primary">
+    <div>
+        <h2>H A W I C R E A T E</h2>
+    </div>
+    <div *ngIf="routes$ | async as routes">
+        <ng-container *ngFor="let route of routes">
+            <button color="accent" mat-button (click)="onNavigate(route.path)">
+                {{route.header}}
+            </button>
         </ng-container>
-    </mat-toolbar>
-<!-- </ng-container> -->
+    </div>
+</mat-toolbar>
 

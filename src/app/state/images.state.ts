@@ -1,5 +1,5 @@
 
-import { GetAllPhotos } from '../actions/images.actions';
+import { GetAllPhotos, GetFeaturedPhotos } from '../actions/images.actions';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { ImagesStateModel } from './images.state';
 import { ImagesApiService } from '../services/images-api.service';
@@ -8,12 +8,14 @@ import { tap } from 'rxjs/operators';
 
 export interface ImagesStateModel {
     allImages: Array<string>;
+    featuredImages: Array<string>;
 }
 
 @State<ImagesStateModel>({
     name: 'images',
     defaults: {
-        allImages: []
+        allImages: [],
+        featuredImages: []
     }
 })
 export class ImagesState {
@@ -22,14 +24,29 @@ export class ImagesState {
         return state.allImages;
     }
 
+    @Selector()
+    public static featuredImages({ featuredImages }: ImagesStateModel): Array<string> {
+        return featuredImages;
+    }
     constructor(private imageApiService: ImagesApiService) {}
-    
+
     @Action(GetAllPhotos)
     public GetAllPhotos({ patchState }: StateContext<ImagesStateModel>): Observable<Array<string>> {
         return this.imageApiService.GetAllPhotos().pipe(
             tap(imageUrls => {
                 patchState({
                     allImages: imageUrls
+                });
+            })
+        );
+    }
+
+    @Action(GetFeaturedPhotos)
+    public getFeaturedPhotos({ patchState }: StateContext<ImagesStateModel>): Observable<Array<string>> {
+        return this.imageApiService.GetFeaturedImages().pipe(
+            tap(featuredImages => {
+                patchState({
+                    featuredImages
                 });
             })
         );

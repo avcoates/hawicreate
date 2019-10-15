@@ -20,6 +20,10 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { ImagesApiService } from './services/images-api.service';
+import { ImagesState } from './state/images.state';
+
+
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 @NgModule({
@@ -29,11 +33,12 @@ import { ImagesApiService } from './services/images-api.service';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(AppRoutes),
     MaterialModule,
     AdminModule,
     PortfolioModule,
-    NgxsModule.forRoot([AppState], { developmentMode: !environment.production }),
+    NgxsModule.forRoot([AppState, ImagesState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
