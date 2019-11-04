@@ -1,7 +1,6 @@
-<ng-container *ngIf="state$ | async as state">
-    <div class="home_container" *ngIf="isHidden$ | async as isHidden">
-        {{isHidden}}
-        <img class="featured_image" [@changeImage]="isHidden ? 'hidden' : 'visible'" [src]="state.featuredImages[state.imageIndex]">
+<ng-container *ngIf="featuredImages$ | async as featuredImages">
+    <div class="home_container" *ngIf="imageIndex$ | async as imageIndex">
+        <img class="featured_image" [src]="featuredImages[imageIndex]">
     </div>
 </ng-container>
 <button mat-button (click)="onChangeImage()">Change</button>
