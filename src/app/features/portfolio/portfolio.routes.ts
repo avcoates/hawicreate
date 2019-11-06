@@ -1,4 +1,4 @@
-import { NavbarRoute } from 'src/app/shared/models';
+import { NavbarRoute } from '@app/shared/models';
 
 export const PortfolioRoutes: Array<NavbarRoute> = [
 

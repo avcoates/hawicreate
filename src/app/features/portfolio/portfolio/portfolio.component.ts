@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { PortfolioRoutes } from '../portfolio.routes';
-import { UpdatePageRoutesFromChild } from 'src/app/actions/app.actions';
+import { UpdatePageRoutesFromChild } from '@app/actions/app.actions';
 
 @Component({
   selector: 'hawicreate-portfolio',

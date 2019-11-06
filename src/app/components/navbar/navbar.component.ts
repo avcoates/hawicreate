@@ -2,10 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Store, Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Route } from '@angular/compiler/src/core';
-import { NavbarRoute } from 'src/app/shared/models';
 import { Router } from '@angular/router';
-import { AppState } from 'src/app/state/app.state';
 import { tap } from 'rxjs/operators';
+import { AppState } from '@app/state/app.state';
+import { NavbarRoute } from '@app/shared/models';
 
 @Component({
   selector: 'hawicreate-navbar',

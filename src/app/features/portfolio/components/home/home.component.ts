@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { ImagesState } from 'src/app/state/images.state';
 import { Observable } from 'rxjs';
-import { GetFeaturedPhotos } from 'src/app/actions/images.actions';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
+import { ArtPieceDatabaseApiService } from '@app/services/art-piece-database-api.service';
+import { ImagesState } from '@app/state/images.state';
+import { ArtPiece, ArtPieceDTO } from '@app/shared/models';
 
 @Component({
     selector: 'hawicreate-app-home',
@@ -25,12 +26,13 @@ export class HomeComponent implements OnInit, OnDestroy {
                                         map(images => images.length ? images.length - 1 : null)
                                     );
     }
-    constructor(private store: Store) {
+    
+    constructor(private store: Store,
+                private artPieceDatabaseApiService: ArtPieceDatabaseApiService) {
         // this.store.dispatch(new GetFeaturedPhotos());
     }
 
     public ngOnInit(): void {
-
     }
 
     public ngOnDestroy(): void {

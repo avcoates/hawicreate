@@ -4,3 +4,17 @@
         <img [src]="imageUrl">
     </ng-container>
 </ng-container>
+
+<button (click)="onAddArtPiece()" mat-button color="primary">
+    ADD
+</button>
+
+<div *ngIf="artPieces$ | async as artPieces">
+    <div *ngFor="let artPiece of artPieces">
+        {{artPiece.id}}
+        <button (click)="onDelete(artPiece)" mat-button color="primary">
+                DELETE
+        </button>
+    </div>
+
+</div>

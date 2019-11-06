@@ -10,7 +10,6 @@ import { PortfolioModule } from './features/portfolio/portfolio.module';
 
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
-import { environment } from 'src/environments/environment';
 import { SharedModule } from './shared/shared.module';
 import { UtilitesModule } from './utilities/utilites.module';
 import { AppState } from './state/app.state';
@@ -24,6 +23,7 @@ import { ImagesState } from './state/images.state';
 
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { environment } from 'environments/environment';
 
 
 @NgModule({
