@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "hawicreate"
+  },
+  "targets": {
+    "hawicreate": {
+      "hosting": {
+        "admin": [
+          "hawicreate-admin"
+        ],
+        "public": [
+          "hawicreate"
+        ]
+      }
+    }
   }
 }

@@ -13,20 +13,28 @@
     ],
     "source": "functions"
   },
-  "hosting": {
-    "public": "dist/hawicreate",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "index.html"
-      }
-    ]
-  },
+  "hosting": [
+    {
+      "target": "admin",
+      "public": "dist/hawicreate"
+    },
+    {
+      "target": "public",
+      "public": "dist/hawicreate",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "index.html"
+        }
+      ]
+
+    }
+  ],
   "storage": {
     "rules": "storage.rules"
   }

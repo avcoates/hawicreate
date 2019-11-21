@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
                                         map(images => images.length ? images.length - 1 : null)
                                     );
     }
-    
+
     constructor(private store: Store,
                 private artPieceDatabaseApiService: ArtPieceDatabaseApiService) {
         // this.store.dispatch(new GetFeaturedPhotos());
