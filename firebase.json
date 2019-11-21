@@ -16,7 +16,7 @@
   "hosting": [
     {
       "target": "admin",
-      "public": "dist/hawicreate"
+      "public": "dist/hawicreate-admin"
     },
     {
       "target": "public",
