@@ -20,13 +20,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "hawicreate",
+      "hc",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "hawicreate",
+      "hc",
       "kebab-case"
     ],
     "import-blacklist": [

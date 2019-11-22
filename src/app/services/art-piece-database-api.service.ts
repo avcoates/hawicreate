@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore, DocumentReference, AngularFirestoreCollection, QueryDocumentSnapshot } from '@angular/fire/firestore';
-import { ArtPiece, ArtPieceDTO } from '@app/shared/models';
+import { ArtPiece, ArtPieceDTO } from '@admin/shared/models';
 import { Observable, from } from 'rxjs';
 import { map, switchMap, combineAll, tap } from 'rxjs/operators';
 

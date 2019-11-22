@@ -3,10 +3,11 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@app/*": ["app/*"],
-      "@componets/*": ["app/components/*"],
-      "@services/*": ["app/services/*"],
-      "@shared/*": ["app/shared/*"]
+      "@admin/*": ["app/*"],
+      "@admin-componets/*": ["app/components/*"],
+      "@admin-services/*": ["app/services/*"],
+      "@admin-shared/*": ["app/shared/*"],
+      "@public/*": ["projects/*"]
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,

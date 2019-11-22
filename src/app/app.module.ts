@@ -2,18 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
-import { MaterialModule } from './shared/material.module';
-import { RouterModule, Router } from '@angular/router';
-import { AppRoutes } from './app.routing';
-import { AdminModule } from './features/admin/admin.module';
-import { PortfolioModule } from './features/portfolio/portfolio.module';
+import { RouterModule } from '@angular/router';
+import { AdminRoutes } from './app.routing';
 
 import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { SharedModule } from './shared/shared.module';
-import { UtilitesModule } from './utilities/utilites.module';
 import { AppState } from './state/app.state';
-import { NavbarComponent } from './components/navbar/navbar.component';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -24,30 +19,30 @@ import { ImagesState } from './state/images.state';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'environments/environment';
+import { AdminHomeComponent } from './components/admin-home/admin-home.component';
+import { AdminGalleryComponent } from './components/admin-gallery/admin-gallery.component';
+import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavbarComponent
+    AdminHomeComponent,
+    AdminGalleryComponent,
+    AdminContactComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    RouterModule.forRoot(AppRoutes),
-    MaterialModule,
-    AdminModule,
-    PortfolioModule,
+    RouterModule.forRoot(AdminRoutes),
     NgxsModule.forRoot([AppState, ImagesState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    SharedModule
   ],
   exports: [
-    SharedModule,
-    UtilitesModule,
-    MaterialModule
   ],
   providers: [ImagesApiService],
   bootstrap: [AppComponent]

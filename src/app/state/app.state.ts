@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { UpdatePageRoutesFromChild, ChangeFeature } from '../actions/app.actions';
 import { ImagesState } from './images.state';
-import { NavbarRoute } from '@app/shared/models';
+import { NavbarRoute } from '@admin/shared/models';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;

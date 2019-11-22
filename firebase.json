@@ -15,12 +15,12 @@
   },
   "hosting": [
     {
-      "target": "admin",
-      "public": "dist/hawicreate-admin"
+      "target": "public",
+      "public": "dist/hawicreate"
     },
     {
-      "target": "public",
-      "public": "dist/hawicreate",
+      "target": "admin",
+      "public": "dist/hawicreate-admin",
       "ignore": [
         "firebase.json",
         "**/.*",

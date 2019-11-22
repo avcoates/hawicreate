@@ -1,5 +1,5 @@
 {
-  "name": "hawicreate",
+  "name": "hawicreate-admin",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -8,8 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deploy-dev": "firebase deploy --project hawicreate-dev",
-    "deploy": "firebase deploy --project hawicreate"
+    "deploy-dev": "firebase deploy --project hawicreate-admin-dev",
+    "deploy": "firebase deploy --project hawicreate-admin"
   },
   "private": true,
   "dependencies": {
