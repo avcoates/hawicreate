@@ -22,6 +22,7 @@ import { environment } from 'environments/environment';
 import { AdminHomeComponent } from './components/admin-home/admin-home.component';
 import { AdminGalleryComponent } from './components/admin-gallery/admin-gallery.component';
 import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
+import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AdminContactComponent } from './components/admin-contact/admin-contact.
     AppComponent,
     AdminHomeComponent,
     AdminGalleryComponent,
-    AdminContactComponent
+    AdminContactComponent,
+    AdminLogInComponent
   ],
   imports: [
     BrowserModule,

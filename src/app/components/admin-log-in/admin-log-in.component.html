@@ -1,0 +1,11 @@
+<div *ngIf="user$ | async as user; else login">
+    <button (click)="onLogOut()" mat-button>
+            Log out
+    </button>
+</div>
+
+<ng-template #login>
+    <button (click)="onLogIn()"  mat-button>
+        Log in
+    </button>
+</ng-template>
