@@ -5,6 +5,7 @@ export class ArtPiece {
     public price = -1;
     public createdDate = new Date();
     public image = '';
+    public size: string;
 }
 
 export interface ArtPieceDTO {
@@ -13,4 +14,5 @@ export interface ArtPieceDTO {
     price: number;
     createdDate: Date;
     image: string;
+    size: string;
 }
