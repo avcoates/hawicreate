@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "^8.2.14",
     "@angular/router": "^8.2.14",
     "@ngxs/store": "^3.6.0",
+    "cors": "^2.8.5",
     "firebase": "^6.6.2",
     "material-design-icons": "^3.0.1",
     "rxjs": "^6.5.3",
