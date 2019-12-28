@@ -6,3 +6,9 @@
 hello..
 
  -->
+ <ng-container *ngIf="user$ | async as user">
+    <button (click)="onLogOut()" mat-button>
+            Log out
+    </button>
+    {{ user.email }}
+</ng-container>

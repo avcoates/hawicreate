@@ -1,11 +1,19 @@
-<div *ngIf="user$ | async as user; else login">
-    <button (click)="onLogOut()" mat-button>
-            Log out
-    </button>
+<div class="login">
+    <div>
+        <h1 class="mat-h1">
+            Welcome Back!
+        </h1>
+    <div>
+        <div *ngIf="user$ | async as user; else login">
+            <button (click)="onLogOut()" color="primary" mat-raised-button>
+                    Log out
+            </button>
+        </div>
+        
+        <ng-template #login>
+            <button (click)="onLogIn()" color="primary" mat-raised-button>
+                Log in with Google
+            </button>
+        </ng-template>
+    </div>
 </div>
-
-<ng-template #login>
-    <button (click)="onLogIn()"  mat-button>
-        Log in
-    </button>
-</ng-template>

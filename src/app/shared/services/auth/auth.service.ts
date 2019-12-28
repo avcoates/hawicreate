@@ -5,9 +5,9 @@ import { Observable, of, from } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { User } from '@admin/shared/models/user';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, map } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { UpdateUser } from '@admin/actions/app.actions';
+import { FirebaseApp } from '@angular/fire';
 
 
 @Injectable({
@@ -19,14 +19,18 @@ export class AuthService {
 
     constructor(private router: Router,
                 private afAuth: AngularFireAuth,
-                private afs: AngularFirestore,
+                private firestore: AngularFirestore,
+                private firebase: FirebaseApp,
                 private store: Store) {
     }
 
     public googleSignIn(): Observable<User> {
         const provider = new auth.GoogleAuthProvider();
-        return from(this.afAuth.auth.signInWithPopup(provider))
-                .pipe(switchMap(credential => this.updateUserData(credential.user)));
+        return from(this.afAuth.auth.signInWithRedirect(provider))
+            .pipe(switchMap(() => this.firebase.auth().getRedirectResult()),
+                  switchMap(credential => this.updateUserData(credential.user)),
+                  tap(() => this.router.navigateByUrl('admin-home'))
+                 );
     }
 
     public async signOut() {
@@ -35,7 +39,7 @@ export class AuthService {
     }
 
     public updateUserData({ uid, email }: afUser): Observable<User> {
-        const userRef: AngularFirestoreDocument = this.afs.doc(`User/${uid}`);
+        const userRef: AngularFirestoreDocument = this.firestore.doc(`User/${uid}`);
 
         const data = {
             email,
@@ -44,9 +48,13 @@ export class AuthService {
 
         if (userRef) {
             userRef.set(data, { merge: true});
-            return this.afs.doc<User>(`User/${uid}`).valueChanges();
+            return this.firestore.doc<User>(`User/${uid}`).valueChanges();
         }
         // navigate: invalid
         return;
+    }
+
+    public getUserByUId(uid: string): Observable<User> {
+        return this.firestore.doc<User>(`User/${uid}`).valueChanges();
     }
 }

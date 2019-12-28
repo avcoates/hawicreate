@@ -24,6 +24,7 @@ import { AdminGalleryComponent } from './components/admin-gallery/admin-gallery.
 import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
 import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.component';
 
+import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.comp
     RouterModule.forRoot(AdminRoutes),
     NgxsModule.forRoot([AppState, ImagesState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
+    NgxsStoragePluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFirestoreModule,

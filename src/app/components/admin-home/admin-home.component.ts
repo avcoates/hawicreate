@@ -1,10 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
 import { ArtPieceDatabaseApiService } from '@admin/services/art-piece-database-api.service';
-import { ImagesState } from '@admin/state/images.state';
-import { ArtPiece, ArtPieceDTO } from '@admin/shared/models';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { User } from '@admin/shared/models/user';
 import { AppState } from '@admin/state/app.state';

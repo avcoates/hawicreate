@@ -1,11 +1,13 @@
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { UpdatePageRoutesFromChild, ChangeFeature, UpdateUser, LogInWithGoogle, LogOut } from '../actions/app.actions';
+import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
+import { UpdatePageRoutesFromChild, ChangeFeature, UpdateUser, LogInWithGoogle, LogOut, NavigateTo } from '../actions/app.actions';
 import { ImagesState } from './images.state';
 import { NavbarRoute } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { FirebaseAuth, FirebaseApp } from '@angular/fire';
+import { Router } from '@angular/router';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
@@ -26,7 +28,7 @@ export interface AppStateModel {
 export class AppState {
 
     @Selector()
-    public static user(state: AppStateModel): User {
+    public static user(state: AppStateModel): any {
         return state.user;
     }
 
@@ -40,8 +42,16 @@ export class AppState {
         return state.pageBase;
     }
 
-    constructor(private auth: AuthService) {
-
+    constructor(private auth: AuthService,
+                private firebase: FirebaseApp,
+                private store: Store,
+                private router: Router) {
+        this.firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                this.auth.getUserByUId(user.uid)
+                    .subscribe(u => this.store.dispatch(new UpdateUser(u)));
+            }
+        });
     }
 
     @Action(UpdatePageRoutesFromChild)
@@ -69,16 +79,26 @@ export class AppState {
     @Action(LogInWithGoogle)
     public logInWithGoogle({ dispatch }: StateContext<AppStateModel>): Observable<User> {
         return this.auth.googleSignIn()
-                        .pipe(tap(user => {
-                            console.log(user);
-                            dispatch(new UpdateUser(user));
-                        }));
+            .pipe(
+                tap(user =>  dispatch(new UpdateUser(user))),
+                tap(() => {
+                    dispatch(new NavigateTo('admin-home'));
+                    console.log('he');
+                })
+            );
     }
 
     @Action(LogOut)
     public LogOut({ dispatch }: StateContext<AppStateModel>): void {
         this.auth.signOut();
         dispatch(new UpdateUser(null));
+        this.router.navigateByUrl('log-in');
+    }
+
+    @Action(NavigateTo)
+    public navigateTo({ payload }: NavigateTo): void {
+        console.log('heyt');
+        this.router.navigateByUrl(payload);
     }
 
 }

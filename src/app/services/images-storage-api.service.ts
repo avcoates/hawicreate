@@ -49,7 +49,7 @@ export class ImagesStorageApiService {
     }
 
     public deleteImage(): void {
-        
+        // do 
     }
     // Writes the file details to the realtime db
     private saveFileData(upload: Upload) {

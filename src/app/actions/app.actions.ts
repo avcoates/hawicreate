@@ -1,6 +1,7 @@
 import { NavbarRoute } from '../shared/models';
 import { User } from '@admin/shared/models/user';
 
+
 export class UpdatePageRoutesFromChild {
     static readonly type = '[child] Update Page Routes';
     constructor(public payload: Array<NavbarRoute>) {}
@@ -23,6 +24,11 @@ export class LogInWithGoogle {
 
 export class LogOut {
     static readonly type = '[Admin] Log Out';
+}
+
+export class NavigateTo {
+    static readonly type = '[Admin] Navigate to';
+    constructor(public payload: string) {}
 }
 
 
