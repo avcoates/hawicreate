@@ -25,6 +25,8 @@ import { AdminContactComponent } from './components/admin-contact/admin-contact.
 import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.component';
 
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
+import { ArtPieceState } from './state/art-piece.state';
+import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
 
 @NgModule({
   declarations: [
@@ -32,13 +34,14 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
     AdminHomeComponent,
     AdminGalleryComponent,
     AdminContactComponent,
-    AdminLogInComponent
+    AdminLogInComponent,
+    ArtPieceDetailComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(AdminRoutes),
-    NgxsModule.forRoot([AppState, ImagesState], { developmentMode: !environment.production }),
+    NgxsModule.forRoot([AppState, ArtPieceState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),

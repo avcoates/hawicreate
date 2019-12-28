@@ -8,6 +8,7 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FirebaseAuth, FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
+import { ArtPieceState } from './art-piece.state';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
@@ -22,7 +23,7 @@ export interface AppStateModel {
       pageBase: '',
       user: null
     },
-    children: [ImagesState]
+    children: [ArtPieceState]
 })
 
 export class AppState {

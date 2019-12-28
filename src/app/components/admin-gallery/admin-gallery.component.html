@@ -1,25 +1,104 @@
-<p>gallery works!</p>
-<ng-container *ngIf="allImages$ | async as allImages">
-    <ng-container *ngFor="let imageUrl of allImages">
-        <img [src]="imageUrl">
-    </ng-container>
-</ng-container>
+<div class="header">
+    <h1 class="mat-h1">
+        Art Pieces
+    </h1>
+    <button (click)="onAdd()" mat-mini-fab color="primary">
+        <mat-icon>
+            add
+        </mat-icon>
+    </button>
+</div>
+<ng-container *ngIf="artPieces$ | async as artPieces">
+    <div class="artPieces">
 
-<button (click)="onAddArtPiece()" mat-button color="primary">
-    ADD
-</button>
-
-<div *ngIf="artPieces$ | async as artPieces">
-    <div *ngFor="let artPiece of artPieces">
-        {{artPiece.id}}
-        <button (click)="onDelete(artPiece)" mat-button color="primary">
-                DELETE
-        </button>
+        <div
+            *ngFor="let artPiece of artPieces"
+            class="artPiece cursor--pointer"
+            (click)="onNavigateTo(artPiece)"
+        >
+            {{ artPiece.id }}        
+        </div>
     </div>
 
-</div>
-<input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".pdf,.doc,.docx,.jpg">
+</ng-container>
+<!-- <input type="file" placeholder="Upload file" accept=".pdf,.doc,.docx,.jpg"> -->
 
-<button color="primary" mat-raised-button>
+<!-- <button color="primary" mat-raised-button>
     ADD
-</button>
+</button> -->
+
+<form [formGroup]="artPieceForm">
+
+        <mat-form-field>
+            <input 
+                formControlName="name"
+                placeholder="Name"
+                [value]="name.value"
+                matInput
+            >
+        </mat-form-field>
+    
+            <mat-form-field>
+                <input 
+                    formControlName="price"
+                    placeholder="Price"
+                    type="number"
+                    [value]="price.value"
+                    matInput
+                >
+            </mat-form-field>
+    
+    
+        <mat-form-field>
+            <textarea 
+                formControlName="description"
+                placeholder="Decription"
+                [value]="description.value"
+                matInput
+            >
+            </textarea>
+        </mat-form-field>
+        <mat-form-field>
+            <input 
+                formControlName="size"
+                placeholder="Size"
+                [value]="size.value"
+                matInput
+            >
+        </mat-form-field>
+    
+        <mat-form-field>
+            <input 
+                formControlName="createdDate"
+                placeholder="Created date"
+                type="date"
+                [value]="createdDate.value"
+                matInput
+            >
+        </mat-form-field>
+    
+        <div formArrayName="images">
+            <div
+                *ngFor="let image of images.controls; let i=index"
+                [formGroupName]="i"
+            >
+                <mat-form-field > 
+                    <input 
+                        formControlName="url"
+                        placeholder="url"
+                        type="url"
+                        matInput
+                    >
+                </mat-form-field>
+            </div>
+
+            <button (click)="onAddImage()" mat-raised-button color="primary">
+                ADD IMAGE
+            </button>
+        </div>
+        
+        
+           
+    </form>
+    
+    

@@ -6,6 +6,7 @@ import { AuthService } from './services/auth/auth.service';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthGuard } from './services/auth.guard';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,11 +14,16 @@ import { AuthGuard } from './services/auth.guard';
   ],
   imports: [
     CommonModule,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   exports: [
+    CommonModule,
     NavbarComponent,
-    MaterialModule
+    MaterialModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [AuthService, AngularFireAuth, AuthGuard]
 })

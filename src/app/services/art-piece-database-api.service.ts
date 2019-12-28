@@ -31,6 +31,10 @@ export class ArtPieceDatabaseApiService {
     public delete(artPiece: ArtPiece): Observable<void> {
         return from(this.artPieceCollection.doc(artPiece.id).delete());
     }
+
+    public update(artPiece: ArtPiece): Observable<void> {
+        return from(this.artPieceCollection.doc(artPiece.id).update(artPiece));
+    }
 }
 
 const toArtPiece = (doc: QueryDocumentSnapshot<ArtPiece>): ArtPiece => {

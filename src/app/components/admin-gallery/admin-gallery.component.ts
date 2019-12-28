@@ -1,54 +1,108 @@
-import { Component, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ImagesState } from '@admin/state/images.state';
 import { ArtPieceDTO, ArtPiece, Upload } from '@admin/shared/models';
 import { ArtPieceDatabaseApiService } from '@admin/services/art-piece-database-api.service';
 import { ImagesStorageApiService } from '@admin/services/images-storage-api.service';
+import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
+import { ArtPieceState } from '@admin/state/art-piece.state';
+import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
+import { map } from 'rxjs/operators';
+import { NavigateTo } from '@admin/actions/app.actions';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'hc-admin-gallery',
     templateUrl: './admin-gallery.component.html',
-    styleUrls: ['./admin-gallery.component.scss']
+    styleUrls: ['./admin-gallery.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AdminGalleryComponent implements OnInit {
 
-    @Select(ImagesState.allImages)
-    public allImages$!: Observable<Array<string>>;
-
+    @Select(ArtPieceState.artPieces)
     public artPieces$: Observable<Array<ArtPiece>>;
 
-    constructor(private artPieceDatabaseApiService: ArtPieceDatabaseApiService,
-                private imageStorageApiService: ImagesStorageApiService) { }
+    public get name(): AbstractControl {
+        return this.artPieceForm.get('name');
+    }
+
+    public get size(): AbstractControl {
+        return this.artPieceForm.get('size');
+    }
+
+    public get price(): AbstractControl {
+        return this.artPieceForm.get('price');
+    }
+
+    public get description(): AbstractControl {
+        return this.artPieceForm.get('description');
+    }
+
+    public get createdDate(): AbstractControl {
+        return this.artPieceForm.get('createdDate');
+    }
+
+    public get images(): FormArray  {
+        return this.artPieceForm.get('images') as FormArray;
+    }
+
+    public artPieceForm = this.fb.group({
+        name: ['', [Validators.required]],
+        description: ['', [Validators.required]],
+        price: ['', [Validators.required]],
+        createdDate: ['', [Validators.required]],
+        images: this.fb.array([]),
+        size: ['', [Validators.required]],
+    });
+
+    constructor(private fb: FormBuilder,
+                private store: Store,
+                private router: Router) { }
 
     public ngOnInit(): void {
-        this.artPieces$ = this.artPieceDatabaseApiService.getAll();
+        this.store.dispatch(new GetAllArtPieces());
+        // this.onAddImage();
     }
 
-    public onAddArtPiece(): void {
-        const a: ArtPieceDTO = {
-            name: 'test',
-            description: 'from the client',
-            createdDate: new Date(),
-            price: 69,
-            images: [''],
-            size: ''
-        };
-
-        this.artPieceDatabaseApiService.add(a).subscribe(console.log);
+    public getField(fieldName: string, form: FormGroup): any {
+        console.log(form.get(fieldName));
+        return form.get(fieldName).value;
     }
 
-    public onDelete(artPiece: ArtPiece): void {
-        this.artPieceDatabaseApiService.delete(artPiece);
+    public onNavigateTo(artPiece: ArtPiece): void {
+        this.router.navigate(['admin-gallery', artPiece.id]);
+        this.store.dispatch(new UpdateSelectedArtPiece(artPiece));
     }
 
-    public fileChange(event: any): void {
-        const fileList: FileList = event.target.files;
-        if (fileList.length > 0) {
-            const file: File = fileList[0];
-            this.imageStorageApiService.addImage(file);
-        }
+    public onAdd(): void {
+        this.store.dispatch(new AddArtPiece(this.artPieceForm.getRawValue()));
+    }
+
+    public onAddImage(): void {
+        const image = this.fb.group({
+            url: ''
+        });
+
+        this.images.push(image);
+    }
+
+    public onDeleteImage(index: number): void {
+        this.images.removeAt(index);
     }
 
 }
+
+const toArtPieceForm = (artPiece: ArtPiece): FormGroup => {
+    const formBuilder = new FormBuilder();
+    return formBuilder.group({
+        id: artPiece.id,
+        name: artPiece.name,
+        description: artPiece.description,
+        price: artPiece.price,
+        createdDate: artPiece.createdDate,
+        images: artPiece.images,
+        size: artPiece.size
+    });
+};
 

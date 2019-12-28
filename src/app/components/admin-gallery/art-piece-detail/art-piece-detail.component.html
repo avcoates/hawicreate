@@ -1,0 +1,71 @@
+<form [formGroup]="artPieceForm">
+
+    <mat-form-field>
+        <input 
+            formControlName="name"
+            placeholder="Name"
+            [value]="name.value"
+            matInput
+        >
+    </mat-form-field>
+
+        <mat-form-field>
+            <input 
+                formControlName="price"
+                placeholder="Price"
+                type="number"
+                [value]="price.value"
+                matInput
+            >
+        </mat-form-field>
+
+
+    <mat-form-field>
+        <textarea 
+            formControlName="description"
+            placeholder="Decription"
+            [value]="description.value"
+            matInput
+        >
+        </textarea>
+    </mat-form-field>
+    <mat-form-field>
+        <input 
+            formControlName="size"
+            placeholder="Size"
+            [value]="size.value"
+            matInput
+        >
+    </mat-form-field>
+
+    <mat-form-field>
+        <input 
+            formControlName="createdDate"
+            placeholder="Created date"
+            type="date"
+            [value]="createdDate.value"
+            matInput
+        >
+    </mat-form-field>
+
+    <div formArrayName="images">
+            <div
+                *ngFor="let image of images.controls; let i=index"
+                [formGroupName]="i"
+            >
+                <mat-form-field > 
+                    <input 
+                        formControlName="url"
+                        placeholder="url"
+                        type="url"
+                        [value]="getUrl(image)"
+                        matInput
+                    >
+                </mat-form-field>
+            </div>
+        </div>
+       <button (click)="onDelete()" mat-raised-button color="warn">
+           DELETE
+       </button>
+</form>
+
