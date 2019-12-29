@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'hawicreate'`, () => {
+  it(`should have as title 'hawicreate-admin'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('hawicreate');
+    expect(app.title).toEqual('hawicreate-admin');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('hawicreate app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('hawicreate-admin app is running!');
   });
 });

@@ -1,36 +1,36 @@
 import { Routes } from '@angular/router';
-import { PortfolioComponent } from './features/portfolio/portfolio/portfolio.component';
-import { AdminComponent } from './features/admin/components/admin/admin.component';
-import { HomeComponent } from './features/portfolio/components/home/home.component';
-import { GalleryComponent } from './features/portfolio/components/gallery/gallery.component';
-import { ContactComponent } from './features/portfolio/components/contact/contact.component';
-export const AppRoutes: Routes = [
+import { AdminHomeComponent, AdminGalleryComponent, AdminContactComponent, AdminLogInComponent } from './components';
+import { AuthGuard } from './shared/services/auth.guard';
+import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
 
+export const AdminRoutes: Routes = [
     {
-        path: 'portfolio',
-        component: PortfolioComponent,
-        children: [
-            {
-                path: 'home',
-                component: HomeComponent
-            },
-            {
-                path: 'gallery',
-                component: GalleryComponent
-            },
-            {
-                path: 'contact',
-                component: ContactComponent
-            }
-        ]
+        path: 'log-in',
+        component: AdminLogInComponent
     },
     {
-        path: 'admin',
-        component: AdminComponent
+        path: 'admin-home',
+        canActivate: [AuthGuard],
+        component: AdminHomeComponent
+    },
+    {
+        path: 'admin-gallery',
+        canActivate: [AuthGuard],
+        component: AdminGalleryComponent
+    },
+    {
+        path: 'admin-gallery/:id',
+        canActivate: [AuthGuard],
+        component: ArtPieceDetailComponent
+    },
+    {
+        path: 'admin-contact',
+        canActivate: [AuthGuard],
+        component: AdminContactComponent
     },
     {
         path: '',
-        redirectTo: 'portfolio/home',
+        redirectTo: 'admin-home',
         pathMatch: 'full'
     },
     {

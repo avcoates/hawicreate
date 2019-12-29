@@ -5,7 +5,9 @@
 
 @import '~@angular/material/theming';
 
-
+* {
+    font-family: 'Roboto', sans-serif;
+}
 /* For use in src/lib/core/theming/_palette.scss */
 $hc-pink: (
     50 : #fcf3f3,
@@ -137,3 +139,8 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($hc-app-theme);
+
+
+.cursor--pointer {
+    cursor: pointer;
+}

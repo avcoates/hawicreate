@@ -1,3 +1,4 @@
-export class NavbarRoute {
-    constructor(public header: string, public path: string) { }
+export interface NavbarRoute {
+    header: string;
+    path: string;
 }

@@ -4,7 +4,8 @@ export class ArtPiece {
     public description = '';
     public price = -1;
     public createdDate = new Date();
-    public image = '';
+    public images = [''];
+    public size: string;
 }
 
 export interface ArtPieceDTO {
@@ -12,5 +13,6 @@ export interface ArtPieceDTO {
     description: string;
     price: number;
     createdDate: Date;
-    image: string;
+    images: Array<string>;
+    size: string;
 }
