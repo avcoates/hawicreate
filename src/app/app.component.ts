@@ -31,7 +31,6 @@ export class AppComponent {
     ];
 
     constructor(private storage: AngularFireStorage, private firestore: AngularFirestore, private store: Store) {
-        console.log('appcomponent');
         this.store.dispatch(new GetAllPhotos());
     }
 

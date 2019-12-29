@@ -57,7 +57,6 @@ export class AppState {
 
     @Action(UpdatePageRoutesFromChild)
     public updagtePageRoutesFromChild({ patchState }: StateContext<AppStateModel>, { payload }: UpdatePageRoutesFromChild): void {
-        console.log(payload);
         patchState({
             routes: payload
         });
@@ -84,7 +83,6 @@ export class AppState {
                 tap(user =>  dispatch(new UpdateUser(user))),
                 tap(() => {
                     dispatch(new NavigateTo('admin-home'));
-                    console.log('he');
                 })
             );
     }
@@ -98,7 +96,6 @@ export class AppState {
 
     @Action(NavigateTo)
     public navigateTo({ payload }: NavigateTo): void {
-        console.log('heyt');
         this.router.navigateByUrl(payload);
     }
 

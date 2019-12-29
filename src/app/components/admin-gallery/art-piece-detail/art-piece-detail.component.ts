@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, AbstractControl, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ArtPiece } from '@admin/shared/models';
 import { ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
-import { ClearSelectedArtPiece, DeleteArtPiece } from '@admin/actions/art-piece.actions';
+import { ClearSelectedArtPiece, DeleteArtPiece, UpdateArtPiece } from '@admin/actions/art-piece.actions';
 import { ArtPieceState } from '@admin/state/art-piece.state';
 import { Observable } from 'rxjs';
 import { TouchSequence } from 'selenium-webdriver';
@@ -12,7 +12,8 @@ import { Location } from '@angular/common';
 @Component({
     selector: 'hc-art-piece-detail',
     templateUrl: './art-piece-detail.component.html',
-    styleUrls: ['./art-piece-detail.component.scss']
+    styleUrls: ['./art-piece-detail.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ArtPieceDetailComponent implements OnInit, OnDestroy {
 
@@ -50,32 +51,52 @@ export class ArtPieceDetailComponent implements OnInit, OnDestroy {
         price: ['', [Validators.required]],
         createdDate: ['', [Validators.required]],
         size: ['', [Validators.required]],
-        images: this.fb.array([ this.fb.group({ url: ''})])
+        images: this.fb.array([])
     });
 
     constructor(private fb: FormBuilder,
                 private route: ActivatedRoute,
                 private store: Store,
                 private _location: Location) {
-
     }
 
     public ngOnInit(): void {
         this.route.params.subscribe(params => {
             this.id = params.id;
         });
+        this.initializeArtPieceForm();
+    }
 
-        const { selectedArtPiece } = this.store.selectSnapshot(ArtPieceState);
-        this.artPiece = selectedArtPiece;
+    public ngOnDestroy(): void {
+        this.store.dispatch(new ClearSelectedArtPiece());
+    }
 
-        console.log(this.artPiece);
+    public getUrl(image: FormGroup): string {
+        return image.get('url').value.url;
+    }
+
+    public onDelete(): void {
+        this.store.dispatch(new DeleteArtPiece(this.artPiece));
+        this._location.back();
+    }
+
+    public onUpdate(): void {
+        this.store.dispatch(new UpdateArtPiece(this.artPiece));
+    }
+
+    private initializeArtPieceForm(): void {
+        this.artPiece = this.store
+                            .selectSnapshot(ArtPieceState)
+                            .selectedArtPiece;
+
         const imagesArray: FormArray = this.fb.array([]);
 
         this.artPiece.images.forEach(image => {
-            const form = this.fb.group({
-                url: image
-            });
-            imagesArray.push(new FormControl(form));
+            imagesArray.push(
+                this.fb.group({
+                    url: [image, [Validators.required]]
+                })
+            );
         });
 
         this.artPieceForm = this.fb.group({
@@ -86,23 +107,5 @@ export class ArtPieceDetailComponent implements OnInit, OnDestroy {
             size: [this.artPiece.size, [Validators.required]],
             images: imagesArray
         });
-    }
-
-    public ngOnDestroy(): void {
-        this.store.dispatch(new ClearSelectedArtPiece());
-    }
-
-    public onClick(): void {
-        console.log('hey');
-    }
-
-    public getUrl(image: FormGroup): string {
-        console.log(image.value.get('url').value);
-        return image.value.get('url').value.url;
-    }
-
-    public onDelete(): void {
-        this.store.dispatch(new DeleteArtPiece(this.artPiece));
-        this._location.back();
     }
 }

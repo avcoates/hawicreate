@@ -49,23 +49,36 @@
     </mat-form-field>
 
     <div formArrayName="images">
+        <ng-container *ngIf="images.controls">
             <div
                 *ngFor="let image of images.controls; let i=index"
                 [formGroupName]="i"
             >
-                <mat-form-field > 
-                    <input 
-                        formControlName="url"
-                        placeholder="url"
-                        type="url"
-                        [value]="getUrl(image)"
-                        matInput
-                    >
-                </mat-form-field>
+            <mat-form-field > 
+                <input 
+                    formControlName="url"
+                    placeholder="url"
+                    type="url"
+                    [value]="getUrl(image)"
+                    matInput
+                >
+            </mat-form-field>
             </div>
-        </div>
-       <button (click)="onDelete()" mat-raised-button color="warn">
-           DELETE
-       </button>
+        </ng-container>
+    </div>
+    <button (click)="onDelete()" mat-raised-button color="warn">
+        DELETE
+    </button>
 </form>
+<button
+    [disabled]="this.artPieceForm.valid && !this.artPieceForm.dirty"
+    (click)="onUpdate()"
+    mat-raised-button
+    color="primary"
+>
+    SAVE
+</button>
+<button mat-button (click)="findInvalidControls()">
+    INVALID
+</button>
 
