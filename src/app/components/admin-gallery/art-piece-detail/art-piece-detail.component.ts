@@ -81,7 +81,12 @@ export class ArtPieceDetailComponent implements OnInit, OnDestroy {
     }
 
     public onUpdate(): void {
-        this.store.dispatch(new UpdateArtPiece(this.artPiece));
+        const newArtPiece = {
+            ...this.artPiece,
+            ...this.artPieceForm.getRawValue()
+        };
+        console.log(newArtPiece);
+        this.store.dispatch(new UpdateArtPiece(newArtPiece));
     }
 
     private initializeArtPieceForm(): void {
