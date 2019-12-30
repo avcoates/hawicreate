@@ -1,0 +1,49 @@
+<div class="stage">
+    <div>
+        <button
+            type="button"
+            mat-stroked-button
+            color="primary"
+            (click)="fileInput.click()"
+        >
+            CHOOSE FILE
+        </button>
+        
+        <input
+            hidden
+            (change)="onFileChanged($event)"
+            #fileInput
+            type="file"
+            id="file"
+            accept=".pdf,.doc,.docx,.jpg"
+        >
+        <label *ngIf="selectedFile; else noFile" mat-label>
+            {{ selectedFile.name }}
+        </label>
+        <ng-template #noFile>
+            No File Chosen
+        </ng-template>
+    </div>
+
+    <img [src]="url" width="300" *ngIf="url">
+</div>
+<button (click)="onSelectFile()" color="primary" mat-raised-button>
+    UPLOAD
+</button>
+<div *ngFor="let file of files">
+    {{ file.name }}
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ViewChild, Input } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ImagesState } from '@admin/state/images.state';
@@ -11,12 +11,12 @@ import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/act
 import { map } from 'rxjs/operators';
 import { NavigateTo } from '@admin/actions/app.actions';
 import { Router } from '@angular/router';
+import { Url } from 'url';
 
 @Component({
     selector: 'hc-admin-gallery',
     templateUrl: './admin-gallery.component.html',
-    styleUrls: ['./admin-gallery.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./admin-gallery.component.scss']
 })
 export class AdminGalleryComponent implements OnInit {
 
@@ -60,6 +60,7 @@ export class AdminGalleryComponent implements OnInit {
                 private store: Store,
                 private router: Router) { }
 
+
     public ngOnInit(): void {
         this.store.dispatch(new GetAllArtPieces());
         // this.onAddImage();
@@ -90,6 +91,8 @@ export class AdminGalleryComponent implements OnInit {
     public onDeleteImage(index: number): void {
         this.images.removeAt(index);
     }
+
+
 
 }
 
