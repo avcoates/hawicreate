@@ -9,7 +9,7 @@ import { User } from '@admin/shared/models/user';
 import { tap } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'hc-log-in',
@@ -39,6 +39,7 @@ export class AdminLogInComponent {
     }
 
     public onLogIn() {
+        console.log('wtf');
         this.store.dispatch(new LogInWithGoogle());
     }
 
