@@ -40,12 +40,12 @@ export const AdminRoutes: Routes = [
     },
     {
         path: '',
-        redirectTo: 'admin-home',
+        redirectTo: 'log-in',
         pathMatch: 'full'
     },
     {
         path: '**',
-        redirectTo: 'admin-home',
+        redirectTo: 'log-in',
         pathMatch: 'full'
     }
 ];

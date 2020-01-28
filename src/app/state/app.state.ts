@@ -1,10 +1,6 @@
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { UpdatePageRoutesFromChild,
-         ChangeFeature,
          UpdateUser,
-         LogInWithGoogle,
-         LogOut,
-         NavigateTo,
          GetAllUsers
 } from '../actions/app.actions';
 import { NavbarRoute } from '@admin/shared/models';
@@ -19,7 +15,6 @@ import { UserApiService } from '@admin/services';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
-    pageBase: string;
     user: User;
     users: Array<User>;
 }
@@ -28,7 +23,6 @@ export interface AppStateModel {
     name: 'app',
     defaults: {
       routes: [],
-      pageBase: '',
       user: null,
       users: [],
     },
@@ -52,11 +46,6 @@ export class AppState {
         return state.routes;
     }
 
-    @Selector()
-    public static pageBase(state: AppStateModel): string {
-        return state.pageBase;
-    }
-
     constructor(private auth: AuthService,
                 private firebase: FirebaseApp,
                 private store: Store,
@@ -76,33 +65,6 @@ export class AppState {
         patchState({
             routes: payload
         });
-    }
-
-    @Action(ChangeFeature)
-    public changeFeature({ patchState }: StateContext<AppStateModel>, { payload }: ChangeFeature): void {
-        patchState({
-            pageBase: payload
-        });
-    }
-
-    @Action(LogInWithGoogle)
-    public logInWithGoogle({ dispatch }: StateContext<AppStateModel>): Observable<User> {
-        return this.auth.googleSignIn()
-            .pipe(
-                tap(user =>  dispatch(new UpdateUser(user)))
-            );
-    }
-
-    @Action(LogOut)
-    public LogOut({ dispatch }: StateContext<AppStateModel>): void {
-        this.auth.signOut();
-        dispatch(new UpdateUser(null));
-        this.router.navigateByUrl('log-in');
-    }
-
-    @Action(NavigateTo)
-    public navigateTo({ payload }: NavigateTo): void {
-        this.router.navigateByUrl(payload);
     }
 
     @Action(UpdateUser)

@@ -18,39 +18,17 @@ export class AuthGuard implements CanActivate {
     @Select(AppState.user)
     public user$!: Observable<User>;
 
-    constructor(private store: Store,
-                private router: Router) {
-
-    }
+    constructor(private store: Store) {}
 
     public canActivate(route: ActivatedRouteSnapshot,
                        state: RouterStateSnapshot): boolean {
         const user = this.store.selectSnapshot(AppState.user);
 
-        console.log(user);
         if (isNullOrUndefined(user)) {
             return false;
         }
 
-        return true;
-
-        if (user.isAdmin) {
-            return true;
-        }
-
-        this.router.navigateByUrl('log-in');
-        return false;
-        // return this.user$.pipe(map(user => {
-        //     if (user === null) {
-        //         this.router.navigateByUrl('log-in');
-        //         return false;
-        //     }
-        //     if (user.isAdmin) {
-        //         return true;
-        //     }
-        //     this.router.navigateByUrl('log-in');
-        //     return false;
-        // }));
+        return user.isAdmin;
     }
 
 }

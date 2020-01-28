@@ -9,7 +9,6 @@ import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '
 import { ArtPieceState } from '@admin/state/art-piece.state';
 import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
 import { map } from 'rxjs/operators';
-import { NavigateTo } from '@admin/actions/app.actions';
 import { Router } from '@angular/router';
 import { Url } from 'url';
 

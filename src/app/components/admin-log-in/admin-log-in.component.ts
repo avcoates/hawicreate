@@ -1,15 +1,14 @@
-import { Component, OnInit, AfterContentInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { AppState } from '@admin/state/app.state';
-import { Observable } from 'rxjs';
-import { ArtPieceDatabaseApiService } from '@admin/services/art-piece-database-api.service';
+import { Observable, from, ReplaySubject } from 'rxjs';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
-import { LogInWithGoogle, LogOut, NavigateTo } from '@admin/actions/app.actions';
+import { UpdateUser } from '@admin/actions/app.actions';
 import { User } from '@admin/shared/models/user';
-import { tap } from 'rxjs/operators';
+import { tap, takeUntil, map, switchMap, filter } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { FirebaseApp } from '@angular/fire';
 
 @Component({
     selector: 'hc-log-in',
@@ -17,7 +16,7 @@ import { ChangeDetectionStrategy } from '@angular/core';
     styleUrls: ['./admin-log-in.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminLogInComponent {
+export class AdminLogInComponent implements OnInit {
 
     @Select(AppState.user)
     public _user!: Observable<User>;
@@ -30,18 +29,35 @@ export class AdminLogInComponent {
         return this._user;
     }
 
+    private destroyed$: ReplaySubject<boolean> = new ReplaySubject(1);
 
     constructor(private store: Store,
-                private artPieceDatabaseApiService: ArtPieceDatabaseApiService,
                 public auth: AuthService,
-                private router: Router) {
+                private router: Router,
+                private firebase: FirebaseApp) {
+    }
+
+    /*
+    https://github.com/firebase/firebase-js-sdk/issues/266
+    */
+    public ngOnInit(): void {
+        from(this.firebase.auth()
+                .getRedirectResult()
+            )
+            .pipe(
+                filter(cred => !isNullOrUndefined(cred.user)),
+                takeUntil(this.destroyed$),
+                tap(console.log),
+                switchMap(credential => this.auth.updateUserData(credential.user))
+            )
+            .subscribe(user => this.store.dispatch(new UpdateUser(user)));
     }
 
     public onLogIn() {
-        this.store.dispatch(new LogInWithGoogle());
+        this.auth.googleSignIn();
     }
 
     public onLogOut() {
-        this.store.dispatch(new LogOut());
+        this.auth.signOut();
     }
 }

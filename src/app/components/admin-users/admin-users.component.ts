@@ -4,6 +4,8 @@ import { GetAllUsers } from '@admin/actions/app.actions';
 import { AppState } from '@admin/state/app.state';
 import { Observable } from 'rxjs';
 import { User } from '@admin/shared/models/user';
+import { FormBuilder } from '@angular/forms';
+import { UserApiService } from '@admin/services';
 
 @Component({
     selector: 'hc-admin-users',
@@ -15,10 +17,22 @@ export class AdminUsersComponent implements OnInit {
     @Select(AppState.users)
     public users$!: Observable<Array<User>>;
 
-    constructor(private store: Store) { }
+    public form = this.fb.group({
+        uid: '',
+    });
+
+    constructor(private store: Store,
+                private fb: FormBuilder,
+                private userApiService: UserApiService,
+                ) { }
 
     public ngOnInit(): void {
         this.store.dispatch(new GetAllUsers());
+    }
+
+    public getUser(): void {
+        this.userApiService.getUserByUid(this.form.get('uid').value)
+            .subscribe(console.log);
     }
 
 }

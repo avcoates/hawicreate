@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFirestore, AngularFirestoreCollection, QueryDocumentSnapshot } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, QueryDocumentSnapshot, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { User } from '@admin/shared/models/user';
-import { Observable, of } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Observable, of, from } from 'rxjs';
+import { map, tap, filter } from 'rxjs/operators';
+import { toUser } from '@admin/utilities/map';
 
 @Injectable({
     providedIn: 'root'
@@ -22,14 +23,10 @@ export class UserApiService {
             .get()
             .pipe(map(snapShot => snapShot.docs.map(toUser)));
     }
+
+    public getUserByUid(uid: string): Observable<User | null> {
+        const userDoc: AngularFirestoreDocument<User> = this.firestore.doc(`User/${uid}`);
+        const docData = from(userDoc.ref.get());
+        return docData.pipe(filter(doc => doc.exists), map(toUser));
+    }
 }
-
-const toUser = (doc: QueryDocumentSnapshot<User>): User => {
-    const data: User = doc.data();
-    const uid = doc.id;
-
-    return {
-        ...data,
-        uid
-    };
-};

@@ -1,18 +1,3 @@
-<!-- <ng-container *ngIf="featuredImages$ | async as featuredImages">
-    <div class="home_container" *ngIf="imageIndex$ | async as imageIndex">
-        <img class="featured_image" [src]="featuredImages[imageIndex]">
-    </div>
+<ng-container *ngIf="user$ | async as user">
+    Hello &nbsp; {{ user.email }}
 </ng-container>
-hello..
-
- -->
- <ng-container *ngIf="user$ | async as user">
-    <button (click)="onLogOut()" mat-button>
-            Log out
-    </button>
-    {{ user.email }}
-</ng-container>
-
-<mat-form-field>
-    <input matInput>
-</mat-form-field>
