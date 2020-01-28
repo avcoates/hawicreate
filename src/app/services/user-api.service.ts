@@ -20,14 +20,13 @@ export class UserApiService {
     public getAllUsers(): Observable<Array<User>> {
         return this.userCollection
             .get()
-            .pipe(map(snapShot => snapShot.docs.map(toUser)), tap(console.log));
+            .pipe(map(snapShot => snapShot.docs.map(toUser)));
     }
 }
 
 const toUser = (doc: QueryDocumentSnapshot<User>): User => {
     const data: User = doc.data();
     const uid = doc.id;
-    console.log('toUser data: ', data);
 
     return {
         ...data,

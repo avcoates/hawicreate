@@ -25,7 +25,6 @@ export class AdminLogInComponent {
     public get user$(): Observable<User> {
         // Navigate the user directly to home if they are logged in
         if (!isNullOrUndefined(this._user)) {
-            console.log('not null');
             this.router.navigate(['admin-home']);
         }
         return this._user;
@@ -39,7 +38,6 @@ export class AdminLogInComponent {
     }
 
     public onLogIn() {
-        console.log('wtf');
         this.store.dispatch(new LogInWithGoogle());
     }
 

@@ -53,7 +53,6 @@ export class ImagesStorageApiService {
     }
     // Writes the file details to the realtime db
     private saveFileData(upload: Upload) {
-        console.log(upload);
         const obj = {
             name: upload.name,
             url: upload.url,

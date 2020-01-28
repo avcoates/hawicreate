@@ -67,7 +67,6 @@ export class AdminGalleryComponent implements OnInit {
     }
 
     public getField(fieldName: string, form: FormGroup): any {
-        console.log(form.get(fieldName));
         return form.get(fieldName).value;
     }
 

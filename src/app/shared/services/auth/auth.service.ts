@@ -28,9 +28,7 @@ export class AuthService {
         const provider = new auth.GoogleAuthProvider();
         return from(this.afAuth.auth.signInWithRedirect(provider))
             .pipe(switchMap(() => this.firebase.auth().getRedirectResult()),
-                  tap(() => console.log('hi')),
                   switchMap(credential => this.updateUserData(credential.user)),
-                //   tap(() => this.router.navigateByUrl('admin-home'))
                  );
     }
 

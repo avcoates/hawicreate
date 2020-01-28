@@ -87,12 +87,9 @@ export class AppState {
 
     @Action(LogInWithGoogle)
     public logInWithGoogle({ dispatch }: StateContext<AppStateModel>): Observable<User> {
-        console.log('sau');
         return this.auth.googleSignIn()
             .pipe(
-                tap(console.log),
-                tap(user =>  dispatch(new UpdateUser(user))),
-                // tap(() => this.router.navigateByUrl('admin-home'))
+                tap(user =>  dispatch(new UpdateUser(user)))
             );
     }
 

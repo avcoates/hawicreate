@@ -25,12 +25,10 @@ export class AuthGuard implements CanActivate {
 
     public canActivate(route: ActivatedRouteSnapshot,
                        state: RouterStateSnapshot): boolean {
-        console.log('canactiveat');
         const user = this.store.selectSnapshot(AppState.user);
 
         console.log(user);
         if (isNullOrUndefined(user)) {
-            //this.router.navigateByUrl('log-in');
             return false;
         }
 
@@ -43,7 +41,6 @@ export class AuthGuard implements CanActivate {
         this.router.navigateByUrl('log-in');
         return false;
         // return this.user$.pipe(map(user => {
-        //     console.log(user);
         //     if (user === null) {
         //         this.router.navigateByUrl('log-in');
         //         return false;
