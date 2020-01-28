@@ -2,8 +2,15 @@
     <div *ngIf="user$ | async as user; else login">
         <div *ngIf="!user.isAdmin" class="login__card">
             <h1 class="mat-headline">You do not have admin rights.</h1>
+            
+            <div *ngIf="!user.isRequestingAdmin; else pending">
+                <button (click)="requestAdmin(user)" color="primary" mat-button>Request Admin</button>
+            </div>
+            <ng-template #pending>
+                <p class="mat-body">Your admin request is pending..</p>
+            </ng-template>
             <div>
-                <button (click)="onLogOut()" mat-raised-button>Log Out</button>
+                <button (click)="onLogOut()" color="primary" mat-raised-button>Log Out</button>
             </div>
         </div>
     </div>

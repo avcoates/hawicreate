@@ -46,6 +46,7 @@ export class AdminLogInComponent implements OnInit {
             )
             .pipe(
                 filter(cred => !isNullOrUndefined(cred.user)),
+                tap(c => console.log(c)),
                 takeUntil(this.destroyed$),
                 tap(console.log),
                 switchMap(credential => this.auth.updateUserData(credential.user))
@@ -59,5 +60,9 @@ export class AdminLogInComponent implements OnInit {
 
     public onLogOut() {
         this.auth.signOut();
+    }
+
+    public requestAdmin(user: User): void {
+
     }
 }

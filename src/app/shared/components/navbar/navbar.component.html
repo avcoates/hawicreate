@@ -1,23 +1,25 @@
 <ng-container *ngIf="user$ | async as user">
-    <mat-toolbar class="toolbar mat-elevation-z6" color="primary">
-        <div>
-            <h1 class="mat-h1">{{ name }}</h1>
-        </div>
-        <div>
-            <ng-container *ngFor="let route of routes">
-                <button color="accent" mat-button (click)="onNavigate(route.path)">
-                    {{route.header}}
+    <ng-container *ngIf="user.isAdmin">
+        <mat-toolbar class="toolbar mat-elevation-z6" color="primary">
+            <div>
+                <h1 class="mat-h1">{{ name }}</h1>
+            </div>
+            <div>
+                <ng-container *ngFor="let route of routes">
+                    <button color="accent" mat-button (click)="onNavigate(route.path)">
+                        {{route.header}}
+                    </button>
+                </ng-container>
+                <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+                        <mat-icon>person</mat-icon>
                 </button>
-            </ng-container>
-            <button mat-icon-button [matMenuTriggerFor]="accountMenu">
-                    <mat-icon>person</mat-icon>
-            </button>
-            <mat-menu #accountMenu="matMenu">
-                <button (click)="onLogOut()" mat-menu-item>Log out</button>
-            </mat-menu>
-            
-            
-        </div>
-    </mat-toolbar>
+                <mat-menu #accountMenu="matMenu">
+                    <button (click)="onLogOut()" mat-menu-item>Log out</button>
+                </mat-menu>
+                
+                
+            </div>
+        </mat-toolbar>
+    </ng-container>
 </ng-container>
 

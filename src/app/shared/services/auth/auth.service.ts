@@ -35,7 +35,7 @@ export class AuthService {
         this.router.navigate(['']);
     }
 
-    public updateUserData({ uid, email }: afUser): Observable<User> {
+    public updateUserData({ uid, email, displayName }: afUser): Observable<User> {
         const userDoc: AngularFirestoreDocument<User> = this.firestore.doc(`User/${uid}`);
         const userRef = userDoc.ref;
         const userSnapshot = from(userRef.get());
@@ -46,13 +46,15 @@ export class AuthService {
                     const userData = {
                         ...userSnap.data(),
                         uid,
-                        email
+                        email,
+                        displayName,
                     };
 
                     if (!userSnap.exists) {
                         return {
                             ...userData,
                             isAdmin: false,
+                            isRequestingAdmin: false,
                         };
                     }
 
