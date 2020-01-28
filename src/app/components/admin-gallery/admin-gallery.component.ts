@@ -1,16 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewChild, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ImagesState } from '@admin/state/images.state';
-import { ArtPieceDTO, ArtPiece, Upload } from '@admin/shared/models';
-import { ArtPieceDatabaseApiService } from '@admin/services/art-piece-database-api.service';
-import { ImagesStorageApiService } from '@admin/services/images-storage-api.service';
+import { ArtPiece } from '@admin/shared/models';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { ArtPieceState } from '@admin/state/art-piece.state';
 import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
-import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
-import { Url } from 'url';
 
 @Component({
     selector: 'hc-admin-gallery',

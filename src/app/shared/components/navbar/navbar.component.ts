@@ -1,7 +1,7 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarRoute } from '@admin/shared/models';
-import { Select, Store } from '@ngxs/store';
+import { Select } from '@ngxs/store';
 import { User } from '@admin/shared/models/user';
 import { Observable } from 'rxjs';
 import { AppState } from '@admin/state/app.state';
