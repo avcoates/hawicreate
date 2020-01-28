@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { AppState } from '@admin/state/app.state';
 import { Observable, from, ReplaySubject } from 'rxjs';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
-import { UpdateUser } from '@admin/actions/app.actions';
+import { UpdateUser, UpdateActiveUser } from '@admin/actions/app.actions';
 import { User } from '@admin/shared/models/user';
 import { tap, takeUntil, map, switchMap, filter } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
@@ -18,7 +18,7 @@ import { FirebaseApp } from '@angular/fire';
 })
 export class AdminLogInComponent implements OnInit {
 
-    @Select(AppState.user)
+    @Select(AppState.activeUser)
     public _user!: Observable<User>;
 
     public get user$(): Observable<User> {
@@ -51,7 +51,7 @@ export class AdminLogInComponent implements OnInit {
                 tap(console.log),
                 switchMap(credential => this.auth.updateUserData(credential.user))
             )
-            .subscribe(user => this.store.dispatch(new UpdateUser(user)));
+            .subscribe(user => this.store.dispatch(new UpdateActiveUser(user)));
     }
 
     public onLogIn() {
@@ -63,6 +63,11 @@ export class AdminLogInComponent implements OnInit {
     }
 
     public requestAdmin(user: User): void {
+        const requestingAdminUser = {
+            ...user,
+            isRequestingAdmin: true,
+        };
 
+        this.store.dispatch(new UpdateUser(requestingAdminUser));
     }
 }

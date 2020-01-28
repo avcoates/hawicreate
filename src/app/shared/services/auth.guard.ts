@@ -14,14 +14,14 @@ import { isNullOrUndefined } from 'util';
 })
 export class AuthGuard implements CanActivate {
 
-    @Select(AppState.user)
+    @Select(AppState.activeUser)
     public user$!: Observable<User>;
 
     constructor(private store: Store) {}
 
     public canActivate(route: ActivatedRouteSnapshot,
                        state: RouterStateSnapshot): boolean {
-        const user = this.store.selectSnapshot(AppState.user);
+        const user = this.store.selectSnapshot(AppState.activeUser);
 
         if (isNullOrUndefined(user)) {
             return false;

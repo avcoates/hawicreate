@@ -1,7 +1,8 @@
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { UpdatePageRoutesFromChild,
          UpdateUser,
-         GetAllUsers
+         GetAllUsers,
+         UpdateActiveUser
 } from '../actions/app.actions';
 import { NavbarRoute } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
@@ -15,7 +16,7 @@ import { UserApiService } from '@admin/services';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
-    user: User;
+    activeUser: User;
     users: Array<User>;
 }
 
@@ -23,7 +24,7 @@ export interface AppStateModel {
     name: 'app',
     defaults: {
       routes: [],
-      user: null,
+      activeUser: null,
       users: [],
     },
     children: [ArtPieceState]
@@ -32,8 +33,8 @@ export interface AppStateModel {
 export class AppState {
 
     @Selector()
-    public static user(state: AppStateModel): any {
-        return state.user;
+    public static activeUser(state: AppStateModel): any {
+        return state.activeUser;
     }
 
     @Selector()
@@ -55,7 +56,7 @@ export class AppState {
         this.firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 this.auth.getUserByUId(user.uid)
-                    .subscribe(u => this.store.dispatch(new UpdateUser(u)));
+                    .subscribe(u => this.store.dispatch(new UpdateActiveUser(u)));
             }
         });
     }
@@ -68,10 +69,13 @@ export class AppState {
     }
 
     @Action(UpdateUser)
-    public updateUser({ patchState }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
-        patchState({
-            user: payload
-        });
+    public updateUser({ dispatch }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
+        this.userApiService.updateUser(payload).pipe(tap(() => dispatch(new GetAllUsers())));
+    }
+
+    @Action(UpdateActiveUser)
+    public updateActiveUser({ patchState }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
+        patchState({ activeUser: payload });
     }
 
     @Action(GetAllUsers)

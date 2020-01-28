@@ -10,7 +10,12 @@ export class UpdatePageRoutesFromChild {
 // Users
 
 export class UpdateUser {
-    static readonly type = '[Admin] UpdateUser';
+    static readonly type = '[Admin] Update User';
+    constructor(public payload: User) {}
+}
+
+export class UpdateActiveUser {
+    static readonly type = '[Admin] Update Active User';
     constructor(public payload: User) {}
 }
 

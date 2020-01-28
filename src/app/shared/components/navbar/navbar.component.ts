@@ -14,7 +14,7 @@ import { AuthService } from '@admin/shared/services/auth/auth.service';
 })
 export class NavbarComponent {
 
-    @Select(AppState.user)
+    @Select(AppState.activeUser)
     public user$!: Observable<User>;
 
     @Input()

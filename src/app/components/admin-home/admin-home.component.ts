@@ -11,7 +11,7 @@ import { AppState } from '@admin/state/app.state';
 })
 export class AdminHomeComponent implements OnInit, OnDestroy {
 
-    @Select(AppState.user)
+    @Select(AppState.activeUser)
     public user$!: Observable<User>;
 
     constructor(private store: Store) {

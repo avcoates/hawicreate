@@ -7,7 +7,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { User } from '@admin/shared/models/user';
 import { tap, map, mapTo, switchMapTo } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { UpdateUser } from '@admin/actions/app.actions';
+import { UpdateUser, UpdateActiveUser } from '@admin/actions/app.actions';
 
 
 @Injectable({
@@ -31,7 +31,7 @@ export class AuthService {
 
     public async signOut() {
         this.afAuth.auth.signOut();
-        this.store.dispatch(new UpdateUser(null));
+        this.store.dispatch(new UpdateActiveUser(null));
         this.router.navigate(['']);
     }
 
@@ -43,7 +43,7 @@ export class AuthService {
         return userSnapshot
             .pipe(
                 map(userSnap => {
-                    const userData = {
+                    const userData: Partial<User> = {
                         ...userSnap.data(),
                         uid,
                         email,
@@ -54,6 +54,11 @@ export class AuthService {
                         return {
                             ...userData,
                             isAdmin: false,
+                            isRequestingAdmin: false,
+                        };
+                    } else if (userData.isAdmin) {
+                        return {
+                            ...userData,
                             isRequestingAdmin: false,
                         };
                     }

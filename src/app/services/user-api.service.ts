@@ -29,4 +29,16 @@ export class UserApiService {
         const docData = from(userDoc.ref.get());
         return docData.pipe(filter(doc => doc.exists), map(toUser));
     }
+
+    public updateUser(user: User): Observable<void> {
+        const userDoc: AngularFirestoreDocument<User> = this.firestore.doc(`User/${user.uid}`);
+        const userRef = userDoc.ref;
+        return from(userRef.update(user));
+    }
+
+    public deleteUserById(uid: string): Observable<void> {
+        const userDoc: AngularFirestoreDocument<User> = this.firestore.doc(`User/${uid}`);
+        const userRef = userDoc.ref;
+        return from(userRef.delete);
+    }
 }
