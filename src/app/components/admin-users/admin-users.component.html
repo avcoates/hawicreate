@@ -1,0 +1,16 @@
+<ng-container *ngIf="users$ | async as users">
+    <div *ngFor="let user of users">
+        <ng-container *ngIf="user.isAdmin; else notAdmin">
+            Admin
+        </ng-container>
+        <ng-template #notAdmin>
+            Not Admin
+        </ng-template>
+        <div>
+            {{ user.email }}
+        </div>
+        <div>
+            {{ user.uid }}
+        </div>
+    </div>
+</ng-container>

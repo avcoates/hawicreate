@@ -7,11 +7,15 @@ import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { LogInWithGoogle, LogOut, NavigateTo } from '@admin/actions/app.actions';
 import { User } from '@admin/shared/models/user';
 import { tap } from 'rxjs/operators';
+import { isNullOrUndefined } from 'util';
+import { Router } from '@angular/router';
+import { ChangeDetectionStrategy } from '@angular/compiler/src/core';
 
 @Component({
     selector: 'hc-log-in',
     templateUrl: './admin-log-in.component.html',
-    styleUrls: ['./admin-log-in.component.scss']
+    styleUrls: ['./admin-log-in.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminLogInComponent {
 
@@ -20,17 +24,18 @@ export class AdminLogInComponent {
 
     public get user$(): Observable<User> {
         // Navigate the user directly to home if they are logged in
-        return this._user.pipe(tap(user => {
-            if (user !== null) {
-                this.store.dispatch(new NavigateTo('admin-home'));
-            }
-        }));
+        if (!isNullOrUndefined(this._user)) {
+            console.log('not null');
+            this.router.navigate(['admin-home']);
+        }
+        return this._user;
     }
 
 
     constructor(private store: Store,
                 private artPieceDatabaseApiService: ArtPieceDatabaseApiService,
-                public auth: AuthService) {
+                public auth: AuthService,
+                private router: Router) {
     }
 
     public onLogIn() {

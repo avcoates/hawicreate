@@ -14,8 +14,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { ImagesApiService } from './services/images-api.service';
-import { ImagesState } from './state/images.state';
-
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'environments/environment';
@@ -28,6 +26,8 @@ import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { ArtPieceState } from './state/art-piece.state';
 import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
 import { ImageUploadComponent } from './components/admin-gallery/image-upload/image-upload.component';
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { UserApiService } from './services';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import { ImageUploadComponent } from './components/admin-gallery/image-upload/im
     AdminContactComponent,
     AdminLogInComponent,
     ArtPieceDetailComponent,
-    ImageUploadComponent
+    ImageUploadComponent,
+    AdminUsersComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +54,7 @@ import { ImageUploadComponent } from './components/admin-gallery/image-upload/im
   ],
   exports: [
   ],
-  providers: [ImagesApiService],
+  providers: [ImagesApiService, UserApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

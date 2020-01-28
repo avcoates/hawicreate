@@ -1,4 +1,9 @@
+import { Pipe } from '@angular/core';
 
+// tslint:disable-next-line: use-pipe-transform-interface
+@Pipe({
+    name: 'StringUtilities'
+})
 export class StringUtilities {
     public static capitalizeFirstLetter(str: string): string {
         const letters = str.split('');

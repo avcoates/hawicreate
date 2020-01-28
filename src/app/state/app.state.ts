@@ -1,19 +1,27 @@
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
-import { UpdatePageRoutesFromChild, ChangeFeature, UpdateUser, LogInWithGoogle, LogOut, NavigateTo } from '../actions/app.actions';
-import { ImagesState } from './images.state';
+import { UpdatePageRoutesFromChild,
+         ChangeFeature,
+         UpdateUser,
+         LogInWithGoogle,
+         LogOut,
+         NavigateTo,
+         GetAllUsers
+} from '../actions/app.actions';
 import { NavbarRoute } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { FirebaseAuth, FirebaseApp } from '@angular/fire';
+import { FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
 import { ArtPieceState } from './art-piece.state';
+import { UserApiService } from '@admin/services';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
     pageBase: string;
     user: User;
+    users: Array<User>;
 }
 
 @State<AppStateModel>({
@@ -21,7 +29,8 @@ export interface AppStateModel {
     defaults: {
       routes: [],
       pageBase: '',
-      user: null
+      user: null,
+      users: [],
     },
     children: [ArtPieceState]
 })
@@ -31,6 +40,11 @@ export class AppState {
     @Selector()
     public static user(state: AppStateModel): any {
         return state.user;
+    }
+
+    @Selector()
+    public static users(state: AppStateModel): Array<User> {
+        return state.users;
     }
 
     @Selector()
@@ -46,7 +60,9 @@ export class AppState {
     constructor(private auth: AuthService,
                 private firebase: FirebaseApp,
                 private store: Store,
-                private router: Router) {
+                private router: Router,
+                private userApiService: UserApiService,
+    ) {
         this.firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 this.auth.getUserByUId(user.uid)
@@ -69,21 +85,12 @@ export class AppState {
         });
     }
 
-    @Action(UpdateUser)
-    public updateUser({ patchState }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
-        patchState({
-            user: payload
-        });
-    }
-
     @Action(LogInWithGoogle)
     public logInWithGoogle({ dispatch }: StateContext<AppStateModel>): Observable<User> {
         return this.auth.googleSignIn()
             .pipe(
                 tap(user =>  dispatch(new UpdateUser(user))),
-                tap(() => {
-                    dispatch(new NavigateTo('admin-home'));
-                })
+                // tap(() => this.router.navigateByUrl('admin-home'))
             );
     }
 
@@ -97,6 +104,19 @@ export class AppState {
     @Action(NavigateTo)
     public navigateTo({ payload }: NavigateTo): void {
         this.router.navigateByUrl(payload);
+    }
+
+    @Action(UpdateUser)
+    public updateUser({ patchState }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
+        patchState({
+            user: payload
+        });
+    }
+
+    @Action(GetAllUsers)
+    public getAllUsers({ patchState }: StateContext<AppStateModel>): Observable<Array<User>> {
+        return this.userApiService.getAllUsers()
+            .pipe(tap(users => patchState({ users })));
     }
 
 }

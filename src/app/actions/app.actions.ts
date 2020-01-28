@@ -12,12 +12,6 @@ export class ChangeFeature {
     constructor(public payload: string) {}
 }
 
-export class UpdateUser {
-    static readonly type = '[Admin] UpdateUser';
-    constructor(public payload: User) {}
-}
-
-
 export class LogInWithGoogle {
     static readonly type = '[Admin] Log In With Google';
 }
@@ -29,6 +23,17 @@ export class LogOut {
 export class NavigateTo {
     static readonly type = '[Admin] Navigate to';
     constructor(public payload: string) {}
+}
+
+// Users
+
+export class UpdateUser {
+    static readonly type = '[Admin] UpdateUser';
+    constructor(public payload: User) {}
+}
+
+export class GetAllUsers {
+    static readonly type = '[Admin] Get All Users';
 }
 
 

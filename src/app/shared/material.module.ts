@@ -9,7 +9,7 @@ import {
   MatCardModule,
   MatFormFieldModule,
   MatInputModule,
-  MatDividerModule
+  MatDividerModule,
 } from '@angular/material';
 
 @NgModule({

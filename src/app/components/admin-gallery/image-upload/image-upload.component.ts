@@ -10,8 +10,8 @@ export class ImageUploadComponent implements OnInit {
     constructor() { }
 
     public url: string | ArrayBuffer;
-    private files: Array<File> = [];
-    private selectedFile: File;
+    public files: Array<File> = [];
+    public selectedFile: File;
 
     ngOnInit() {
     }

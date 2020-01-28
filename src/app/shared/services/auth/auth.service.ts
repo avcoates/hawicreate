@@ -29,7 +29,7 @@ export class AuthService {
         return from(this.afAuth.auth.signInWithRedirect(provider))
             .pipe(switchMap(() => this.firebase.auth().getRedirectResult()),
                   switchMap(credential => this.updateUserData(credential.user)),
-                  tap(() => this.router.navigateByUrl('admin-home'))
+                //   tap(() => this.router.navigateByUrl('admin-home'))
                  );
     }
 
@@ -40,6 +40,8 @@ export class AuthService {
 
     public updateUserData({ uid, email }: afUser): Observable<User> {
         const userRef: AngularFirestoreDocument = this.firestore.doc(`User/${uid}`);
+
+        console.log(userRef);
 
         const data = {
             email,

@@ -144,3 +144,23 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
 .cursor--pointer {
     cursor: pointer;
 }
+
+.dynamic__container {
+    width: 60%;
+    margin: 0% 20%;
+
+    @media screen and (max-width: 900px) {
+        width: 80%;
+        margin: 0% 10%;
+    }
+
+    @media screen and (max-width: 600px) {
+        width: 90%;
+        margin: 0% 5%;
+    }
+
+    &--center {
+        display: flex;
+        justify-content: center;
+    }
+}
