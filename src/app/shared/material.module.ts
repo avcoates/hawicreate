@@ -8,7 +8,12 @@ import {
   MatIconModule,
   MatCardModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatDividerModule,
+  MatTableModule,
+  MatCheckboxModule,
+  MatTooltipModule,
+  MatDialogModule,
 } from '@angular/material';
 
 @NgModule({
@@ -20,7 +25,13 @@ import {
     MatIconModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDividerModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    MatDialogModule,
+
   ],
   exports: [
     BrowserAnimationsModule,
@@ -30,7 +41,13 @@ import {
     MatIconModule,
     MatCardModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatDividerModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+    MatDialogModule,
+
   ]
 })
 export class MaterialModule {}

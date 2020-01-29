@@ -1,0 +1,40 @@
+<button (click)="onBack()" color="primary" mat-icon-button>
+    <mat-icon>arrow_back_ios</mat-icon>
+    <h1 class="mat-button">Users</h1>
+</button>
+<ng-container *ngIf="userForm$ | async as userForm">
+    <div *ngIf="userForm.get('isRequestingAdmin').value">
+        <mat-icon>
+            help_outline
+        </mat-icon>
+        This user is requesting admin permission
+    </div>
+    <div class="dynamic__container">
+        <form [formGroup]="userForm" class="user__form">
+            <div class="user__form__field">
+                <mat-label class="mat-caption">UId: &nbsp;</mat-label>
+                <mat-label>{{ userForm.get('uid').value }}</mat-label>
+            </div>
+            <div class="user__form__field">
+                <mat-label class="mat-caption">Email: &nbsp;</mat-label>
+                <mat-label>{{ userForm.get('email').value }}</mat-label>
+            </div>
+            <div class="user__form__field">
+                <mat-label class="mat-caption">Display Name: &nbsp;</mat-label>
+                <mat-label>{{ userForm.get('displayName').value }}</mat-label>
+            </div>
+            <div class="user__form__field">
+                <mat-checkbox color="primary" formControlName="isAdmin" value="{{ userForm.get('isAdmin') }}">
+                    Admin
+                </mat-checkbox>
+            </div>
+            <div class="user__form__field">
+                <button (click)="onSave(userForm)" [disabled]="!userForm.dirty" color="primary" mat-raised-button>Save</button>
+                <button (click)="onCancel()" color="primary" mat-stroked-button>Cancel</button>
+                <button (click)="onDelete(userForm.getRawValue())" color="warn" mat-button>Delete</button>
+            </div>
+        </form>
+
+    </div>
+</ng-container>
+

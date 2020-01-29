@@ -1,19 +1,34 @@
-<div class="login">
-    <div>
-        <h1 class="mat-h1">
-            Welcome Back!
-        </h1>
-    <div>
-        <div *ngIf="user$ | async as user; else login">
-            <button (click)="onLogOut()" color="primary" mat-raised-button>
-                    Log out
-            </button>
+<div class="dynamic__container--center">
+    <div *ngIf="user$ | async as user; else login">
+        <div *ngIf="!user.isAdmin" class="login__card">
+            <h1 class="mat-headline">You do not have admin rights.</h1>
+            
+            <div *ngIf="!user.isRequestingAdmin; else pending">
+                <button (click)="requestAdmin(user)" color="primary" mat-button>Request Admin</button>
+            </div>
+            <ng-template #pending>
+                <p class="mat-body">Your admin request is pending..</p>
+            </ng-template>
+            <div>
+                <button (click)="onLogOut()" color="primary" mat-raised-button>Log Out</button>
+            </div>
         </div>
-        
-        <ng-template #login>
-            <button (click)="onLogIn()" color="primary" mat-raised-button>
-                Log in with Google
-            </button>
-        </ng-template>
     </div>
+    <ng-template #login>
+        <div class="login__card mat-elevation-z3">
+            <div class="login__card__title">
+                <h1 class="mat-headline">HawiCreate</h1>
+                <h1 class="mat-headline"><em> &nbsp; Admin</em></h1>
+            </div>
+            <div class="login__card__divider">
+                <mat-divider></mat-divider>
+            </div>
+            <div class="login__card__options">
+                <h1 class="mat-headline">Log In</h1>
+                <button (click)="onLogIn()" color="primary" mat-raised-button>
+                    Log in with Google
+                </button>
+            </div>
+        </div>
+    </ng-template>
 </div>

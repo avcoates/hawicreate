@@ -79,7 +79,7 @@ $hc-white: (
 
 
 /* For use in src/lib/core/theming/_palette.scss */
-$hc-red: (
+$hc-light-red: (
     50 : #f9e0e0,
     100 : #f0b3b3,
     200 : #e68080,
@@ -112,6 +112,106 @@ $hc-red: (
     )
 );
 
+$hc-white: (
+    50 : #ffffff,
+    100 : #ffffff,
+    200 : #ffffff,
+    300 : #ffffff,
+    400 : #ffffff,
+    500 : #ffffff,
+    600 : #ffffff,
+    700 : #ffffff,
+    800 : #ffffff,
+    900 : #ffffff,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffffff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$hc-black: (
+    50 : #e0e0e0,
+    100 : #b3b3b3,
+    200 : #808080,
+    300 : #4d4d4d,
+    400 : #262626,
+    500 : #000000,
+    600 : #000000,
+    700 : #000000,
+    800 : #000000,
+    900 : #000000,
+    A100 : #a6a6a6,
+    A200 : #8c8c8c,
+    A400 : #737373,
+    A700 : #666666,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+
+$hc-red: (
+    50 : #ffe0e0,
+    100 : #ffb3b3,
+    200 : #ff8080,
+    300 : #ff4d4d,
+    400 : #ff2626,
+    500 : #ff0000,
+    600 : #ff0000,
+    700 : #ff0000,
+    800 : #ff0000,
+    900 : #ff0000,
+    A100 : #ffffff,
+    A200 : #fff2f2,
+    A400 : #ffbfbf,
+    A700 : #ffa6a6,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+
 
 
 
@@ -126,7 +226,7 @@ $hc-red: (
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$hc-app-primary: mat-palette($hc-pink);
+$hc-app-primary: mat-palette($hc-black);
 $hc-app-accent:  mat-palette($hc-white, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -144,3 +244,25 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
 .cursor--pointer {
     cursor: pointer;
 }
+
+.dynamic__container {
+    width: 80%;
+    margin: 0% 10%;
+    padding: 1em;
+
+    @media screen and (max-width: 900px) {
+        width: 90%;
+        margin: 0% 5%;
+    }
+
+    @media screen and (max-width: 600px) {
+        width: 95%;
+        margin: 0% 2.5%;
+    }
+
+    &--center {
+        display: flex;
+        justify-content: center;
+    }
+}
+

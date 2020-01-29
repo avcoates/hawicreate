@@ -1,27 +1,37 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavbarRoute } from '@admin/shared/models';
+import { Select } from '@ngxs/store';
+import { User } from '@admin/shared/models/user';
+import { Observable } from 'rxjs';
+import { AppState } from '@admin/state/app.state';
+import { AuthService } from '@admin/shared/services/auth/auth.service';
 
 @Component({
-  selector: 'hc-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss']
+    selector: 'hc-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
 
-  @Input()
-  public routes!: Array<NavbarRoute>;
+    @Select(AppState.activeUser)
+    public user$!: Observable<User>;
 
-  @Input()
-  public name!: string;
+    @Input()
+    public routes!: Array<NavbarRoute>;
 
-  constructor(private router: Router) {
-  }
+    @Input()
+    public name!: string;
 
-  ngOnInit() {
-  }
+    constructor(private router: Router,
+                private auth: AuthService) {
+    }
 
-  public onNavigate(path: string): void {
-    this.router.navigateByUrl(path);
-  }
+
+    public onLogOut(): void {
+        this.auth.signOut();
+    }
+    public onNavigate(path: string): void {
+        this.router.navigateByUrl(path);
+    }
 }

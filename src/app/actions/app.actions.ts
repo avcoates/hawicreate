@@ -7,28 +7,25 @@ export class UpdatePageRoutesFromChild {
     constructor(public payload: Array<NavbarRoute>) {}
 }
 
-export class ChangeFeature {
-    static readonly type = '[child] Change Feature';
-    constructor(public payload: string) {}
-}
+// Users
 
 export class UpdateUser {
-    static readonly type = '[Admin] UpdateUser';
+    static readonly type = '[Admin] Update User';
     constructor(public payload: User) {}
 }
 
-
-export class LogInWithGoogle {
-    static readonly type = '[Admin] Log In With Google';
-}
-
-export class LogOut {
-    static readonly type = '[Admin] Log Out';
-}
-
-export class NavigateTo {
-    static readonly type = '[Admin] Navigate to';
+export class DeleteUser {
+    static readonly type = '[Admin] Delete User';
     constructor(public payload: string) {}
+}
+
+export class UpdateActiveUser {
+    static readonly type = '[Admin] Update Active User';
+    constructor(public payload: User) {}
+}
+
+export class GetAllUsers {
+    static readonly type = '[Admin] Get All Users';
 }
 
 

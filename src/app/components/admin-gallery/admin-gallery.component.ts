@@ -1,22 +1,16 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ImagesState } from '@admin/state/images.state';
-import { ArtPieceDTO, ArtPiece, Upload } from '@admin/shared/models';
-import { ArtPieceDatabaseApiService } from '@admin/services/art-piece-database-api.service';
-import { ImagesStorageApiService } from '@admin/services/images-storage-api.service';
+import { ArtPiece } from '@admin/shared/models';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { ArtPieceState } from '@admin/state/art-piece.state';
 import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
-import { map } from 'rxjs/operators';
-import { NavigateTo } from '@admin/actions/app.actions';
 import { Router } from '@angular/router';
 
 @Component({
     selector: 'hc-admin-gallery',
     templateUrl: './admin-gallery.component.html',
-    styleUrls: ['./admin-gallery.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./admin-gallery.component.scss']
 })
 export class AdminGalleryComponent implements OnInit {
 
@@ -60,13 +54,13 @@ export class AdminGalleryComponent implements OnInit {
                 private store: Store,
                 private router: Router) { }
 
+
     public ngOnInit(): void {
         this.store.dispatch(new GetAllArtPieces());
         // this.onAddImage();
     }
 
     public getField(fieldName: string, form: FormGroup): any {
-        console.log(form.get(fieldName));
         return form.get(fieldName).value;
     }
 
@@ -90,6 +84,8 @@ export class AdminGalleryComponent implements OnInit {
     public onDeleteImage(index: number): void {
         this.images.removeAt(index);
     }
+
+
 
 }
 

@@ -1,27 +1,32 @@
 import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
-import { UpdatePageRoutesFromChild, ChangeFeature, UpdateUser, LogInWithGoogle, LogOut, NavigateTo } from '../actions/app.actions';
-import { ImagesState } from './images.state';
+import { UpdatePageRoutesFromChild,
+         UpdateUser,
+         GetAllUsers,
+         UpdateActiveUser,
+         DeleteUser
+} from '../actions/app.actions';
 import { NavbarRoute } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { FirebaseAuth, FirebaseApp } from '@angular/fire';
+import { FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
 import { ArtPieceState } from './art-piece.state';
+import { UserApiService } from '@admin/services';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
-    pageBase: string;
-    user: User;
+    activeUser: User;
+    users: Array<User>;
 }
 
 @State<AppStateModel>({
     name: 'app',
     defaults: {
       routes: [],
-      pageBase: '',
-      user: null
+      activeUser: null,
+      users: [],
     },
     children: [ArtPieceState]
 })
@@ -29,8 +34,13 @@ export interface AppStateModel {
 export class AppState {
 
     @Selector()
-    public static user(state: AppStateModel): any {
-        return state.user;
+    public static activeUser(state: AppStateModel): any {
+        return state.activeUser;
+    }
+
+    @Selector()
+    public static users(state: AppStateModel): Array<User> {
+        return state.users;
     }
 
     @Selector()
@@ -38,19 +48,16 @@ export class AppState {
         return state.routes;
     }
 
-    @Selector()
-    public static pageBase(state: AppStateModel): string {
-        return state.pageBase;
-    }
-
     constructor(private auth: AuthService,
                 private firebase: FirebaseApp,
                 private store: Store,
-                private router: Router) {
+                private router: Router,
+                private userApiService: UserApiService,
+    ) {
         this.firebase.auth().onAuthStateChanged(user => {
             if (user) {
                 this.auth.getUserByUId(user.uid)
-                    .subscribe(u => this.store.dispatch(new UpdateUser(u)));
+                    .subscribe(u => this.store.dispatch(new UpdateActiveUser(u)));
             }
         });
     }
@@ -62,41 +69,26 @@ export class AppState {
         });
     }
 
-    @Action(ChangeFeature)
-    public changeFeature({ patchState }: StateContext<AppStateModel>, { payload }: ChangeFeature): void {
-        patchState({
-            pageBase: payload
-        });
-    }
-
     @Action(UpdateUser)
-    public updateUser({ patchState }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
-        patchState({
-            user: payload
-        });
+    public updateUser({ dispatch }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
+        this.userApiService.updateUser(payload).pipe(tap(() => dispatch(new GetAllUsers())));
     }
 
-    @Action(LogInWithGoogle)
-    public logInWithGoogle({ dispatch }: StateContext<AppStateModel>): Observable<User> {
-        return this.auth.googleSignIn()
-            .pipe(
-                tap(user =>  dispatch(new UpdateUser(user))),
-                tap(() => {
-                    dispatch(new NavigateTo('admin-home'));
-                })
-            );
+    @Action(DeleteUser)
+    public deleteUser({ dispatch }: StateContext<AppStateModel>, { payload }: DeleteUser): Observable<void> {
+        return this.userApiService.deleteUserById(payload)
+            .pipe(tap(() => dispatch(new GetAllUsers())));
     }
 
-    @Action(LogOut)
-    public LogOut({ dispatch }: StateContext<AppStateModel>): void {
-        this.auth.signOut();
-        dispatch(new UpdateUser(null));
-        this.router.navigateByUrl('log-in');
+    @Action(UpdateActiveUser)
+    public updateActiveUser({ patchState }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
+        patchState({ activeUser: payload });
     }
 
-    @Action(NavigateTo)
-    public navigateTo({ payload }: NavigateTo): void {
-        this.router.navigateByUrl(payload);
+    @Action(GetAllUsers)
+    public getAllUsers({ patchState }: StateContext<AppStateModel>): Observable<Array<User>> {
+        return this.userApiService.getAllUsers()
+            .pipe(tap(users => patchState({ users })));
     }
 
 }

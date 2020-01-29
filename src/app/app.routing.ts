@@ -1,7 +1,13 @@
 import { Routes } from '@angular/router';
-import { AdminHomeComponent, AdminGalleryComponent, AdminContactComponent, AdminLogInComponent } from './components';
+import { AdminHomeComponent,
+         AdminGalleryComponent,
+         AdminContactComponent,
+         AdminLogInComponent,
+         AdminUsersComponent
+} from './components';
 import { AuthGuard } from './shared/services/auth.guard';
 import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
+import { AdminUserComponent } from './components/admin-user/admin-user.component';
 
 export const AdminRoutes: Routes = [
     {
@@ -29,13 +35,23 @@ export const AdminRoutes: Routes = [
         component: AdminContactComponent
     },
     {
+        path: 'admin-users',
+        canActivate: [AuthGuard],
+        component: AdminUsersComponent,
+    },
+    {
+        path: 'admin-user/:id',
+        canActivate: [AuthGuard],
+        component: AdminUserComponent,
+    },
+    {
         path: '',
-        redirectTo: 'admin-home',
+        redirectTo: 'log-in',
         pathMatch: 'full'
     },
     {
         path: '**',
-        redirectTo: '',
+        redirectTo: 'log-in',
         pathMatch: 'full'
     }
 ];

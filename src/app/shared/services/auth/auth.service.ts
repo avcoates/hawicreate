@@ -5,9 +5,9 @@ import { Observable, of, from } from 'rxjs';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { User } from '@admin/shared/models/user';
-import { switchMap, tap, map } from 'rxjs/operators';
+import { tap, map, mapTo, switchMapTo } from 'rxjs/operators';
 import { Store } from '@ngxs/store';
-import { FirebaseApp } from '@angular/fire';
+import { UpdateUser, UpdateActiveUser } from '@admin/actions/app.actions';
 
 
 @Injectable({
@@ -20,38 +20,54 @@ export class AuthService {
     constructor(private router: Router,
                 private afAuth: AngularFireAuth,
                 private firestore: AngularFirestore,
-                private firebase: FirebaseApp,
-                private store: Store) {
+                private store: Store,
+                ) {
     }
 
-    public googleSignIn(): Observable<User> {
+    public googleSignIn(): void {
         const provider = new auth.GoogleAuthProvider();
-        return from(this.afAuth.auth.signInWithRedirect(provider))
-            .pipe(switchMap(() => this.firebase.auth().getRedirectResult()),
-                  switchMap(credential => this.updateUserData(credential.user)),
-                  tap(() => this.router.navigateByUrl('admin-home'))
-                 );
+        this.afAuth.auth.signInWithRedirect(provider);
     }
 
     public async signOut() {
-        await this.afAuth.auth.signOut();
-        return this.router.navigate(['/']);
+        this.afAuth.auth.signOut();
+        this.store.dispatch(new UpdateActiveUser(null));
+        this.router.navigate(['']);
     }
 
-    public updateUserData({ uid, email }: afUser): Observable<User> {
-        const userRef: AngularFirestoreDocument = this.firestore.doc(`User/${uid}`);
+    public updateUserData({ uid, email, displayName }: afUser): Observable<User> {
+        const userDoc: AngularFirestoreDocument<User> = this.firestore.doc(`User/${uid}`);
+        const userRef = userDoc.ref;
+        const userSnapshot = from(userRef.get());
 
-        const data = {
-            email,
-            uid
-        };
+        return userSnapshot
+            .pipe(
+                map(userSnap => {
+                    const userData: Partial<User> = {
+                        ...userSnap.data(),
+                        uid,
+                        email,
+                        displayName,
+                    };
 
-        if (userRef) {
-            userRef.set(data, { merge: true});
-            return this.firestore.doc<User>(`User/${uid}`).valueChanges();
-        }
-        // navigate: invalid
-        return;
+                    if (!userSnap.exists) {
+                        return {
+                            ...userData,
+                            isAdmin: false,
+                            isRequestingAdmin: false,
+                        };
+                    } else if (userData.isAdmin) {
+                        return {
+                            ...userData,
+                            isRequestingAdmin: false,
+                        };
+                    }
+
+                    return userData;
+                }),
+                tap(user => userRef.set(user, { merge: true })),
+                switchMapTo(this.firestore.doc<User>(`User/${uid}`).valueChanges())
+            );
     }
 
     public getUserByUId(uid: string): Observable<User> {
