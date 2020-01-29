@@ -6,6 +6,7 @@ export class ArtPiece {
     public createdDate = new Date();
     public images = [''];
     public size: string;
+    public isSold: boolean;
 }
 
 export interface ArtPieceDTO {
@@ -15,4 +16,5 @@ export interface ArtPieceDTO {
     createdDate: Date;
     images: Array<string>;
     size: string;
+    isSold: boolean;
 }
