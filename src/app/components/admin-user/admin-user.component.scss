@@ -1,0 +1,13 @@
+.user__form {
+    display: flex;
+    flex-direction: column;
+
+    &__field {
+        display: flex;
+        margin: 1em;
+
+        button {
+            margin-right: 1em; 
+        }
+    }
+}
