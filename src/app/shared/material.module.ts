@@ -13,6 +13,7 @@ import {
   MatTableModule,
   MatCheckboxModule,
   MatTooltipModule,
+  MatDialogModule,
 } from '@angular/material';
 
 @NgModule({
@@ -29,6 +30,7 @@ import {
     MatTableModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatDialogModule,
 
   ],
   exports: [
@@ -44,6 +46,7 @@ import {
     MatTableModule,
     MatCheckboxModule,
     MatTooltipModule,
+    MatDialogModule,
 
   ]
 })

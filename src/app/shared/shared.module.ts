@@ -7,10 +7,13 @@ import { AuthService } from './services/auth/auth.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AuthGuard } from './services/auth.guard';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ConfirmDialogComponent } from './components/dialogs';
+import { DialogService } from './services/dialog.service';
 
 @NgModule({
   declarations: [
-    NavbarComponent
+    NavbarComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,
@@ -25,6 +28,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [AuthService, AngularFireAuth, AuthGuard]
+  providers: [AuthService, AngularFireAuth, AuthGuard, DialogService],
+  entryComponents: [ ConfirmDialogComponent ]
 })
 export class SharedModule { }
