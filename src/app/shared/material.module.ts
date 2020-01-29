@@ -10,6 +10,9 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatDividerModule,
+  MatTableModule,
+  MatCheckboxModule,
+  MatTooltipModule,
 } from '@angular/material';
 
 @NgModule({
@@ -22,7 +25,11 @@ import {
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+
   ],
   exports: [
     BrowserAnimationsModule,
@@ -33,7 +40,11 @@ import {
     MatCardModule,
     MatFormFieldModule,
     MatInputModule,
-    MatDividerModule
+    MatDividerModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatTooltipModule,
+
   ]
 })
 export class MaterialModule {}

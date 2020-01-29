@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { User } from '@admin/shared/models/user';
 import { FormBuilder } from '@angular/forms';
 import { UserApiService } from '@admin/services';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'hc-admin-users',
@@ -17,6 +18,8 @@ export class AdminUsersComponent implements OnInit {
     @Select(AppState.users)
     public users$!: Observable<Array<User>>;
 
+    public displayedColumns: string[] = ['email', 'isAdmin', 'Details'];
+
     public form = this.fb.group({
         uid: '',
     });
@@ -24,6 +27,7 @@ export class AdminUsersComponent implements OnInit {
     constructor(private store: Store,
                 private fb: FormBuilder,
                 private userApiService: UserApiService,
+                private router: Router,
                 ) { }
 
     public ngOnInit(): void {
@@ -33,6 +37,10 @@ export class AdminUsersComponent implements OnInit {
     public getUser(): void {
         this.userApiService.getUserByUid(this.form.get('uid').value)
             .subscribe(console.log);
+    }
+
+    public onViewUserDetails(user: User): void {
+        this.router.navigate(['admin-user/', user.uid]);
     }
 
 }

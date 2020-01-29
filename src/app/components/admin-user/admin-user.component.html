@@ -1,0 +1,10 @@
+<button (click)="onBack()" color="primary" mat-icon-button>
+    <mat-icon>arrow_back_ios</mat-icon>
+    <h1 class="mat-button">Users</h1>
+</button>
+<ng-container *ngIf="user$ | async as user">
+    <div class="dynamic__container">
+        <pre>{{ user }}</pre>
+    </div>
+</ng-container>
+

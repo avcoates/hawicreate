@@ -246,17 +246,18 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
 }
 
 .dynamic__container {
-    width: 60%;
-    margin: 0% 20%;
+    width: 80%;
+    margin: 0% 10%;
+    padding: 1em;
 
     @media screen and (max-width: 900px) {
-        width: 80%;
-        margin: 0% 10%;
+        width: 90%;
+        margin: 0% 5%;
     }
 
     @media screen and (max-width: 600px) {
-        width: 90%;
-        margin: 0% 5%;
+        width: 95%;
+        margin: 0% 2.5%;
     }
 
     &--center {
