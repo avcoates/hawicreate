@@ -31,7 +31,7 @@
             <div class="user__form__field">
                 <button (click)="onSave(userForm)" [disabled]="!userForm.dirty" color="primary" mat-raised-button>Save</button>
                 <button (click)="onCancel()" color="primary" mat-stroked-button>Cancel</button>
-                <button color="warn" mat-button>Delete</button>
+                <button (click)="onDelete(userForm.getRawValue())" color="warn" mat-button>Delete</button>
             </div>
         </form>
 

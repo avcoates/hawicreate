@@ -14,6 +14,11 @@ export class UpdateUser {
     constructor(public payload: User) {}
 }
 
+export class DeleteUser {
+    static readonly type = '[Admin] Delete User';
+    constructor(public payload: string) {}
+}
+
 export class UpdateActiveUser {
     static readonly type = '[Admin] Update Active User';
     constructor(public payload: User) {}

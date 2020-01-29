@@ -27,7 +27,7 @@ export class AdminUsersComponent implements OnInit {
     constructor(private store: Store,
                 private fb: FormBuilder,
                 private userApiService: UserApiService,
-                private router: Router,
+                private router: Router
                 ) { }
 
     public ngOnInit(): void {

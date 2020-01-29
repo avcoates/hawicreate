@@ -39,6 +39,6 @@ export class UserApiService {
     public deleteUserById(uid: string): Observable<void> {
         const userDoc: AngularFirestoreDocument<User> = this.firestore.doc(`User/${uid}`);
         const userRef = userDoc.ref;
-        return from(userRef.delete);
+        return from(userRef.delete());
     }
 }

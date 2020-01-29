@@ -2,7 +2,8 @@ import { State, Action, StateContext, Selector, Store } from '@ngxs/store';
 import { UpdatePageRoutesFromChild,
          UpdateUser,
          GetAllUsers,
-         UpdateActiveUser
+         UpdateActiveUser,
+         DeleteUser
 } from '../actions/app.actions';
 import { NavbarRoute } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
@@ -71,6 +72,12 @@ export class AppState {
     @Action(UpdateUser)
     public updateUser({ dispatch }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
         this.userApiService.updateUser(payload).pipe(tap(() => dispatch(new GetAllUsers())));
+    }
+
+    @Action(DeleteUser)
+    public deleteUser({ dispatch }: StateContext<AppStateModel>, { payload }: DeleteUser): Observable<void> {
+        return this.userApiService.deleteUserById(payload)
+            .pipe(tap(() => dispatch(new GetAllUsers())));
     }
 
     @Action(UpdateActiveUser)
