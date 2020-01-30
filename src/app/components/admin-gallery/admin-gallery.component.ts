@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ArtPiece } from '@admin/shared/models';
+import { ArtPiece, Collection } from '@admin/shared/models';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { ArtPieceState } from '@admin/state/art-piece.state';
 import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
 import { Router } from '@angular/router';
+import { CollectionApiService } from '@admin/services/collection-api.service';
+import { tap } from 'rxjs/operators';
+import { ImagesApiService } from '@admin/services/images-api.service';
 
 @Component({
     selector: 'hc-admin-gallery',
@@ -14,8 +17,10 @@ import { Router } from '@angular/router';
 })
 export class AdminGalleryComponent implements OnInit {
 
-    @Select(ArtPieceState.artPieces)
-    public artPieces$: Observable<Array<ArtPiece>>;
+    // @Select(ArtPieceState.artPieces)
+    // public artPieces$: Observable<Array<ArtPiece>>;
+
+    public collections$: Observable<Array<Collection>>;
 
     public get name(): AbstractControl {
         return this.artPieceForm.get('name');
@@ -52,11 +57,14 @@ export class AdminGalleryComponent implements OnInit {
 
     constructor(private fb: FormBuilder,
                 private store: Store,
-                private router: Router) { }
+                private router: Router,
+                private collectionApiService: CollectionApiService,
+                ) { }
 
 
     public ngOnInit(): void {
         this.store.dispatch(new GetAllArtPieces());
+        // this.collections$ = this.collectionApiService.getAllCollcetions().pipe(tap(console.log));
         // this.onAddImage();
     }
 

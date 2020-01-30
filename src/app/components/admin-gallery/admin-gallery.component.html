@@ -8,7 +8,7 @@
         </mat-icon>
     </button>
 </div>
-<ng-container *ngIf="artPieces$ | async as artPieces">
+<!-- <ng-container *ngIf="artPieces$ | async as artPieces">
     <div class="artPieces">
 
         <div
@@ -20,9 +20,9 @@
         </div>
     </div>
 
-</ng-container>
+</ng-container> -->
 
-
+<!-- 
 <form [formGroup]="artPieceForm">
 
         <mat-form-field>
@@ -96,5 +96,13 @@
         
            
     </form>
-    
+     -->
 <hc-image-upload></hc-image-upload>
+
+<ng-container *ngIf="collections$ | async as collections">
+    <div *ngFor="let collection of collections">
+        <pre>
+            {{ collection | json }}
+        </pre>
+    </div>
+</ng-container>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ImagesApiService } from '@admin/services/images-api.service';
 
 @Component({
     selector: 'hc-image-upload',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ImageUploadComponent implements OnInit {
 
-    constructor() { }
+    constructor(private imageApiService: ImagesApiService,) { }
 
     public url: string | ArrayBuffer;
     public files: Array<File> = [];
@@ -34,6 +35,10 @@ export class ImageUploadComponent implements OnInit {
         this.files.push(this.selectedFile);
         this.url = null;
         this.selectedFile = null;
+    }
+
+    public onUpload(): void {
+        this.imageApiService.addImage(this.selectedFile).subscribe(console.log);
     }
 
 }

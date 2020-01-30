@@ -35,6 +35,11 @@ export class ArtPieceDatabaseApiService {
     public update(artPiece: ArtPiece): Observable<void> {
         return from(this.artPieceCollection.doc(artPiece.id).update(artPiece));
     }
+
+    public getById(id: string): Observable<ArtPiece> {
+        return from(this.artPieceCollection.doc(id).get())
+            .pipe(map(toArtPiece));
+    }
 }
 
 const toArtPiece = (doc: QueryDocumentSnapshot<ArtPiece>): ArtPiece => {

@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Upload } from '@admin/shared/models';
+import { Upload, Image } from '@admin/shared/models';
 import * as firebase from 'firebase/app';
-import { of, from } from 'rxjs';
+import { of, from, Observable, forkJoin } from 'rxjs';
+import { map, combineLatest, switchMap, tap, switchMapTo } from 'rxjs/operators';
+import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 
 @Injectable({
     providedIn: 'root'
@@ -11,41 +13,52 @@ import { of, from } from 'rxjs';
 export class ImagesStorageApiService {
 
     private imagesPath = 'Images';
-    private ref: AngularFireStorageReference;
-    private task: AngularFireUploadTask;
+    // private ref: AngularFireStorageReference;
+    // private task: AngularFireUploadTask;
+    private storageRef = this.afStorage.storage.ref();
 
     constructor(private afStorage: AngularFireStorage,
                 private firestore: AngularFirestore) { }
 
-    public addImage(file: File): void {
-        const storageRef = this.afStorage.storage.ref();
-        const upload = new Upload(file);
-        const key = Math.random().toString(36).substring(2);
+    /**
+     * @description Uploads the given file to the Images storage with a random id
+     * @param file image to upload
+     * @returns Image created from downloadURL and some metadata
+     */
+    public addImage(file: File): Observable<Image> {
+        const id = Math.random().toString(36).substring(2);
 
-        const uploadTask = storageRef.child(`${this.imagesPath}/${key}`).put(file);
+        const uploadTask = this.storageRef.child(`${this.imagesPath}/${id}`).put(file);
 
-        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED,
-            () => {
-
+        return from(uploadTask.then(
+            (uploadSnapShot) => {
+                // upload success
+                return uploadSnapShot;
             },
             (error) => {
-              // upload failed
-              console.log(error);
-            },
-            () => {
-                // upload success
-                from(
-                    storageRef
-                    .child(`${this.imagesPath}/${key}`)
-                    .getDownloadURL()
-                ).subscribe(url => {
-                    upload.url = url;
-                    upload.$key = key;
-                    upload.name = upload.file.name;
-                    this.saveFileData(upload);
-                });
+                // upload failed
+                console.log(error);
             }
-          );
+            )).pipe(
+                switchMap(() => {
+                    const imageRef = this.storageRef.child(`${this.imagesPath}/${id}`);
+                    const downloadUrl$ = from(imageRef.getDownloadURL());
+                    const metaData$ = from(imageRef.getMetadata());
+
+                    return forkJoin([ downloadUrl$, metaData$ ])
+                        .pipe(
+                            map(([downloadUrl, { name, size, timeCreated, updated } ]) => {
+                                return {
+                                    name: file.name,
+                                    size,
+                                    created: timeCreated,
+                                    updated,
+                                    id: name,
+                                    downloadUrl
+                                };
+                        }));
+                })
+            );
     }
 
     public deleteImage(): void {
@@ -66,4 +79,8 @@ export class ImagesStorageApiService {
         return;
         // this.fireStorage.storage.
     }
+
+    // public getAllImages(): any {
+    //     this.afStorage.storage.
+    // }
 }

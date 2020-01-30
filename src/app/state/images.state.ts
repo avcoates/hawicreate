@@ -30,27 +30,6 @@ export class ImagesState {
     }
     constructor(private imageApiService: ImagesApiService) {}
 
-    @Action(GetAllPhotos)
-    public GetAllPhotos({ patchState }: StateContext<ImagesStateModel>): Observable<Array<string>> {
-        return this.imageApiService.GetAllPhotos().pipe(
-            tap(imageUrls => {
-                patchState({
-                    allImages: imageUrls
-                });
-            })
-        );
-    }
-
-    @Action(GetFeaturedPhotos)
-    public getFeaturedPhotos({ patchState }: StateContext<ImagesStateModel>): Observable<Array<string>> {
-        return this.imageApiService.GetFeaturedImages().pipe(
-            tap(featuredImages => {
-                patchState({
-                    featuredImages
-                });
-            })
-        );
-    }
 }
 
 
