@@ -6,16 +6,13 @@ import { ImagesApiService } from '@admin/services/images-api.service';
     templateUrl: './image-upload.component.html',
     styleUrls: ['./image-upload.component.scss']
 })
-export class ImageUploadComponent implements OnInit {
+export class ImageUploadComponent {
 
     constructor(private imageApiService: ImagesApiService) { }
 
     public url: string | ArrayBuffer;
     public files: Array<File> = [];
     public selectedFile: File;
-
-    ngOnInit() {
-    }
 
     public onFileChanged(event: any): void {
         if (event.target && event.target.files.length > 0) {
