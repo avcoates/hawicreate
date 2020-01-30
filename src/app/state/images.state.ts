@@ -1,10 +1,7 @@
 
-import { GetAllPhotos, GetFeaturedPhotos } from '../actions/images.actions';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { State, Selector } from '@ngxs/store';
 import { ImagesStateModel } from './images.state';
-import { ImagesApiService } from '../services/images-api.service';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { ImageApiService } from '@admin/services';
 
 export interface ImagesStateModel {
     allImages: Array<string>;
@@ -28,7 +25,7 @@ export class ImagesState {
     public static featuredImages({ featuredImages }: ImagesStateModel): Array<string> {
         return featuredImages;
     }
-    constructor(private imageApiService: ImagesApiService) {}
+    constructor(private imageApiService: ImageApiService) {}
 
 }
 

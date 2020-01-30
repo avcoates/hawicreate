@@ -14,6 +14,7 @@ import { FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
 import { ArtPieceState } from './art-piece.state';
 import { UserApiService } from '@admin/services';
+import { GalleryState } from './gallery.state';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
@@ -28,7 +29,7 @@ export interface AppStateModel {
       activeUser: null,
       users: [],
     },
-    children: [ArtPieceState]
+    children: [ArtPieceState, GalleryState]
 })
 
 export class AppState {

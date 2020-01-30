@@ -13,7 +13,7 @@ import { AppState } from './state/app.state';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { ImagesApiService } from './services/images-api.service';
+import { ImageApiService } from './services/image-api.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'environments/environment';
@@ -29,6 +29,7 @@ import { ImageUploadComponent } from './components/admin-gallery/image-upload/im
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { UserApiService } from './services';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
+import { GalleryState } from './state/gallery.state';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,7 @@ import { AdminUserComponent } from './components/admin-user/admin-user.component
     BrowserModule,
     BrowserAnimationsModule,
     RouterModule.forRoot(AdminRoutes),
-    NgxsModule.forRoot([AppState, ArtPieceState], { developmentMode: !environment.production }),
+    NgxsModule.forRoot([AppState, ArtPieceState, GalleryState], { developmentMode: !environment.production }),
     NgxsReduxDevtoolsPluginModule.forRoot(),
     NgxsStoragePluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
@@ -56,7 +57,7 @@ import { AdminUserComponent } from './components/admin-user/admin-user.component
   ],
   exports: [
   ],
-  providers: [ImagesApiService, UserApiService],
+  providers: [ImageApiService, UserApiService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

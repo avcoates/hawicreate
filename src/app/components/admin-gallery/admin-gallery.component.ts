@@ -8,7 +8,7 @@ import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/act
 import { Router } from '@angular/router';
 import { CollectionApiService } from '@admin/services/collection-api.service';
 import { tap } from 'rxjs/operators';
-import { ImagesApiService } from '@admin/services/images-api.service';
+import { ImageApiService } from '@admin/services/image-api.service';
 
 @Component({
     selector: 'hc-admin-gallery',

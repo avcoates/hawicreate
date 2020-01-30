@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
-import { AngularFireStorage, AngularFireStorageReference, AngularFireUploadTask } from '@angular/fire/storage';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Upload, Image } from '@admin/shared/models';
-import * as firebase from 'firebase/app';
-import { of, from, Observable, forkJoin } from 'rxjs';
-import { map, combineLatest, switchMap, tap, switchMapTo } from 'rxjs/operators';
-import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
+import { Image } from '@admin/shared/models';
+import { from, Observable, forkJoin } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ImagesStorageApiService {
+export class ImageStorageApiService {
 
     private imagesPath = 'Images';
     private storageRef = this.afStorage.storage.ref();

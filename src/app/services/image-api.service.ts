@@ -8,18 +8,18 @@ import {
 import { Observable, from } from 'rxjs';
 import { map, switchMap, filter, switchMapTo } from 'rxjs/operators';
 import { Image } from '@admin-shared/models';
-import { ImagesStorageApiService } from './images-storage-api.service';
+import { ImageStorageApiService } from './image-storage-api.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class ImagesApiService {
+export class ImageApiService {
 
     private readonly imageCollectionString = 'Image';
     private imageCollection: AngularFirestoreCollection<Image>;
 
     constructor(private firestore: AngularFirestore,
-                private imagesStorageApiService: ImagesStorageApiService) { }
+                private imagesStorageApiService: ImageStorageApiService) { }
 
     /**
      * @description Adds an Image to the Image collection
