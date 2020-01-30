@@ -13,8 +13,6 @@ import { UploadTaskSnapshot } from '@angular/fire/storage/interfaces';
 export class ImagesStorageApiService {
 
     private imagesPath = 'Images';
-    // private ref: AngularFireStorageReference;
-    // private task: AngularFireUploadTask;
     private storageRef = this.afStorage.storage.ref();
 
     constructor(private afStorage: AngularFireStorage,
@@ -61,26 +59,8 @@ export class ImagesStorageApiService {
             );
     }
 
-    public deleteImage(): void {
-        // do 
+    public deleteImage(id: string): Observable<void> {
+        const imageRef = this.storageRef.child(`${this.imagesPath}/${id}`);
+        return from(imageRef.delete());
     }
-    // Writes the file details to the realtime db
-    private saveFileData(upload: Upload) {
-        const obj = {
-            name: upload.name,
-            url: upload.url,
-            key: upload.$key,
-            createdAt: upload.createdAt
-        };
-        this.firestore.collection(this.imagesPath).add(obj);
-    }
-
-    public getAllImageNames(): void {
-        return;
-        // this.fireStorage.storage.
-    }
-
-    // public getAllImages(): any {
-    //     this.afStorage.storage.
-    // }
 }

@@ -8,7 +8,7 @@ import { ImagesApiService } from '@admin/services/images-api.service';
 })
 export class ImageUploadComponent implements OnInit {
 
-    constructor(private imageApiService: ImagesApiService,) { }
+    constructor(private imageApiService: ImagesApiService) { }
 
     public url: string | ArrayBuffer;
     public files: Array<File> = [];
