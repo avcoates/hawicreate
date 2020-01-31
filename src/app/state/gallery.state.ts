@@ -1,5 +1,9 @@
-import { State, Selector } from '@ngxs/store';
+import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { Collection } from '@admin/shared/models';
+import { CollectionApiService } from '@admin/services/collection-api.service';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { GetAllCollections } from '../actions/gallery.actions';
 
 export interface GalleryStateModel {
     collections: Array<Collection>;
@@ -24,6 +28,12 @@ export class GalleryState {
         return state.selectedCollection;
     }
 
-    constructor() {}
+    constructor(private collectionApiService: CollectionApiService) {}
+
+    @Action(GetAllCollections)
+    public getAllCollections({ patchState }: StateContext<GalleryStateModel>): Observable<Array<Collection>> {
+        return this.collectionApiService.getAllCollcetions()
+            .pipe(tap(collections => patchState({ collections })));
+    }
 
 }

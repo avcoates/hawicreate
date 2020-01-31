@@ -4,10 +4,10 @@ import { ArtPiece } from '@admin/shared/models';
 import { ActivatedRoute } from '@angular/router';
 import { Store, Select } from '@ngxs/store';
 import { ClearSelectedArtPiece, DeleteArtPiece, UpdateArtPiece } from '@admin/actions/art-piece.actions';
-import { ArtPieceState } from '@admin/state/art-piece.state';
 import { Observable } from 'rxjs';
 import { TouchSequence } from 'selenium-webdriver';
 import { Location } from '@angular/common';
+import { ArtPieceState } from '@admin/state/art-piece.state';
 
 @Component({
     selector: 'hc-art-piece-detail',

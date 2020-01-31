@@ -23,13 +23,13 @@ import { AdminContactComponent } from './components/admin-contact/admin-contact.
 import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.component';
 
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { ArtPieceState } from './state/art-piece.state';
 import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
 import { ImageUploadComponent } from './components/admin-gallery/image-upload/image-upload.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { UserApiService } from './services';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { GalleryState } from './state/gallery.state';
+import { ArtPieceState } from './state/art-piece.state';
 
 @NgModule({
   declarations: [

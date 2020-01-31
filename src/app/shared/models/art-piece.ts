@@ -1,22 +1,24 @@
-import { Image } from './image';
+import { Image, ImageDto } from './image';
+import { DocumentReference } from '@angular/fire/firestore';
 
-export class ArtPiece {
-    public id: string;
-    public name = '';
-    public description = '';
-    public price = -1;
-    public createdDate = new Date();
-    public images = [];
-    public size: string;
-    public isSold: boolean;
-}
-
-export interface ArtPieceDTO {
+export interface ArtPiece {
+    id: string;
     name: string;
     description: string;
     price: number;
     createdDate: Date;
     images: Array<Image>;
+    size: string;
+    isSold: boolean;
+}
+
+export interface ArtPieceDto {
+    name: string;
+    description: string;
+    price: number;
+    createdDate: Date;
+    imageRefs: Array<DocumentReference>;
+    files?: Array<File>;
     size: string;
     isSold: boolean;
 }

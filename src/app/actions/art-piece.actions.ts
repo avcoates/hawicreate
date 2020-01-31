@@ -1,4 +1,4 @@
-import { ArtPiece, ArtPieceDTO } from '@admin/shared/models';
+import { ArtPiece, ArtPieceDto } from '@admin/shared/models';
 
 export class GetAllArtPieces {
     static readonly type = '[ArtPiece] Get all';
@@ -6,7 +6,7 @@ export class GetAllArtPieces {
 
 export class AddArtPiece {
     static readonly type = '[ArtPiece] Add';
-    constructor(public payload: ArtPieceDTO) {}
+    constructor(public payload: ArtPieceDto) {}
 }
 
 export class UpdateArtPiece {

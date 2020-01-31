@@ -11,7 +11,7 @@ import {
         UpdateSelectedArtPiece,
         ClearSelectedArtPiece
 } from '@admin/actions/art-piece.actions';
-import { ArtPieceDatabaseApiService } from '@admin/services/art-piece-database-api.service';
+import { ArtPieceApiService } from '@admin/services';
 import { DocumentReference } from '@angular/fire/firestore';
 
 export interface ArtPieceStateModel {
@@ -23,7 +23,7 @@ export interface ArtPieceStateModel {
     name: 'images',
     defaults: {
         artPieces: [],
-        selectedArtPiece: new ArtPiece()
+        selectedArtPiece: null
     }
 })
 export class ArtPieceState {
@@ -37,7 +37,7 @@ export class ArtPieceState {
         return state.selectedArtPiece;
     }
 
-    constructor(private artPiecesService: ArtPieceDatabaseApiService) {}
+    constructor(private artPiecesService: ArtPieceApiService) {}
 
     @Action(GetAllArtPieces)
     public getAllArtPieces({ patchState }: StateContext<ArtPieceStateModel>): Observable<Array<ArtPiece>> {
@@ -73,7 +73,7 @@ export class ArtPieceState {
     @Action(ClearSelectedArtPiece)
     public clearSelectedArtPiece({ patchState }: StateContext<ArtPieceStateModel>): void {
         patchState({
-            selectedArtPiece: new ArtPiece()
+            selectedArtPiece: null
         });
     }
 

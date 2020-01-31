@@ -3,10 +3,11 @@ import {
     AngularFirestore,
     AngularFirestoreCollection,
     AngularFirestoreDocument,
-    QueryDocumentSnapshot
+    QueryDocumentSnapshot,
+    DocumentReference
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { map, switchMap, filter, switchMapTo } from 'rxjs/operators';
+import { map, switchMap, filter, switchMapTo, mapTo } from 'rxjs/operators';
 import { Image } from '@admin-shared/models';
 import { ImageStorageApiService } from './image-storage-api.service';
 
@@ -28,16 +29,14 @@ export class ImageApiService {
      *              the image here uses the same id as the storage.
      * @param file given to ImageStorageApiService and made into an image
      */
-    public addImage(file: File): Observable<void> {
+    public addImage(file: File): Observable<DocumentReference> {
         return this.imagesStorageApiService.addImage(file)
             .pipe(
-                switchMap(image => from(
-                    this.firestore // same id for storage is used as the Image id
-                            .doc(`${this.imageCollectionString}/${image.id}`)
-                            .ref
-                            .set(image)
-                    )
-                )
+                switchMap(image => {
+                    // same id for storage is used as the Image id
+                    const imageRef = this.firestore.doc(`${this.imageCollectionString}/${image.id}`);
+                    return from(imageRef.ref.set(image)).pipe(mapTo(imageRef.ref));
+                })
             );
     }
 

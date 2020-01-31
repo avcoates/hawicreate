@@ -1,9 +1,18 @@
 import { ArtPiece } from './art-piece';
+import { DocumentReference } from '@angular/fire/firestore';
 
-export class Collection {
-    public id: string;
-    public name = '';
-    public description = '';
-    public order = -1;
-    public artPeices = new Array<ArtPiece>();
+export interface Collection {
+    id: string;
+    name: string;
+    description: string;
+    order: number;
+    artPieces: Array<ArtPiece>;
+}
+
+export interface CollectionDto {
+    id: string;
+    name: string;
+    description: string;
+    order: number;
+    artPieceRefs: Array<DocumentReference>;
 }

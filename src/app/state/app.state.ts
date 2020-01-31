@@ -12,9 +12,9 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
-import { ArtPieceState } from './art-piece.state';
 import { UserApiService } from '@admin/services';
 import { GalleryState } from './gallery.state';
+import { ArtPieceState } from './art-piece.state';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
