@@ -18,7 +18,7 @@ export class AdminUsersComponent implements OnInit {
     @Select(AppState.users)
     public users$!: Observable<Array<User>>;
 
-    public displayedColumns: string[] = ['email', 'isAdmin', 'Details'];
+    public displayedColumns: string[] = ['email', 'isAdmin'];
 
     public form = this.fb.group({
         uid: '',
