@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Collection, ArtPiece } from '@admin/shared/models';
+import { Collection } from '@admin/shared/models';
 import { AngularFirestoreCollection,
          AngularFirestore,
          QueryDocumentSnapshot,

@@ -30,6 +30,7 @@ import { UserApiService } from './services';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { GalleryState } from './state/gallery.state';
 import { ArtPieceState } from './state/art-piece.state';
+import { AdminArtPieceComponent } from './components/admin-art-piece/admin-art-piece.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ArtPieceState } from './state/art-piece.state';
     ImageUploadComponent,
     AdminUsersComponent,
     AdminUserComponent,
+    AdminArtPieceComponent,
   ],
   imports: [
     BrowserModule,

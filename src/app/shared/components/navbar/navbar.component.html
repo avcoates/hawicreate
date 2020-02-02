@@ -1,10 +1,10 @@
-<ng-container *ngIf="user$ | async as user">
-    <ng-container *ngIf="user.isAdmin">
+<ng-container *ngIf="state$ | async as state">
+    <ng-container *ngIf="state.user.isAdmin">
         <mat-toolbar class="toolbar mat-elevation-z6" color="primary">
             <div>
                 <h1 class="mat-h1">{{ name }}</h1>
             </div>
-            <div>
+            <div *ngIf="state.deviceType.desktop">
                 <ng-container *ngFor="let route of routes">
                     <button color="accent" mat-button (click)="onNavigate(route.path)">
                         {{route.header}}

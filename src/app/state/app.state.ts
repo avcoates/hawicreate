@@ -3,9 +3,10 @@ import { UpdatePageRoutesFromChild,
          UpdateUser,
          GetAllUsers,
          UpdateActiveUser,
-         DeleteUser
+         DeleteUser,
+         InitiateDeviceListener
 } from '../actions/app.actions';
-import { NavbarRoute } from '@admin/shared/models';
+import { NavbarRoute, DeviceType, mobileDevice, tabletDevice, desktopDevice } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { tap } from 'rxjs/operators';
@@ -20,6 +21,7 @@ export interface AppStateModel {
     routes: Array<NavbarRoute>;
     activeUser: User;
     users: Array<User>;
+    deviceType: DeviceType;
 }
 
 @State<AppStateModel>({
@@ -28,11 +30,21 @@ export interface AppStateModel {
       routes: [],
       activeUser: null,
       users: [],
+      deviceType: {
+          mobile: true,
+          tablet: false,
+          desktop: false,
+      }
     },
     children: [ArtPieceState, GalleryState]
 })
 
 export class AppState {
+
+    @Selector()
+    public static deviceType({ deviceType }: AppStateModel): DeviceType {
+        return deviceType;
+    }
 
     @Selector()
     public static activeUser(state: AppStateModel): any {
@@ -90,6 +102,33 @@ export class AppState {
     public getAllUsers({ patchState }: StateContext<AppStateModel>): Observable<Array<User>> {
         return this.userApiService.getAllUsers()
             .pipe(tap(users => patchState({ users })));
+    }
+
+    @Action(InitiateDeviceListener)
+    public initiateDeviceListener(
+        { patchState }: StateContext<AppStateModel>,
+        { payload }: InitiateDeviceListener,
+    ): void {
+        const { tabletListener, mobileListener } = payload;
+        const deviceType: DeviceType = mobileListener.matches
+            ? mobileDevice
+            : tabletListener.matches
+            ? tabletDevice
+            : desktopDevice;
+        patchState({ deviceType });
+
+        tabletListener.addEventListener('change', ({ matches }) => {
+            patchState({ deviceType: matches ? tabletDevice : desktopDevice });
+        });
+        return mobileListener.addEventListener('change', ({ matches }) => {
+            patchState({
+                deviceType: matches
+                    ? mobileDevice
+                    : tabletListener.matches
+                    ? tabletDevice
+                    : desktopDevice,
+            });
+        });
     }
 
 }

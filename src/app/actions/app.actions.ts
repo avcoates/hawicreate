@@ -1,4 +1,4 @@
-import { NavbarRoute } from '../shared/models';
+import { NavbarRoute, DeviceListener } from '../shared/models';
 import { User } from '@admin/shared/models/user';
 
 
@@ -28,5 +28,9 @@ export class GetAllUsers {
     static readonly type = '[Admin] Get All Users';
 }
 
+export class InitiateDeviceListener {
+    public static readonly type = '[Base] Initiate Device Listener';
 
+    constructor(public readonly payload: DeviceListener) {}
+}
 
