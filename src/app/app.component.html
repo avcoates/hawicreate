@@ -10,7 +10,7 @@
                         </mat-icon>
                     </button>
                 </mat-toolbar>
-                <mat-list (focusout)="toggleSideNav()">
+                <mat-list>
                     <mat-list-item (click)="onSelectPath(route.path)"
                                    *ngFor="let route of routes"
                                    class="side__bar">

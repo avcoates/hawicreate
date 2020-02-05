@@ -1,9 +1,15 @@
 import { Injectable } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { AngularFirestore, DocumentReference, AngularFirestoreCollection, QueryDocumentSnapshot } from '@angular/fire/firestore';
+import { AngularFirestore,
+         DocumentReference,
+         AngularFirestoreCollection,
+         QueryDocumentSnapshot,
+         AngularFirestoreDocument,
+         DocumentData
+} from '@angular/fire/firestore';
 import { ArtPiece, ArtPieceDto } from '@admin/shared/models';
 import { Observable, from, zip } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap, switchMapTo } from 'rxjs/operators';
 import { ImageApiService } from './image-api.service';
 
 @Injectable({
@@ -47,10 +53,23 @@ export class ArtPieceApiService {
     }
 
     public delete(artPiece: ArtPiece): Observable<void> {
-        return from(this.artPieceCollection.doc(artPiece.id).delete());
+        const artPieceDtoDoc = this.firestore.doc(`${this.artPieceCollectionString}/${artPiece.id}`);
+
+        return from(artPieceDtoDoc.ref.get())
+            .pipe(
+                map(this.toArtPieceDto),
+                tap(artPieceDto => {
+                    artPieceDto.imageRefs.map(ref => this.imageApiService.deleteImageById(ref.id));
+                }),
+                switchMapTo(artPieceDtoDoc.delete())
+        );
     }
 
     public update(artPiece: ArtPiece): Observable<void> {
+        const artPieceDoc: AngularFirestoreDocument<ArtPieceDto> =
+            this.firestore.doc(`${this.artPieceCollectionString}/${artPiece.id}`);
+        const docData = from(artPieceDoc.ref.get());
+        // return docData.pipe(map(this.toImage));
         return from(this.artPieceCollection.doc(artPiece.id).update(artPiece));
     }
 
@@ -62,6 +81,21 @@ export class ArtPieceApiService {
     public getRefById(id: string): DocumentReference {
         return this.firestore.doc(`${this.artPieceCollectionString}/${id}`).ref;
     }
+
+    private toArtPieceDto(doc: QueryDocumentSnapshot<ArtPieceDto>): ArtPieceDto {
+        const { imageRefs, isSold, price, name, description, size, createdDate} = doc.data();
+
+        return {
+            imageRefs,
+            isSold,
+            price,
+            name,
+            description,
+            size,
+            createdDate
+        };
+    }
+
 }
 
 const toArtPiece = (doc: QueryDocumentSnapshot<ArtPieceDto>): ArtPiece => {

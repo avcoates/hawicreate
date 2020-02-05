@@ -23,14 +23,15 @@ import { AdminContactComponent } from './components/admin-contact/admin-contact.
 import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.component';
 
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
-import { ImageUploadComponent } from './components/admin-gallery/image-upload/image-upload.component';
+import { ArtPieceDetailComponent } from './components/admin-art-piece/art-piece-detail/art-piece-detail.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { UserApiService } from './services';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { GalleryState } from './state/gallery.state';
 import { ArtPieceState } from './state/art-piece.state';
 import { AdminArtPieceComponent } from './components/admin-art-piece/admin-art-piece.component';
+import { NewArtPieceDialogComponent } from './components/dialogs/new-art-piece-dialog/new-art-piece-dialog.component';
+import { ImageUploadComponent } from './components/image-upload/image-upload.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AdminArtPieceComponent } from './components/admin-art-piece/admin-art-p
     AdminUsersComponent,
     AdminUserComponent,
     AdminArtPieceComponent,
+    NewArtPieceDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,6 +62,7 @@ import { AdminArtPieceComponent } from './components/admin-art-piece/admin-art-p
   exports: [
   ],
   providers: [ImageApiService, UserApiService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ NewArtPieceDialogComponent ]
 })
 export class AppModule { }

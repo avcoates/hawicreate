@@ -6,8 +6,9 @@ import { AdminHomeComponent,
          AdminUsersComponent
 } from './components';
 import { AuthGuard } from './shared/services/auth.guard';
-import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
+import { ArtPieceDetailComponent } from './components/admin-art-piece/art-piece-detail/art-piece-detail.component';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
+import { AdminArtPieceComponent } from './components/admin-art-piece/admin-art-piece.component';
 
 export const AdminRoutes: Routes = [
     {
@@ -18,6 +19,11 @@ export const AdminRoutes: Routes = [
         path: 'admin-home',
         canActivate: [AuthGuard],
         component: AdminHomeComponent
+    },
+    {
+        path: 'admin-artpieces',
+        canActivate: [AuthGuard],
+        component: AdminArtPieceComponent
     },
     {
         path: 'admin-gallery',

@@ -17,7 +17,7 @@ export interface ArtPieceDto {
     description: string;
     price: number;
     createdDate: Date;
-    imageRefs: Array<DocumentReference>;
+    imageRefs?: Array<DocumentReference>;
     files?: Array<File>;
     size: string;
     isSold: boolean;

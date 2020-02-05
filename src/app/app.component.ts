@@ -46,6 +46,10 @@ export class AppComponent implements OnInit {
             path: 'admin-gallery',
         },
         {
+            header: 'Art Pieces',
+            path: 'admin-artpieces',
+        },
+        {
             header: 'Contact',
             path: 'admin-contact',
         },
@@ -53,6 +57,7 @@ export class AppComponent implements OnInit {
             header: 'Users',
             path: 'admin-users',
         },
+
     ];
 
     public get currentRoute(): string {

@@ -45,6 +45,11 @@ export class ImageApiService {
             .pipe(switchMapTo(this.imageCollection.doc(id).delete()));
     }
 
+    public deleteImageById(id: string): Observable<void> {
+        return from(this.imagesStorageApiService.deleteImage(id))
+            .pipe(switchMapTo(this.imageCollection.doc(id).delete()));
+    }
+
     public getImageById(id: Image): Observable<Image | null> {
         const imageDoc: AngularFirestoreDocument<Image> = this.firestore.doc(`${this.imageCollectionString}/${id}`);
         const docData = from(imageDoc.ref.get());
