@@ -25,7 +25,7 @@ import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.comp
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
 import { ArtPieceDetailComponent } from './components/admin-art-piece/art-piece-detail/art-piece-detail.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
-import { UserApiService } from './services';
+import { UserApiService, ArtPieceApiService, ImageStorageApiService } from './services';
 import { AdminUserComponent } from './components/admin-user/admin-user.component';
 import { GalleryState } from './state/gallery.state';
 import { ArtPieceState } from './state/art-piece.state';
@@ -60,8 +60,9 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
     SharedModule
   ],
   exports: [
+    
   ],
-  providers: [ImageApiService, UserApiService],
+  providers: [ArtPieceApiService, ImageApiService, ImageStorageApiService, UserApiService],
   bootstrap: [AppComponent],
   entryComponents: [ NewArtPieceDialogComponent ]
 })

@@ -7,7 +7,7 @@ import {
     DocumentReference
 } from '@angular/fire/firestore';
 import { Observable, from } from 'rxjs';
-import { map, switchMap, filter, switchMapTo, mapTo } from 'rxjs/operators';
+import { map, switchMap, filter, switchMapTo, mapTo, tap } from 'rxjs/operators';
 import { Image } from '@admin-shared/models';
 import { ImageStorageApiService } from './image-storage-api.service';
 
@@ -50,7 +50,7 @@ export class ImageApiService {
             .pipe(switchMapTo(this.imageCollection.doc(id).delete()));
     }
 
-    public getImageById(id: Image): Observable<Image | null> {
+    public getImageById(id: string): Observable<Image | null> {
         const imageDoc: AngularFirestoreDocument<Image> = this.firestore.doc(`${this.imageCollectionString}/${id}`);
         const docData = from(imageDoc.ref.get());
         return docData.pipe(filter(doc => doc.exists), map(this.toImage));

@@ -8,7 +8,8 @@ export interface ArtPiece {
     price: number;
     createdDate: Date;
     images: Array<Image>;
-    size: string;
+    width: number;
+    height: number;
     isSold: boolean;
 }
 
@@ -19,6 +20,7 @@ export interface ArtPieceDto {
     createdDate: Date;
     imageRefs?: Array<DocumentReference>;
     files?: Array<File>;
-    size: string;
+    width: number;
+    height: number;
     isSold: boolean;
 }

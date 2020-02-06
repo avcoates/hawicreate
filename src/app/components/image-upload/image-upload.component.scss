@@ -1,10 +1,14 @@
-.image__upload {
-    display: flex;
-    flex-wrap: wrap;
-
-    &__item {
+.image {
+    margin: 1em;
+    
+    &__upload {
         display: flex;
-        flex-direction: column;
-        margin: 1em;
+        flex-wrap: wrap;
+    
+        &__item {
+            display: flex;
+            flex-direction: column;
+            margin: 1em;
+        }
     }
 }

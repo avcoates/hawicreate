@@ -1,27 +1,21 @@
-.artPieces {
-    display: flex;
-    flex-wrap: wrap;
-    
-}
-
-.artPiece {
-    width: 300px;
-    background: lightpink;
-    margin: 1em;
-}
-
-.header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: baseline;
-
-    h1 {
-        margin-right: 2em;
-    }
-}
-
-form {
+.gallery {
     display: flex;
     flex-direction: column;
-    margin: 10%;
+    
+    &__header {
+        display: flex;
+        
+    }
+
+    &__artpieces {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+
+        img {
+            margin: 1vw;
+            max-width: 250px;
+            width: 30vw;
+        }
+    }
 }

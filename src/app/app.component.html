@@ -15,7 +15,7 @@
                                    *ngFor="let route of routes"
                                    class="side__bar">
                             <mat-icon class="page__indicator"
-                                      color="primary" *ngIf="'/' + route.path === currentRoute; else noarrow">
+                                      color="primary" *ngIf="'/' + route.path === currentRoute">
                                 arrow_back_ios
                             </mat-icon>
                             <button class="nav__item" color="primary" mat-button >

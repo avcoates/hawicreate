@@ -1,28 +1,30 @@
-<button
-    type="button"
-    mat-stroked-button
-    color="primary"
-    (click)="fileInput.click()"
->
-CHOOSE FILE
-</button>
-
-<div class="image__upload">
-    <input
-        hidden
-        (change)="onFileChanged($event)"
-        #fileInput
-        type="file"
-        id="file"
-        accept=".pdf,.doc,.docx,.jpg"
+<div class="image">
+    <button
+        type="button"
+        mat-stroked-button
+        color="primary"
+        (click)="fileInput.click()"
     >
-    <div *ngFor="let file of files" class="image__upload__item">
-        <img [src]="file.url" width="100px;"/>
-        <label class="mat-caption" mat-label>
-            {{ file.file.name }}
-        </label>
+    CHOOSE FILE
+    </button>
+    
+    <div class="image__upload">
+        <input
+            hidden
+            (change)="onFileChanged($event)"
+            #fileInput
+            type="file"
+            id="file"
+            accept=".pdf,.doc,.docx,.jpg"
+        >
+        <div *ngFor="let file of files" class="image__upload__item">
+            <img [src]="file.url" width="100px;"/>
+            <label class="mat-caption" mat-label>
+                {{ file.file.name }}
+            </label>
+        </div>
+    
     </div>
-
 </div>
 
 

@@ -1,115 +1,59 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ArtPiece, Collection } from '@admin/shared/models';
+import { ArtPiece, Collection, ArtPieceDto } from '@admin/shared/models';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
 import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
 import { Router } from '@angular/router';
 import { CollectionApiService } from '@admin/services/collection-api.service';
-import { tap } from 'rxjs/operators';
+import { tap, filter } from 'rxjs/operators';
 import { ImageApiService } from '@admin/services/image-api.service';
 import { GalleryState } from '@admin/state/gallery.state';
 import { GetAllCollections } from '@admin/actions/gallery.actions';
+import { MatDialog } from '@angular/material';
+import { NewArtPieceDialogComponent } from '../dialogs';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+import { isNullOrUndefined } from 'util';
+import { ArtPieceState } from '@admin/state/art-piece.state';
 
 @Component({
     selector: 'hc-admin-gallery',
     templateUrl: './admin-gallery.component.html',
     styleUrls: ['./admin-gallery.component.scss']
 })
-export class AdminGalleryComponent implements OnInit {
+export class AdminGalleryComponent implements OnInit, OnDestroy {
 
-    @Select(GalleryState.collections)
-    public collections$!: Observable<Array<Collection>>;
-    // @Select(ArtPieceState.artPieces)
-    // public artPieces$: Observable<Array<ArtPiece>>;
-
-    // public collections$: Observable<Array<Collection>>;
-
-    public get name(): AbstractControl {
-        return this.artPieceForm.get('name');
-    }
-
-    public get size(): AbstractControl {
-        return this.artPieceForm.get('size');
-    }
-
-    public get price(): AbstractControl {
-        return this.artPieceForm.get('price');
-    }
-
-    public get description(): AbstractControl {
-        return this.artPieceForm.get('description');
-    }
-
-    public get createdDate(): AbstractControl {
-        return this.artPieceForm.get('createdDate');
-    }
-
-    public get images(): FormArray  {
-        return this.artPieceForm.get('images') as FormArray;
-    }
-
-    public artPieceForm = this.fb.group({
-        name: ['', [Validators.required]],
-        description: ['', [Validators.required]],
-        price: ['', [Validators.required]],
-        createdDate: ['', [Validators.required]],
-        images: this.fb.array([]),
-        size: ['', [Validators.required]],
-    });
+    @Select(ArtPieceState.artPieces)
+    public artPieces$!: Observable<Array<ArtPiece>>;
 
     constructor(private fb: FormBuilder,
                 private store: Store,
                 private router: Router,
                 private collectionApiService: CollectionApiService,
+                private matDialog: MatDialog,
                 ) { }
 
 
     public ngOnInit(): void {
-        // this.store.dispatch(new GetAllCollections());
+        this.store.dispatch(new GetAllArtPieces());
         // this.collectionApiService.getAllCollcetions().pipe(tap(console.log)).subscribe();
         // this.onAddImage();
     }
 
-    public getField(fieldName: string, form: FormGroup): any {
-        return form.get(fieldName).value;
-    }
-
-    public onNavigateTo(artPiece: ArtPiece): void {
-        this.router.navigate(['admin-gallery', artPiece.id]);
-        this.store.dispatch(new UpdateSelectedArtPiece(artPiece));
+    public ngOnDestroy(): void {
+        // Neccessary for UntilDestroyed()
     }
 
     public onAdd(): void {
-        this.store.dispatch(new AddArtPiece(this.artPieceForm.getRawValue()));
-    }
-
-    public onAddImage(): void {
-        const image = this.fb.group({
-            url: ''
+        const dialogRef = this.matDialog.open<NewArtPieceDialogComponent, null, ArtPieceDto>(NewArtPieceDialogComponent, {
+            maxWidth: '383px',
         });
 
-        this.images.push(image);
+        dialogRef.afterClosed()
+            .pipe(untilDestroyed(this), filter(val => !isNullOrUndefined(val)))
+            .subscribe(artPieceDto => this.store.dispatch(new AddArtPiece(artPieceDto)));
     }
-
-    public onDeleteImage(index: number): void {
-        this.images.removeAt(index);
-    }
-
 
 
 }
-
-const toArtPieceForm = (artPiece: ArtPiece): FormGroup => {
-    const formBuilder = new FormBuilder();
-    return formBuilder.group({
-        id: artPiece.id,
-        name: artPiece.name,
-        description: artPiece.description,
-        price: artPiece.price,
-        createdDate: artPiece.createdDate,
-        images: artPiece.images,
-        size: artPiece.size
-    });
-};
 

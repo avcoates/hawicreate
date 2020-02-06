@@ -1,5 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { FormBuilder, Validators } from '@angular/forms';
+import { ArtPieceDto } from '@admin/shared/models';
 
 @Component({
     selector: 'hc-new-art-piece-dialog',
@@ -8,14 +10,51 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 })
 export class NewArtPieceDialogComponent  {
 
-    constructor(public dialogRef: MatDialogRef<NewArtPieceDialogComponent>) { }
+    public form = this.fb.group({
+        name: ['', [Validators.required]],
+        description: '',
+        price: [, [Validators.required]],
+        createdDate: [new Date(), [Validators.required]],
+        width: [, [Validators.required, Validators.min(1)]],
+        height: [, [Validators.required, Validators.min(1)]],
+        isSold: [false, [Validators.required]],
+    });
+
+    private files = new Array<File>();
+
+    constructor(public dialogRef: MatDialogRef<NewArtPieceDialogComponent>,
+                private fb: FormBuilder) { }
 
     public onAdd(): void {
-        this.dialogRef.close('Affirm');
+        const { name,
+                description,
+                price,
+                createdDate,
+                width,
+                height,
+                isSold
+        } = this.form.getRawValue();
+
+        const artPieceDto: ArtPieceDto = {
+            name,
+            description,
+            price,
+            createdDate,
+            width,
+            height,
+            isSold,
+            files: this.files
+        };
+    
+        this.dialogRef.close(artPieceDto);
     }
 
     public onCancel(): void {
-        this.dialogRef.close('Dismiss');
+        this.dialogRef.close();
+    }
+
+    public onFileListChanged(files: Array<File>): void {
+        this.files = files;
     }
 
 

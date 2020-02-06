@@ -12,7 +12,7 @@ export interface FileUpload {
 export class ImageUploadComponent {
 
     @Output()
-    public fileListChanges = new EventEmitter<Array<FileUpload>>();
+    public fileListChanged = new EventEmitter<Array<File>>();
 
     constructor() { }
 
@@ -28,7 +28,7 @@ export class ImageUploadComponent {
 
             reader.onload = () => { // called once readAsDataURL is completed
                 this.files.push({ url: reader.result, file});
-                this.fileListChanges.emit(this.files);
+                this.fileListChanged.emit(this.files.map(f => f.file));
             };
 
         }

@@ -1,108 +1,20 @@
-<div class="header">
-    <h1 class="mat-h1">
-        Art Pieces
-    </h1>
-    <button (click)="onAdd()" mat-mini-fab color="primary">
-        <mat-icon>
-            add
-        </mat-icon>
-    </button>
-</div>
-<!-- <ng-container *ngIf="artPieces$ | async as artPieces">
-    <div class="artPieces">
-
-        <div
-            *ngFor="let artPiece of artPieces"
-            class="artPiece cursor--pointer"
-            (click)="onNavigateTo(artPiece)"
-        >
-            {{ artPiece.id }}        
-        </div>
+<div class="dynamic__container gallery">
+    <div class="gallery__header">
+        <h1 class="mat-h1">
+            Art Pieces
+        </h1>
+        <button (click)="onAdd()" mat-icon-button color="primary">
+            <mat-icon>
+                add
+            </mat-icon>
+        </button>
     </div>
-
-</ng-container> -->
-
-<!-- 
-<form [formGroup]="artPieceForm">
-
-        <mat-form-field>
-            <input 
-                formControlName="name"
-                placeholder="Name"
-                [value]="name.value"
-                matInput
-            >
-        </mat-form-field>
-    
-            <mat-form-field>
-                <input 
-                    formControlName="price"
-                    placeholder="Price"
-                    type="number"
-                    [value]="price.value"
-                    matInput
-                >
-            </mat-form-field>
-    
-    
-        <mat-form-field>
-            <textarea 
-                formControlName="description"
-                placeholder="Decription"
-                [value]="description.value"
-                matInput
-            >
-            </textarea>
-        </mat-form-field>
-        <mat-form-field>
-            <input 
-                formControlName="size"
-                placeholder="Size"
-                [value]="size.value"
-                matInput
-            >
-        </mat-form-field>
-    
-        <mat-form-field>
-            <input 
-                formControlName="createdDate"
-                placeholder="Created date"
-                type="date"
-                [value]="createdDate.value"
-                matInput
-            >
-        </mat-form-field>
-    
-        <div formArrayName="images">
-            <div
-                *ngFor="let image of images.controls; let i=index"
-                [formGroupName]="i"
-            >
-                <mat-form-field > 
-                    <input 
-                        formControlName="url"
-                        placeholder="url"
-                        type="url"
-                        matInput
-                    >
-                </mat-form-field>
+    <div class="gallery__artpieces">
+        <ng-container *ngIf="artPieces$ | async as artPieces">
+            <div *ngFor="let artPiece of artPieces">
+                <img [src]="artPiece.images[0].downloadUrl"/>
             </div>
-
-            <button (click)="onAddImage()" mat-raised-button color="primary">
-                ADD IMAGE
-            </button>
-        </div>
-        
-        
-           
-    </form>
-     -->
-<hc-image-upload></hc-image-upload>
-
-<ng-container *ngIf="collections$ | async as collections">
-    <div *ngFor="let collection of collections">
-        <pre>
-            {{ collection | json }}
-        </pre>
+        </ng-container>
     </div>
-</ng-container>
+</div>
+
