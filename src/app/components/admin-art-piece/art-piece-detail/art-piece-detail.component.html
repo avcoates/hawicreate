@@ -1,4 +1,4 @@
-<!-- <form [formGroup]="artPieceForm">
+<form [formGroup]="artPieceForm">
 
     <mat-form-field>
         <input 
@@ -31,22 +31,30 @@
     </mat-form-field>
     <mat-form-field>
         <input 
-            formControlName="size"
-            placeholder="Size"
-            [value]="size.value"
+            formControlName="width"
+            placeholder="Width"
+            [value]="width.value"
+            matInput
+        >
+    </mat-form-field>
+    <mat-form-field>
+        <input 
+            formControlName="height"
+            placeholder="Height"
+            [value]="height.value"
             matInput
         >
     </mat-form-field>
 
     <mat-form-field>
-        <input 
-            formControlName="createdDate"
-            placeholder="Created date"
-            type="date"
-            [value]="createdDate.value"
-            matInput
-        >
+        <input matInput formControlName="createdDate" [matDatepicker]="picker" placeholder="Created Date">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
+
+    <div>
+        <mat-checkbox color="primary" formControlName="isSold">Sold</mat-checkbox>
+    </div>
 
     <div formArrayName="images">
         <ng-container *ngIf="images.controls">
@@ -54,7 +62,8 @@
                 *ngFor="let image of images.controls; let i=index"
                 [formGroupName]="i"
             >
-            <mat-form-field > 
+            <img [src]="image.downloadUrl" width="250px"/>
+            <!-- <mat-form-field > 
                 <input 
                     formControlName="url"
                     placeholder="url"
@@ -62,7 +71,7 @@
                     [value]="getUrl(image)"
                     matInput
                 >
-            </mat-form-field>
+            </mat-form-field> -->
             </div>
         </ng-container>
     </div>
@@ -81,4 +90,4 @@
 <button mat-button>
     INVALID
 </button>
- -->
+

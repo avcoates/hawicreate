@@ -1,5 +1,26 @@
-<!-- <form [formGroup]="artPieceForm">
-
+<div class="dynamic__container">
+    <form [formGroup]="artPieceForm">
+    
+        <div formArrayName="images">
+            <ng-container *ngIf="images.controls">
+                <div
+                    *ngFor="let image of images.controls; let i=index"
+                    [formGroupName]="i"
+                >
+                <img [src]="image.get('downloadUrl').value" width="250px"/>
+                <!-- <mat-form-field > 
+                    <input 
+                        formControlName="url"
+                        placeholder="url"
+                        type="url"
+                        [value]="getUrl(image)"
+                        matInput
+                    >
+                </mat-form-field> -->
+                </div>
+            </ng-container>
+        </div>
+    
         <mat-form-field>
             <input 
                 formControlName="name"
@@ -8,18 +29,7 @@
                 matInput
             >
         </mat-form-field>
-    
-            <mat-form-field>
-                <input 
-                    formControlName="price"
-                    placeholder="Price"
-                    type="number"
-                    [value]="price.value"
-                    matInput
-                >
-            </mat-form-field>
-    
-    
+            
         <mat-form-field>
             <textarea 
                 formControlName="description"
@@ -29,43 +39,46 @@
             >
             </textarea>
         </mat-form-field>
+    
         <mat-form-field>
             <input 
-                formControlName="size"
-                placeholder="Size"
-                [value]="size.value"
+                formControlName="price"
+                placeholder="Price"
+                type="number"
+                [value]="price.value"
+                matInput
+            >
+        </mat-form-field>
+    
+
+        <mat-form-field>
+            <input 
+                formControlName="width"
+                placeholder="Width"
+                [value]="width.value"
+                matInput
+            >
+        </mat-form-field>
+        <mat-form-field>
+            <input 
+                formControlName="height"
+                placeholder="Height"
+                [value]="height.value"
                 matInput
             >
         </mat-form-field>
     
         <mat-form-field>
-            <input 
-                formControlName="createdDate"
-                placeholder="Created date"
-                type="date"
-                [value]="createdDate.value"
-                matInput
-            >
+            <input matInput [formControl]="createdDate" [matDatepicker]="picker" placeholder="Created Date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
     
-        <div formArrayName="images">
-            <ng-container *ngIf="images.controls">
-                <div
-                    *ngFor="let image of images.controls; let i=index"
-                    [formGroupName]="i"
-                >
-                <mat-form-field > 
-                    <input 
-                        formControlName="url"
-                        placeholder="url"
-                        type="url"
-                        [value]="getUrl(image)"
-                        matInput
-                    >
-                </mat-form-field>
-                </div>
-            </ng-container>
+        <div>
+            <mat-checkbox color="primary" formControlName="isSold">Sold</mat-checkbox>
         </div>
+    
+    
         <button (click)="onDelete()" mat-raised-button color="warn">
             DELETE
         </button>
@@ -81,5 +94,4 @@
     <button mat-button>
         INVALID
     </button>
-    
-     -->
+</div>    

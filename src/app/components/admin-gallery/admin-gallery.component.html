@@ -12,7 +12,7 @@
     <div class="gallery__artpieces">
         <ng-container *ngIf="artPieces$ | async as artPieces">
             <div *ngFor="let artPiece of artPieces">
-                <img [src]="artPiece.images[0].downloadUrl"/>
+                <img (click)="onNavigateTo(artPiece)" class="grow cursor--pointer" [src]="artPiece.images[0].downloadUrl"/>
             </div>
         </ng-container>
     </div>

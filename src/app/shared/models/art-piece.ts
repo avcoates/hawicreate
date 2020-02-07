@@ -17,7 +17,7 @@ export interface ArtPieceDto {
     name: string;
     description: string;
     price: number;
-    createdDate: Date;
+    createdDate: { seconds: number, nanoseconds: number};
     imageRefs?: Array<DocumentReference>;
     files?: Array<File>;
     width: number;

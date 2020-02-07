@@ -54,6 +54,10 @@ export class AdminGalleryComponent implements OnInit, OnDestroy {
             .subscribe(artPieceDto => this.store.dispatch(new AddArtPiece(artPieceDto)));
     }
 
+    public onNavigateTo(artPiece: ArtPiece): void {
+        this.store.dispatch(new UpdateSelectedArtPiece(artPiece));
+        this.router.navigate(['admin-artpiece', artPiece.id]);
+    }
 
 }
 

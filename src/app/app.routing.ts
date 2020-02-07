@@ -21,19 +21,14 @@ export const AdminRoutes: Routes = [
         component: AdminHomeComponent
     },
     {
-        path: 'admin-artpieces',
-        canActivate: [AuthGuard],
-        component: AdminArtPieceComponent
-    },
-    {
         path: 'admin-gallery',
         canActivate: [AuthGuard],
         component: AdminGalleryComponent
     },
     {
-        path: 'admin-gallery/:id',
+        path: 'admin-artpiece/:id',
         canActivate: [AuthGuard],
-        component: ArtPieceDetailComponent
+        component: AdminArtPieceComponent
     },
     {
         path: 'admin-contact',

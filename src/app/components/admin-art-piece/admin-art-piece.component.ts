@@ -1,103 +1,121 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { FormGroup, AbstractControl, FormBuilder, Validators, FormArray, FormControl } from '@angular/forms';
 import { ArtPiece } from '@admin/shared/models';
-import { Router, ActivatedRoute } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { UpdateSelectedArtPiece, ClearSelectedArtPiece, DeleteArtPiece, UpdateArtPiece } from '@admin/actions/art-piece.actions';
-import { AbstractControl, FormArray, Validators, FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { Store, Select } from '@ngxs/store';
+import { ClearSelectedArtPiece, DeleteArtPiece, UpdateArtPiece } from '@admin/actions/art-piece.actions';
+import { Observable } from 'rxjs';
+import { TouchSequence } from 'selenium-webdriver';
+import { Location } from '@angular/common';
 import { ArtPieceState } from '@admin/state/art-piece.state';
-import { isNullOrUndefined } from 'util';
 
 @Component({
-    selector: 'hc-admin-art-piece',
+    selector: 'hc-art-piece',
     templateUrl: './admin-art-piece.component.html',
-    styleUrls: ['./admin-art-piece.component.scss']
+    styleUrls: ['./admin-art-piece.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminArtPieceComponent {
+export class AdminArtPieceComponent implements OnInit, OnDestroy {
 
-    // @Input()
-    // public artPiece: ArtPiece;
+    public artPiece: ArtPiece;
 
-    // public get name(): AbstractControl {
-    //     return this.artPieceForm.get('name');
-    // }
-
-    // public get size(): AbstractControl {
-    //     return this.artPieceForm.get('size');
-    // }
-
-    // public get price(): AbstractControl {
-    //     return this.artPieceForm.get('price');
-    // }
-
-    // public get description(): AbstractControl {
-    //     return this.artPieceForm.get('description');
-    // }
-
-    // public get createdDate(): AbstractControl {
-    //     return this.artPieceForm.get('createdDate');
-    // }
-
-    // public get images(): FormArray {
-    //     return this.artPieceForm.get('images') as FormArray;
-    // }
-
-    // public artPieceForm = this.fb.group({
-    //     name: ['', [Validators.required]],
-    //     description: ['', [Validators.required]],
-    //     price: ['', [Validators.required]],
-    //     createdDate: ['', [Validators.required]],
-    //     size: ['', [Validators.required]],
-    //     isSold: [false, [Validators.required]],
-    //     images: this.fb.array([])
-    // });
-
-    // isSold: boolean;
-
-    // private isNewArtPiece: boolean;
-
-    constructor() {
+    public get name(): AbstractControl {
+        return this.artPieceForm.get('name');
     }
 
-    // public ngOnInit(): void {
-    //     this.isNewArtPiece = isNullOrUndefined(this.artPiece);
+    public get width(): AbstractControl {
+        return this.artPieceForm.get('width');
+    }
 
-    //     if (!this.isNewArtPiece) {
-    //         this.initializeArtPieceForm();
-    //     }
-    // }
+    public get height(): AbstractControl {
+        return this.artPieceForm.get('height');
+    }
 
+    public get price(): AbstractControl {
+        return this.artPieceForm.get('price');
+    }
 
-    // public onDelete(): void {
-    //     this.store.dispatch(new DeleteArtPiece(this.artPiece));
-    // }
+    public get description(): AbstractControl {
+        return this.artPieceForm.get('description');
+    }
 
-    // public onUpdate(): void {
-    //     const newArtPiece = {
-    //         ...this.artPiece,
-    //         ...this.artPieceForm.getRawValue()
-    //     };
-    //     this.store.dispatch(new UpdateArtPiece(newArtPiece));
-    // }
+    public get createdDate(): AbstractControl {
+        return this.artPieceForm.get('createdDate');
+    }
 
-    // private initializeArtPieceForm(): void {
+    public get images(): FormArray {
+        return this.artPieceForm.get('images') as FormArray;
+    }
 
-    //     const imagesArray: FormArray = this.fb.array([]);
+    public artPieceForm = this.fb.group({
+        name: ['', [Validators.required]],
+        description: '',
+        price: [, [Validators.required]],
+        createdDate: [new Date(), [Validators.required]],
+        width: ['', [Validators.required, Validators.min(1)]],
+        height: ['', [Validators.required, Validators.min(1)]],
+        isSold: [false, [Validators.required]],
+        images: this.fb.array([])
+    });
 
-    //     this.artPiece.images.forEach(image => {
-    //         imagesArray.push(
-    //             this.fb.group({
-    //                 downloadUrl: [image.downloadUrl, [Validators.required]]
-    //             })
-    //         );
-    //     });
+    private filesToAdd: Array<File> = [];
+    private imageIdsToDelete: Array<string> = [];
 
-    //     this.artPieceForm = this.fb.group({
-    //         name: [this.artPiece.name, [Validators.required]],
-    //         description: [this.artPiece.description, [Validators.required]],
-    //         price: [this.artPiece.price, [Validators.required]],
-    //         createdDate: [this.artPiece.createdDate, [Validators.required]],
-    //         size: [this.artPiece.size, [Validators.required]],
-    //         images: imagesArray
-    //     });
-    // }
+    constructor(private fb: FormBuilder,
+                private store: Store,
+                private _location: Location) {
+    }
+
+    public ngOnInit(): void {
+        this.initializeArtPieceForm();
+    }
+
+    public ngOnDestroy(): void {
+        this.store.dispatch(new ClearSelectedArtPiece());
+    }
+
+    public onDelete(): void {
+        this.store.dispatch(new DeleteArtPiece(this.artPiece));
+        this._location.back();
+    }
+
+    public onUpdate(): void {
+        // const newArtPiece = {
+        //     ...this.artPiece,
+        //     ...this.artPieceForm.getRawValue()
+        // };
+        // this.store.dispatch(new UpdateArtPiece(newArtPiece));
+    }
+
+    private initializeArtPieceForm(): void {
+        this.artPiece = this.store
+                            .selectSnapshot(ArtPieceState)
+                            .selectedArtPiece;
+
+        const imagesArray: FormArray = this.fb.array([]);
+
+        this.artPiece.images.forEach(({ id, name, size, created, updated, downloadUrl} ) => {
+            imagesArray.push(
+                this.fb.group({
+                    id,
+                    name,
+                    size,
+                    created,
+                    updated,
+                    downloadUrl
+                })
+            );
+        });
+
+        this.artPieceForm = this.fb.group({
+            name: [this.artPiece.name, [Validators.required]],
+            description: [this.artPiece.description, [Validators.required]],
+            price: [this.artPiece.price, [Validators.required]],
+            createdDate: [this.artPiece.createdDate, [Validators.required]],
+            width: [this.artPiece.width, [Validators.required]],
+            height: [this.artPiece.height, [Validators.required]],
+            isSold: [this.artPiece.isSold, [Validators.required]],
+            images: imagesArray
+        });
+    }
 }

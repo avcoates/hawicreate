@@ -10,7 +10,7 @@ import { AngularFirestore,
 import { ArtPiece, ArtPieceDto } from '@admin/shared/models';
 import { Observable, from, zip, of } from 'rxjs';
 import { map, switchMap, tap, switchMapTo } from 'rxjs/operators';
-import { ImageApiService } from '.';
+import { ImageApiService } from './image-api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -31,8 +31,8 @@ export class ArtPieceApiService {
         return this.firestore.collection(this.artPieceCollectionString)
             .get()
             .pipe(switchMap(snapshot => {
-                const artPieces$ = snapshot.docs.map((s: QueryDocumentSnapshot<ArtPiece>) => this.toArtPiece(s));
-                return zip(...artPieces$);
+                const artPieces$ = snapshot.docs.map((s: QueryDocumentSnapshot<ArtPieceDto>) => this.toArtPiece(s));
+                return zip<Array<ArtPiece>>(...artPieces$);
             }));
             // .pipe(map(snapShot => snapShot.docs.map(toArtPiece), tap(console.log)));
     }
@@ -100,6 +100,9 @@ export class ArtPieceApiService {
         const { imageRefs, isSold, price, name, description, width, height, createdDate} = doc.data();
         const id = doc.id;
 
+        // convert TimeStamp to date (seconds => miliseconds)
+        const date = new Date();
+        date.setTime(createdDate.seconds * 1000);
         if (imageRefs.length === 0) {
             return of({
                 images: [],
@@ -110,7 +113,7 @@ export class ArtPieceApiService {
                 description,
                 width,
                 height,
-                createdDate
+                createdDate: date
             });
         }
         const images$ = imageRefs.map(imageRef => this.imageApiService.getImageById(imageRef.id));
@@ -125,7 +128,7 @@ export class ArtPieceApiService {
                 description,
                 width,
                 height,
-                createdDate
+                createdDate: date
             };
         }));
     }
