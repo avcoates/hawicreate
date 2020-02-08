@@ -261,7 +261,7 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
     &--center {
         display: flex;
         justify-content: center;
-        margin: 1em;
+        margin: 10%;
         
         @include respond-below(tablet) {
             width: 90%;
