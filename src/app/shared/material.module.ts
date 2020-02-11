@@ -18,6 +18,7 @@ import {
   MatListModule,
   MatDatepickerModule,
   MatNativeDateModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 @NgModule({
@@ -39,6 +40,7 @@ import {
     MatListModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -58,6 +60,7 @@ import {
     MatListModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatSnackBarModule,
   ],
   providers: [
     MatDatepickerModule,

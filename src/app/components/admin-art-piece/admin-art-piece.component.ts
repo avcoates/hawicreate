@@ -10,6 +10,7 @@ import { map, tap, filter, mapTo } from 'rxjs/operators';
 import { ImageUploadComponent } from '../image-upload/image-upload.component';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { Component, ChangeDetectionStrategy, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { SnackBarService } from '@admin/shared/services';
 
 @Component({
     selector: 'hc-art-piece',
@@ -89,7 +90,8 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder,
                 private store: Store,
                 private _location: Location,
-                private actions: Actions) {
+                private actions: Actions,
+                private snackBarService: SnackBarService) {
     }
 
     public ngOnInit(): void {
@@ -119,10 +121,15 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
         this.actions
             .pipe(
                 filter(action => action.action instanceof UpdateArtPiece),
-                filter(action => action.status === 'SUCCESSFUL'),
                 untilDestroyed(this)
             )
-            .subscribe(() => {
+            .subscribe(action => {
+                if (action.status === 'SUCCESSFUL') {
+                    this.snackBarService.openSnackBar('Art piece updated successfully!');
+                } else {
+                    this.snackBarService.openSnackBar('There was a problem updating the art piece');
+                }
+
                 this.store.dispatch(new RefreshSelectedArtPiece());
                 this.hcUpload.clearFiles();
             });
