@@ -7,7 +7,7 @@ import { User } from '@admin/shared/models/user';
 import { Location } from '@angular/common';
 import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { map, filter } from 'rxjs/operators';
-import { UpdateUser, DeleteUser } from '@admin/actions/app.actions';
+import { UpdateUser, DeleteUser, UpdateBackText } from '@admin/actions/app.actions';
 import { DialogService } from '@admin/shared/services';
 import { isNullOrUndefined } from 'util';
 
@@ -31,6 +31,7 @@ export class AdminUserComponent implements OnInit {
     public ngOnInit(): void {
         this.userId = this.route.snapshot.paramMap.get('id');
         this.setUserForm();
+        this.store.dispatch(new UpdateBackText({ text: 'Users', visible: true }));
     }
 
     public onBack(): void {

@@ -15,6 +15,7 @@ import { NewArtPieceDialogComponent } from '../dialogs';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { isNullOrUndefined } from 'util';
 import { ArtPieceState } from '@admin/state/art-piece.state';
+import { ArtPieceApiService } from '@admin/services';
 
 @Component({
     selector: 'hc-admin-gallery',
@@ -29,13 +30,15 @@ export class AdminGalleryComponent implements OnInit, OnDestroy {
     constructor(private fb: FormBuilder,
                 private store: Store,
                 private router: Router,
-                private collectionApiService: CollectionApiService,
-                private matDialog: MatDialog,
+                private artPieceApiService: ArtPieceApiService,
+                private matDialog: MatDialog
                 ) { }
 
 
     public ngOnInit(): void {
+        // this.artPieces$ = this.artPieceApiService.getAll();
         this.store.dispatch(new GetAllArtPieces());
+        console.log('hey');
         // this.collectionApiService.getAllCollcetions().pipe(tap(console.log)).subscribe();
         // this.onAddImage();
     }

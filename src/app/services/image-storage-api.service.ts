@@ -57,8 +57,7 @@ export class ImageStorageApiService {
             );
     }
 
-    public deleteImage(id: string): Observable<void> {
-        const imageRef = this.storageRef.child(`${this.imagesPath}/${id}`);
-        return from(imageRef.delete());
+    public deleteImage(id: string): Observable<any> {
+        return from(this.storageRef.child(`${this.imagesPath}/${id}`).delete()).pipe(tap(console.log));
     }
 }

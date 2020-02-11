@@ -3,15 +3,16 @@
         <h1 class="mat-h1">
             Art Pieces
         </h1>
-        <button (click)="onAdd()" mat-icon-button color="primary">
+        <button matTooltip="Add a new art piece" (click)="onAdd()" mat-icon-button color="primary">
             <mat-icon>
                 add
             </mat-icon>
         </button>
     </div>
     <div class="gallery__artpieces">
+
         <ng-container *ngIf="artPieces$ | async as artPieces">
-            <div *ngFor="let artPiece of artPieces">
+            <div *ngFor="let artPiece of artPieces" class="gallery__artpieces__item">
                 <img (click)="onNavigateTo(artPiece)" class="grow cursor--pointer" [src]="artPiece.images[0].downloadUrl"/>
             </div>
         </ng-container>

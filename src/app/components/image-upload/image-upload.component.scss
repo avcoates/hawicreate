@@ -1,14 +1,21 @@
 .image {
-    margin: 1em;
+    margin: 1em 0em;
     
     &__upload {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
+        // flex-wrap: wrap;
     
         &__item {
             display: flex;
-            flex-direction: column;
-            margin: 1em;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 2em;
+
+            &__left {
+                display: flex;
+                flex-direction: column;
+            }
         }
     }
 }

@@ -6,7 +6,7 @@ import {
     QueryDocumentSnapshot,
     DocumentReference
 } from '@angular/fire/firestore';
-import { Observable, from } from 'rxjs';
+import { Observable, from, zip } from 'rxjs';
 import { map, switchMap, filter, switchMapTo, mapTo, tap } from 'rxjs/operators';
 import { Image } from '@admin-shared/models';
 import { ImageStorageApiService } from './image-storage-api.service';
@@ -40,20 +40,27 @@ export class ImageApiService {
             );
     }
 
-    public deleteImage({ id }: Image): Observable<void> {
+    public deleteImage({ id }: Image): Observable<any> {
         return this.imagesStorageApiService.deleteImage(id)
-            .pipe(switchMapTo(this.imageCollection.doc(id).delete()));
+            .pipe(switchMapTo(this.firestore.doc(`${this.imageCollectionString}/${id}`).delete()));
     }
 
     public deleteImageById(id: string): Observable<void> {
+        const imageDoc = this.firestore.doc(`${this.imageCollectionString}/${id}`);
         return from(this.imagesStorageApiService.deleteImage(id))
-            .pipe(switchMapTo(this.imageCollection.doc(id).delete()));
+            .pipe(switchMapTo(imageDoc.delete()));
     }
 
     public getImageById(id: string): Observable<Image | null> {
         const imageDoc: AngularFirestoreDocument<Image> = this.firestore.doc(`${this.imageCollectionString}/${id}`);
         const docData = from(imageDoc.ref.get());
         return docData.pipe(filter(doc => doc.exists), map(this.toImage));
+    }
+
+    public getImagesByIds(ids: Array<string>): Observable<Array<Image>> {
+        const images$ = ids.map(id => this.getImageById(id));
+
+        return zip(...images$);
     }
 
     private toImage(doc: QueryDocumentSnapshot<Image>): Image  {

@@ -9,7 +9,8 @@ import {
         DeleteArtPiece,
         UpdateArtPiece,
         UpdateSelectedArtPiece,
-        ClearSelectedArtPiece
+        ClearSelectedArtPiece,
+        RefreshSelectedArtPiece
 } from '@admin/actions/art-piece.actions';
 import { ArtPieceApiService } from '@admin/services';
 import { DocumentReference } from '@angular/fire/firestore';
@@ -44,7 +45,16 @@ export class ArtPieceState {
         return this.artPiecesService.getAll()
             .pipe(tap(artPieces => patchState({ artPieces })));
     }
-
+    
+    @Action(RefreshSelectedArtPiece)
+    public refreshSelectedArtPiece({ patchState, getState }: StateContext<ArtPieceStateModel>): Observable<ArtPiece> {
+        const { artPieces, selectedArtPiece } = getState();
+        
+        return this.artPiecesService.getById(selectedArtPiece.id)
+            .pipe(
+                tap((artPiece) => patchState({ selectedArtPiece: artPiece }))
+            );
+    }
     @Action(AddArtPiece)
     public addArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: AddArtPiece): Observable<DocumentReference> {
         return this.artPiecesService.add(payload)
@@ -52,14 +62,17 @@ export class ArtPieceState {
     }
 
     @Action(DeleteArtPiece)
-    public deleteArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: DeleteArtPiece): Observable<void> {
+    public deleteArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: DeleteArtPiece): Observable<any> {
         return this.artPiecesService.delete(payload)
             .pipe(tap(() => dispatch(new GetAllArtPieces())));
     }
 
     @Action(UpdateArtPiece)
-    public updateArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: UpdateArtPiece): Observable<void> {
-        return this.artPiecesService.update(payload)
+    public updateArtPiece(
+        { dispatch }: StateContext<ArtPieceStateModel>,
+        { payload: { artPiece, filesToAdd, imageIdsToRemove} }: UpdateArtPiece
+    ): Observable<void> {
+        return this.artPiecesService.update(artPiece, filesToAdd, imageIdsToRemove)
             .pipe(tap(() => dispatch(new GetAllArtPieces())));
     }
 

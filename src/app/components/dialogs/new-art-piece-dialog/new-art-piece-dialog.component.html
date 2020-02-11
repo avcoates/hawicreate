@@ -28,21 +28,21 @@
             </mat-form-field>
 
             <mat-form-field>
+                    <input 
+                        formControlName="height"
+                        placeholder="Height (inches)"
+                        matInput
+                    >
+                </mat-form-field>
+
+            <mat-form-field>
                 <input 
                     formControlName="width"
                     placeholder="Width (inches)"
                     matInput
                 >
             </mat-form-field>
-
-            <mat-form-field>
-                <input 
-                    formControlName="height"
-                    placeholder="Height (inches)"
-                    matInput
-                >
-            </mat-form-field>
-            
+ 
             <mat-form-field>
                     <input matInput formControlName="createdDate" [matDatepicker]="picker" placeholder="Created Date">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>

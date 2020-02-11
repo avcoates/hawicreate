@@ -4,12 +4,10 @@ import { AngularFirestore,
          DocumentReference,
          AngularFirestoreCollection,
          QueryDocumentSnapshot,
-         AngularFirestoreDocument,
-         DocumentData
 } from '@angular/fire/firestore';
 import { ArtPiece, ArtPieceDto } from '@admin/shared/models';
 import { Observable, from, zip, of } from 'rxjs';
-import { map, switchMap, tap, switchMapTo } from 'rxjs/operators';
+import { map, switchMap, switchMapTo, mapTo } from 'rxjs/operators';
 import { ImageApiService } from './image-api.service';
 
 @Injectable({
@@ -30,114 +28,128 @@ export class ArtPieceApiService {
     public getAll(): Observable<Array<ArtPiece>> {
         return this.firestore.collection(this.artPieceCollectionString)
             .get()
-            .pipe(switchMap(snapshot => {
-                const artPieces$ = snapshot.docs.map((s: QueryDocumentSnapshot<ArtPieceDto>) => this.toArtPiece(s));
+            .pipe(
+                switchMap(snapshot => {
+                const artPieces$ = snapshot.docs.map((s: QueryDocumentSnapshot<ArtPieceDto>) => toArtPiece(s, this.imageApiService));
                 return zip<Array<ArtPiece>>(...artPieces$);
-            }));
-            // .pipe(map(snapShot => snapShot.docs.map(toArtPiece), tap(console.log)));
+                })
+            );
     }
 
     public add(artPiece: Partial<ArtPieceDto>): Observable<DocumentReference> {
-        // of(artPiece.files).pipe(switchMap(files => zip(files.map(file => this.imageApiService.addImage(file)))))
-        // .subscribe(console.log);
+
+        let artPieceDto: ArtPieceDto = {
+            imageIds: [],
+            name: artPiece.name,
+            description: artPiece.description,
+            price: artPiece.price,
+            createdDate: artPiece.createdDate,
+            width: artPiece.width,
+            height: artPiece.height,
+            isSold: artPiece.isSold,
+        };
 
         if (artPiece.files.length === 0) {
-            return from(this.firestore.collection(this.artPieceCollectionString).add(artPiece));
+            return from(this.firestore.collection(this.artPieceCollectionString).add(artPieceDto));
         }
 
         const imageRefs$ = artPiece.files.map(file => this.imageApiService.addImage(file));
         return zip(...imageRefs$)
             .pipe(
-                tap(console.log),
-                switchMap(imageRefs => {
-                    const artPieceDto: ArtPieceDto = {
-                        imageRefs,
-                        name: artPiece.name,
-                        description: artPiece.description,
-                        price: artPiece.price,
-                        createdDate: artPiece.createdDate,
-                        width: artPiece.width,
-                        height: artPiece.height,
-                        isSold: artPiece.isSold,
+                map(imageRefs => imageRefs.map(image => image.id)),
+                switchMap(imageIds => {
+                    artPieceDto = {
+                        ...artPieceDto,
+                        imageIds
                     };
                     return from(this.firestore.collection(this.artPieceCollectionString).add(artPieceDto));
                 })
             );
     }
 
-    public delete(artPiece: ArtPiece): Observable<void> {
-        const artPieceDtoDoc = this.firestore.doc(`${this.artPieceCollectionString}/${artPiece.id}`);
-
-        return from(artPieceDtoDoc.ref.get())
-            .pipe(
-                map(this.toArtPieceDto),
-                tap(artPieceDto => {
-                    artPieceDto.imageRefs.map(ref => this.imageApiService.deleteImageById(ref.id));
-                }),
-                switchMapTo(artPieceDtoDoc.delete())
-        );
+    public delete(artPiece: ArtPiece): Observable<any> {
+        const deletedImages$ = artPiece.images.map(image => this.imageApiService.deleteImageById(image.id));
+        return zip(...deletedImages$)
+            .pipe(switchMapTo(this.getRefById(artPiece.id).delete()));
     }
 
-    public update(artPiece: ArtPiece): Observable<void> {
-        const artPieceDoc: AngularFirestoreDocument<ArtPieceDto> =
-            this.firestore.doc(`${this.artPieceCollectionString}/${artPiece.id}`);
-        const docData = from(artPieceDoc.ref.get());
-        // return docData.pipe(map(this.toImage));
-        return from(this.artPieceCollection.doc(artPiece.id).update(artPiece));
+    public update(artPiece: ArtPiece, filesToAdd: Array<File>, imageIdsToRemove: Array<string>): Observable<void> {
+        console.log(artPiece, filesToAdd, imageIdsToRemove);
+        const artPieceRef = this.getRefById(artPiece.id);
+
+        return from(artPieceRef.get())
+            .pipe(
+                map(this.toArtPieceDto),
+                switchMap(artPieceDto => this.addImages(artPieceDto, filesToAdd)),
+                switchMap(artPieceDto => this.deleteImages(artPieceDto, imageIdsToRemove)),
+                switchMap(artPieceDto => {
+                    const updatedArtPiece: Partial<ArtPiece> = {
+                        ...artPieceDto,
+                        name: artPiece.name,
+                        description: artPiece.description,
+                        price: artPiece.price,
+                        createdDate: new Date(artPiece.createdDate),
+                        width: artPiece.width,
+                        height: artPiece.height,
+                        isSold: artPiece.isSold
+                    };
+                    return from(artPieceRef.update(updatedArtPiece));
+                })
+            );
+
+    }
+
+    public addImages(artPieceDto: ArtPieceDto, filesToAdd: Array<File>): Observable<ArtPieceDto> {
+        // dont add files if there are none
+        if (filesToAdd.length === 0) {
+            return of(artPieceDto);
+        }
+
+        const addedImages$ = filesToAdd.map(file => this.imageApiService.addImage(file));
+
+        return zip(...addedImages$)
+            .pipe(
+                map(imageRefs => {
+                    return {
+                        ...artPieceDto,
+                        imageIds: imageRefs.map(ref => ref.id)
+                    };
+                })
+            );
+    }
+
+    private deleteImages(artPieceDto: ArtPieceDto, imageIdsToRemove: Array<string>): Observable<ArtPieceDto> {
+        // dont delete image if there are none
+        if (imageIdsToRemove.length === 0) {
+            return of(artPieceDto);
+        }
+
+        const deletedImages$ = imageIdsToRemove.map(id => this.imageApiService.deleteImageById(id));
+
+        return zip(...deletedImages$)
+            .pipe(
+                mapTo({
+                        ...artPieceDto,
+                        imageIds: artPieceDto.imageIds.filter(id => !imageIdsToRemove.includes(id))
+                    })
+            );
     }
 
     public getById(id: string): Observable<ArtPiece> {
-        return from(this.artPieceCollection.doc(id).get())
-            .pipe(switchMap(this.toArtPiece));
+        const artPieceDoc = this.firestore.doc(`${this.artPieceCollectionString}/${id}`);
+        return from(artPieceDoc.ref.get())
+            .pipe(switchMap((snapshot: QueryDocumentSnapshot<ArtPieceDto>) => toArtPiece(snapshot, this.imageApiService)));
     }
 
     public getRefById(id: string): DocumentReference {
         return this.firestore.doc(`${this.artPieceCollectionString}/${id}`).ref;
     }
-    
-    public toArtPiece(doc: QueryDocumentSnapshot<ArtPieceDto>): Observable<ArtPiece> {
-        console.log(this);
-        const { imageRefs, isSold, price, name, description, width, height, createdDate} = doc.data();
-        const id = doc.id;
-
-        // convert TimeStamp to date (seconds => miliseconds)
-        const date = new Date();
-        date.setTime(createdDate.seconds * 1000);
-        if (imageRefs.length === 0) {
-            return of({
-                images: [],
-                id,
-                isSold,
-                price,
-                name,
-                description,
-                width,
-                height,
-                createdDate: date
-            });
-        }
-        const images$ = imageRefs.map(imageRef => this.imageApiService.getImageById(imageRef.id));
-    
-        return zip(...images$).pipe(map(images => {
-            return {
-                images,
-                id,
-                isSold,
-                price,
-                name,
-                description,
-                width,
-                height,
-                createdDate: date
-            };
-        }));
-    }
 
     private toArtPieceDto(doc: QueryDocumentSnapshot<ArtPieceDto>): ArtPieceDto {
-        const { imageRefs, isSold, price, name, description, width, height, createdDate} = doc.data();
+        const { imageIds, isSold, price, name, description, width, height, createdDate } = doc.data();
 
         return {
-            imageRefs,
+            imageIds,
             isSold,
             price,
             name,
@@ -147,5 +159,48 @@ export class ArtPieceApiService {
             createdDate
         };
     }
+
 }
+
+const toArtPiece = (doc: QueryDocumentSnapshot<ArtPieceDto>, imageApiService: ImageApiService): Observable<ArtPiece> => {
+    const { imageIds, isSold, price, name, description, width, height, createdDate} = doc.data();
+    const id = doc.id;
+
+    // convert TimeStamp to date (seconds => miliseconds)
+    const date = new Date();
+    date.setTime(createdDate.seconds * 1000);
+    if (imageIds.length === 0) {
+        return of({
+            images: [],
+            imageIds,
+            id,
+            isSold,
+            price,
+            name,
+            description,
+            width,
+            height,
+            createdDate: date
+        });
+    }
+
+    return imageApiService.getImagesByIds(imageIds)
+        .pipe(
+            map(images => {
+                return {
+                    images,
+                    imageIds,
+                    id,
+                    isSold,
+                    price,
+                    name,
+                    description,
+                    width,
+                    height,
+                    createdDate: date
+                };
+            })
+        );
+};
+
 

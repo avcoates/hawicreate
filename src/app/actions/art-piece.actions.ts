@@ -11,7 +11,7 @@ export class AddArtPiece {
 
 export class UpdateArtPiece {
     static readonly type = '[ArtPiece] Update';
-    constructor(public payload: ArtPiece) {}
+    constructor(public payload: { artPiece: ArtPiece, filesToAdd: Array<File>, imageIdsToRemove: Array<string> }) {}
 }
 
 export class DeleteArtPiece {
@@ -22,6 +22,10 @@ export class DeleteArtPiece {
 export class UpdateSelectedArtPiece {
     static readonly type = '[ArtPiece] Update active';
     constructor(public payload: ArtPiece) {}
+}
+
+export class RefreshSelectedArtPiece {
+    static readonly type = '[ArtPiece] Refresh';
 }
 
 export class ClearSelectedArtPiece {

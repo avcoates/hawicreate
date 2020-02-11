@@ -36,6 +36,7 @@ export class NewArtPieceDialogComponent  {
         } = this.form.getRawValue();
 
         const artPieceDto: ArtPieceDto = {
+            imageIds: [],
             name,
             description,
             price,

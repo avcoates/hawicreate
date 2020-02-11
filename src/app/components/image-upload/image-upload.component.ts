@@ -1,4 +1,6 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
+import { Upload } from '@admin/shared/models';
+import { untilDestroyed } from 'ngx-take-until-destroy';
 
 export interface FileUpload {
     url: string | ArrayBuffer;
@@ -9,14 +11,25 @@ export interface FileUpload {
     templateUrl: './image-upload.component.html',
     styleUrls: ['./image-upload.component.scss']
 })
-export class ImageUploadComponent {
+export class ImageUploadComponent implements OnDestroy {
+
 
     @Output()
     public fileListChanged = new EventEmitter<Array<File>>();
 
-    constructor() { }
+    public uploads: Array<FileUpload> = [];
 
-    public files: Array<FileUpload> = [];
+    constructor() {
+    }
+
+    public ngOnDestroy(): void {
+        // For untilDestroyed()
+    }
+
+    public clearFiles(): void {
+        this.uploads = [];
+        this.emitChanges();
+    }
 
     public onFileChanged(event: any): void {
         if (event.target && event.target.files.length > 0) {
@@ -27,11 +40,20 @@ export class ImageUploadComponent {
             reader.readAsDataURL(file);
 
             reader.onload = () => { // called once readAsDataURL is completed
-                this.files.push({ url: reader.result, file});
-                this.fileListChanged.emit(this.files.map(f => f.file));
+                this.uploads.push({ url: reader.result, file});
+                this.emitChanges();
             };
 
         }
+    }
+
+    public onRemoveUpload(upload: Upload): void {
+        this.uploads = this.uploads.filter(u => u.url !== upload.url);
+        this.emitChanges();
+    }
+
+    private emitChanges(): void {
+        this.fileListChanged.emit(this.uploads.map(u => u.file));
     }
 
 }

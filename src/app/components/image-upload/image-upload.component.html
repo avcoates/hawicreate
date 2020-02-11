@@ -17,12 +17,21 @@
             id="file"
             accept=".pdf,.doc,.docx,.jpg"
         >
-        <div *ngFor="let file of files" class="image__upload__item">
-            <img [src]="file.url" width="100px;"/>
-            <label class="mat-caption" mat-label>
-                {{ file.file.name }}
-            </label>
-        </div>
+        <ng-container *ngFor="let upload of uploads">
+            <div class="image__upload__item">
+                <div class="image__upload__item__left">
+                    <img [src]="upload.url" width="100px;"/>
+                    <label class="mat-caption" mat-label>
+                        {{ upload.file.name }}
+                    </label>
+                </div>
+                <button (click)="onRemoveUpload(upload)"mat-icon-button>
+                    <mat-icon color="warn">
+                        cancel
+                    </mat-icon>
+                </button>
+            </div>
+        </ng-container>
     
     </div>
 </div>

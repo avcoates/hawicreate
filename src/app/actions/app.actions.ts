@@ -34,3 +34,8 @@ export class InitiateDeviceListener {
     constructor(public readonly payload: DeviceListener) {}
 }
 
+export class UpdateBackText {
+    public static readonly type = '[Base] Update Back Text';
+
+    constructor(public readonly payload: { text: string, visible: boolean }) {}
+}

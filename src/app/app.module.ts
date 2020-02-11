@@ -1,11 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { NgxsModule } from '@ngxs/store';
 
 import { AppComponent } from './app.component';
 import { RouterModule } from '@angular/router';
 import { AdminRoutes } from './app.routing';
 
-import { NgxsModule } from '@ngxs/store';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { SharedModule } from './shared/shared.module';
 import { AppState } from './state/app.state';

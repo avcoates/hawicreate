@@ -4,7 +4,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { Store, Select } from '@ngxs/store';
 import { GetAllPhotos } from './actions/images.actions';
 import { NavbarRoute, DeviceType } from './shared/models';
-import { InitiateDeviceListener } from './actions/app.actions';
+import { InitiateDeviceListener, UpdateBackText } from './actions/app.actions';
 import { AppState } from './state/app.state';
 import { Observable, combineLatest } from 'rxjs';
 import { User } from 'firebase';
@@ -12,6 +12,7 @@ import { Router } from '@angular/router';
 import { AuthService } from './shared/services/auth/auth.service';
 import { map } from 'rxjs/operators';
 import { MatSidenav } from '@angular/material';
+import { Location } from '@angular/common';
 
 
 @Component({
@@ -20,6 +21,9 @@ import { MatSidenav } from '@angular/material';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+
+    @Select(AppState.backText)
+    public backText$: Observable<{ text: string, visible: boolean }>;
 
     @Select(AppState.activeUser)
     public user$!: Observable<User>;
@@ -68,7 +72,8 @@ export class AppComponent implements OnInit {
                 private firestore: AngularFirestore,
                 private store: Store,
                 private auth: AuthService,
-                private router: Router) {
+                private router: Router,
+                private _location: Location) {
         this.store.dispatch([new GetAllPhotos(),
             new InitiateDeviceListener({
                 mobileListener: window.matchMedia('(max-width: 600px)'),
@@ -93,10 +98,16 @@ export class AppComponent implements OnInit {
 
     public onNavigate(path: string): void {
         this.router.navigateByUrl(path);
+        this.store.dispatch(new UpdateBackText({ text: '', visible: false }));
     }
 
     public onSelectPath(path: string): void {
         this.onNavigate(path);
         this.toggleSideNav();
+    }
+
+    public onBack(): void {
+        this._location.back();
+        this.store.dispatch(new UpdateBackText({ text: '', visible: false }));
     }
 }
