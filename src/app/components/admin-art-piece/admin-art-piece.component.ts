@@ -124,9 +124,10 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
                 untilDestroyed(this)
             )
             .subscribe(action => {
+                console.log(action.status);
                 if (action.status === 'SUCCESSFUL') {
                     this.snackBarService.openSnackBar('Art piece updated successfully!');
-                } else {
+                } else if (action.status === 'ERRORED' || action.status === 'CANCELED') {
                     this.snackBarService.openSnackBar('There was a problem updating the art piece');
                 }
 

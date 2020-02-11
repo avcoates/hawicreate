@@ -93,6 +93,7 @@ export class ArtPieceApiService {
                         height: artPiece.height,
                         isSold: artPiece.isSold
                     };
+
                     return from(artPieceRef.update(updatedArtPiece));
                 })
             );
@@ -112,7 +113,7 @@ export class ArtPieceApiService {
                 map(imageRefs => {
                     return {
                         ...artPieceDto,
-                        imageIds: imageRefs.map(ref => ref.id)
+                        imageIds: artPieceDto.imageIds.concat(imageRefs.map(ref => ref.id))
                     };
                 })
             );
