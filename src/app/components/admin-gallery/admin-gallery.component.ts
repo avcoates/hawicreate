@@ -1,104 +1,71 @@
-import { Component, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Select, Store, Actions } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ArtPiece } from '@admin/shared/models';
-import { FormBuilder, FormGroup, Validators, AbstractControl, FormArray } from '@angular/forms';
-import { ArtPieceState } from '@admin/state/art-piece.state';
+import { ArtPiece, ArtPieceDto } from '@admin/shared/models';
 import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
 import { Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { MatDialog } from '@angular/material';
+import { NewArtPieceDialogComponent } from '../dialogs';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+import { isNullOrUndefined } from 'util';
+import { ArtPieceState } from '@admin/state/art-piece.state';
+import { SnackBarService } from '@admin/shared/services';
 
 @Component({
     selector: 'hc-admin-gallery',
     templateUrl: './admin-gallery.component.html',
     styleUrls: ['./admin-gallery.component.scss']
 })
-export class AdminGalleryComponent implements OnInit {
+export class AdminGalleryComponent implements OnInit, OnDestroy {
 
     @Select(ArtPieceState.artPieces)
-    public artPieces$: Observable<Array<ArtPiece>>;
+    public artPieces$!: Observable<Array<ArtPiece>>;
 
-    public get name(): AbstractControl {
-        return this.artPieceForm.get('name');
-    }
-
-    public get size(): AbstractControl {
-        return this.artPieceForm.get('size');
-    }
-
-    public get price(): AbstractControl {
-        return this.artPieceForm.get('price');
-    }
-
-    public get description(): AbstractControl {
-        return this.artPieceForm.get('description');
-    }
-
-    public get createdDate(): AbstractControl {
-        return this.artPieceForm.get('createdDate');
-    }
-
-    public get images(): FormArray  {
-        return this.artPieceForm.get('images') as FormArray;
-    }
-
-    public artPieceForm = this.fb.group({
-        name: ['', [Validators.required]],
-        description: ['', [Validators.required]],
-        price: ['', [Validators.required]],
-        createdDate: ['', [Validators.required]],
-        images: this.fb.array([]),
-        size: ['', [Validators.required]],
-    });
-
-    constructor(private fb: FormBuilder,
-                private store: Store,
-                private router: Router) { }
+    constructor(private store: Store,
+                private router: Router,
+                private matDialog: MatDialog,
+                private actions: Actions,
+                private snackBarService: SnackBarService
+                ) { }
 
 
     public ngOnInit(): void {
         this.store.dispatch(new GetAllArtPieces());
-        // this.onAddImage();
+
+        this.actions
+        .pipe(
+            filter(action => action.action instanceof AddArtPiece),
+            untilDestroyed(this)
+        )
+        .subscribe(action => {
+            console.log(action.status);
+            if (action.status === 'SUCCESSFUL') {
+                this.snackBarService.openSnackBar('Art piece added successfully!');
+            } else if (action.status === 'ERRORED' || action.status === 'CANCELED') {
+                this.snackBarService.openSnackBar('There was a problem added the art piece');
+            }
+        });
     }
 
-    public getField(fieldName: string, form: FormGroup): any {
-        return form.get(fieldName).value;
-    }
-
-    public onNavigateTo(artPiece: ArtPiece): void {
-        this.router.navigate(['admin-gallery', artPiece.id]);
-        this.store.dispatch(new UpdateSelectedArtPiece(artPiece));
+    public ngOnDestroy(): void {
+        // Neccessary for UntilDestroyed()
     }
 
     public onAdd(): void {
-        this.store.dispatch(new AddArtPiece(this.artPieceForm.getRawValue()));
-    }
-
-    public onAddImage(): void {
-        const image = this.fb.group({
-            url: ''
+        const dialogRef = this.matDialog.open<NewArtPieceDialogComponent, null, ArtPieceDto>(NewArtPieceDialogComponent, {
+            maxWidth: '383px',
         });
 
-        this.images.push(image);
+        dialogRef.afterClosed()
+            .pipe(untilDestroyed(this), filter(val => !isNullOrUndefined(val)))
+            .subscribe(artPieceDto => this.store.dispatch(new AddArtPiece(artPieceDto)));
     }
 
-    public onDeleteImage(index: number): void {
-        this.images.removeAt(index);
+    public onNavigateTo(artPiece: ArtPiece): void {
+        this.store.dispatch(new UpdateSelectedArtPiece(artPiece));
+        this.router.navigate(['admin-artpiece', artPiece.id]);
     }
-
-
 
 }
-
-const toArtPieceForm = (artPiece: ArtPiece): FormGroup => {
-    const formBuilder = new FormBuilder();
-    return formBuilder.group({
-        id: artPiece.id,
-        name: artPiece.name,
-        description: artPiece.description,
-        price: artPiece.price,
-        createdDate: artPiece.createdDate,
-        images: artPiece.images,
-        size: artPiece.size
-    });
-};
 

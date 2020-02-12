@@ -3,11 +3,11 @@ import { AdminHomeComponent,
          AdminGalleryComponent,
          AdminContactComponent,
          AdminLogInComponent,
-         AdminUsersComponent
+         AdminUsersComponent,
+         AdminUserComponent,
+         AdminArtPieceComponent
 } from './components';
 import { AuthGuard } from './shared/services/auth.guard';
-import { ArtPieceDetailComponent } from './components/admin-gallery/art-piece-detail/art-piece-detail.component';
-import { AdminUserComponent } from './components/admin-user/admin-user.component';
 
 export const AdminRoutes: Routes = [
     {
@@ -25,9 +25,9 @@ export const AdminRoutes: Routes = [
         component: AdminGalleryComponent
     },
     {
-        path: 'admin-gallery/:id',
+        path: 'admin-artpiece/:id',
         canActivate: [AuthGuard],
-        component: ArtPieceDetailComponent
+        component: AdminArtPieceComponent
     },
     {
         path: 'admin-contact',

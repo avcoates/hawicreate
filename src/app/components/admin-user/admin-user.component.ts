@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { UserApiService } from '@admin/services';
 import { Observable } from 'rxjs';
 import { User } from '@admin/shared/models/user';
 import { Location } from '@angular/common';
-import { FormGroup, Validators, FormBuilder, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { map, filter } from 'rxjs/operators';
-import { UpdateUser, DeleteUser } from '@admin/actions/app.actions';
+import { UpdateUser, DeleteUser, UpdateBackText } from '@admin/actions/app.actions';
 import { DialogService } from '@admin/shared/services';
 import { isNullOrUndefined } from 'util';
 
@@ -21,8 +21,7 @@ export class AdminUserComponent implements OnInit {
     public userForm$: Observable<FormGroup>;
     public userId: string;
 
-    constructor(private router: Router,
-                private route: ActivatedRoute,
+    constructor(private route: ActivatedRoute,
                 private userApiService: UserApiService,
                 private _location: Location,
                 private store: Store,
@@ -31,6 +30,7 @@ export class AdminUserComponent implements OnInit {
     public ngOnInit(): void {
         this.userId = this.route.snapshot.paramMap.get('id');
         this.setUserForm();
+        this.store.dispatch(new UpdateBackText({ text: 'Users', visible: true }));
     }
 
     public onBack(): void {

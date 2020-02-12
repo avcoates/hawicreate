@@ -1,2 +1,3 @@
-export { * } from './app.actions.ts';
-export { * } from './images.actions.ts';
+export * from './app.actions.ts';
+exprot * from './gallery.actions.ts';
+export * from './action-models';

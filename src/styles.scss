@@ -1,7 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
-// @import '~@angular/material/prebuilt-themes'; 
-
+@import 'mixins';
 
 @import '~@angular/material/theming';
 
@@ -247,22 +246,36 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
 
 .dynamic__container {
     width: 80%;
-    margin: 0% 10%;
-    padding: 1em;
+    margin: 10%;
 
-    @media screen and (max-width: 900px) {
+    @include respond-below(tablet) {
         width: 90%;
-        margin: 0% 5%;
+        margin: 5%;
     }
 
-    @media screen and (max-width: 600px) {
+    @include respond-below(mobile) {
         width: 95%;
-        margin: 0% 2.5%;
+        margin: 2.5%;
     }
 
     &--center {
         display: flex;
         justify-content: center;
+        margin: 10%;
+        
+        @include respond-below(tablet) {
+            width: 90%;
+            margin: 5%;
+        }
+    
+        @include respond-below(mobile) {
+            width: 95%;
+            margin: 2.5%;
+        }
+    
     }
 }
 
+.spacer {
+    flex: 1 1 auto;
+}

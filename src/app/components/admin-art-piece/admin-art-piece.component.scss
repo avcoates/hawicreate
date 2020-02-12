@@ -1,0 +1,39 @@
+@import 'mixins';
+
+.art__piece {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    // align-content: center;
+    // align-items: center;
+
+    width: 500px;
+    
+    @include respond-below(mobile) {
+        width: 100%
+    }
+
+    &__images {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        &__image {
+            display: flex;
+            align-items: center;
+            margin: 1em;
+        }
+    }
+
+    .bottom__buttons {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1em;
+        
+        &__left {
+            button {
+                margin-right: 1em;
+            }
+        }
+    }
+}

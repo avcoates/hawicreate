@@ -1,13 +1,22 @@
-.user__form {
-    display: flex;
-    flex-direction: column;
+.user {
 
-    &__field {
+    &__requests {
         display: flex;
-        margin: 1em;
+        align-items: center;
+    }
 
-        button {
-            margin-right: 1em; 
+    &__form {
+        display: flex;
+        flex-direction: column;
+    
+    
+        &__field {
+            display: flex;
+            margin: 1em;
+    
+            button {
+                margin-right: 1em; 
+            }
         }
     }
 }

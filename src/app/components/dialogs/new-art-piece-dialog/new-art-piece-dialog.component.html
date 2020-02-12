@@ -1,0 +1,61 @@
+<h1 mat-dialog-title>New Art Piece</h1>
+<div mat-dialog-content>
+    <form [formGroup]="form" style="display: flex; flex-direction: column;">
+            <mat-form-field>
+                <input 
+                    formControlName="name"
+                    placeholder="Name"
+                    matInput
+                >
+            </mat-form-field>
+
+            <mat-form-field>
+                <textarea 
+                    formControlName="description"
+                    placeholder="Decription"
+                    matInput
+                >
+                </textarea>
+            </mat-form-field>
+            
+            <mat-form-field>
+                <input 
+                    formControlName="price"
+                    placeholder="Price"
+                    type="number"
+                    matInput
+                >
+            </mat-form-field>
+
+            <mat-form-field>
+                    <input 
+                        formControlName="height"
+                        placeholder="Height (inches)"
+                        matInput
+                    >
+                </mat-form-field>
+
+            <mat-form-field>
+                <input 
+                    formControlName="width"
+                    placeholder="Width (inches)"
+                    matInput
+                >
+            </mat-form-field>
+ 
+            <mat-form-field>
+                    <input matInput formControlName="createdDate" [matDatepicker]="picker" placeholder="Created Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+
+            <div>
+                <mat-checkbox color="primary" formControlName="isSold">Sold</mat-checkbox>
+            </div>
+    </form>
+    <hc-image-upload (fileListChanged)="onFileListChanged($event)"></hc-image-upload>
+</div>
+<div mat-dialog-actions class="dialog__actions">
+    <button color="primary" mat-button (click)="onCancel()">Cancel</button>
+    <button [disabled]="form.invalid || form.pristine" color="primary" mat-raised-button (click)="onAdd()">Add</button>
+</div>

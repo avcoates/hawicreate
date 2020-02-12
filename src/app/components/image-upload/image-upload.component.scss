@@ -1,0 +1,20 @@
+.image {
+    margin: 1em 0em;
+    
+    &__upload {
+        display: flex;
+        flex-direction: column;
+    
+        &__item {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            margin: 2em;
+
+            &__left {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+}

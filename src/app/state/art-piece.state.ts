@@ -9,9 +9,10 @@ import {
         DeleteArtPiece,
         UpdateArtPiece,
         UpdateSelectedArtPiece,
-        ClearSelectedArtPiece
+        ClearSelectedArtPiece,
+        RefreshSelectedArtPiece
 } from '@admin/actions/art-piece.actions';
-import { ArtPieceDatabaseApiService } from '@admin/services/art-piece-database-api.service';
+import { ArtPieceApiService } from '@admin/services';
 import { DocumentReference } from '@angular/fire/firestore';
 
 export interface ArtPieceStateModel {
@@ -23,7 +24,7 @@ export interface ArtPieceStateModel {
     name: 'images',
     defaults: {
         artPieces: [],
-        selectedArtPiece: new ArtPiece()
+        selectedArtPiece: null
     }
 })
 export class ArtPieceState {
@@ -37,7 +38,7 @@ export class ArtPieceState {
         return state.selectedArtPiece;
     }
 
-    constructor(private artPiecesService: ArtPieceDatabaseApiService) {}
+    constructor(private artPiecesService: ArtPieceApiService) {}
 
     @Action(GetAllArtPieces)
     public getAllArtPieces({ patchState }: StateContext<ArtPieceStateModel>): Observable<Array<ArtPiece>> {
@@ -45,6 +46,15 @@ export class ArtPieceState {
             .pipe(tap(artPieces => patchState({ artPieces })));
     }
 
+    @Action(RefreshSelectedArtPiece)
+    public refreshSelectedArtPiece({ patchState, getState }: StateContext<ArtPieceStateModel>): Observable<ArtPiece> {
+        const { artPieces, selectedArtPiece } = getState();
+
+        return this.artPiecesService.getById(selectedArtPiece.id)
+            .pipe(
+                tap((artPiece) => patchState({ selectedArtPiece: artPiece }))
+            );
+    }
     @Action(AddArtPiece)
     public addArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: AddArtPiece): Observable<DocumentReference> {
         return this.artPiecesService.add(payload)
@@ -52,13 +62,16 @@ export class ArtPieceState {
     }
 
     @Action(DeleteArtPiece)
-    public deleteArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: DeleteArtPiece): Observable<void> {
+    public deleteArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: DeleteArtPiece): Observable<any> {
         return this.artPiecesService.delete(payload)
             .pipe(tap(() => dispatch(new GetAllArtPieces())));
     }
 
     @Action(UpdateArtPiece)
-    public updateArtPiece({ dispatch }: StateContext<ArtPieceStateModel>, { payload }: UpdateArtPiece): Observable<void> {
+    public updateArtPiece(
+        { dispatch }: StateContext<ArtPieceStateModel>,
+        { payload }: UpdateArtPiece
+    ): Observable<void> {
         return this.artPiecesService.update(payload)
             .pipe(tap(() => dispatch(new GetAllArtPieces())));
     }
@@ -73,7 +86,7 @@ export class ArtPieceState {
     @Action(ClearSelectedArtPiece)
     public clearSelectedArtPiece({ patchState }: StateContext<ArtPieceStateModel>): void {
         patchState({
-            selectedArtPiece: new ArtPiece()
+            selectedArtPiece: null
         });
     }
 

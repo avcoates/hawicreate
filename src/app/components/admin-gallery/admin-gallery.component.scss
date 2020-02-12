@@ -1,27 +1,39 @@
-.artPieces {
-    display: flex;
-    flex-wrap: wrap;
-    
-}
+@import 'mixins';
 
-.artPiece {
-    width: 300px;
-    background: lightpink;
-    margin: 1em;
-}
-
-.header {
-    display: flex;
-    justify-content: flex-start;
-    align-items: baseline;
-
-    h1 {
-        margin-right: 2em;
-    }
-}
-
-form {
+.gallery {
     display: flex;
     flex-direction: column;
-    margin: 10%;
+    
+    &__header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    &__artpieces {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        
+        
+        img {
+            max-width: 250px;
+            width: 25vw;
+        }
+        
+        .grow {
+            transition: all .2s ease-in-out;
+        }
+        
+        .grow:hover {
+            transform: scale(1.1);
+        }
+
+        &__item {
+            max-width: 250px;
+            margin: 1vw;
+            display: flex;
+            align-items: center;
+        }
+        
+    }
 }

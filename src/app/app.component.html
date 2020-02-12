@@ -1,6 +1,80 @@
-<div>
-    <hc-navbar [routes]="routes" [name]="name"></hc-navbar>
-    <div class="content">
-        <router-outlet></router-outlet>
-    </div>
-</div>
+
+
+<ng-container *ngIf="state$ | async as state">
+        <mat-sidenav-container>
+            <mat-sidenav #sidenav position="end" mode="side" >
+                <mat-toolbar color="primary">
+                    <button (click)="toggleSideNav()" mat-icon-button>
+                        <mat-icon>
+                            {{ sidenav.opened ? 'menu_open' : 'menu' }}
+                        </mat-icon>
+                    </button>
+                </mat-toolbar>
+                <mat-list>
+                    <mat-list-item (click)="onSelectPath(route.path)"
+                                   *ngFor="let route of routes"
+                                   class="side__bar">
+                            <mat-icon class="page__indicator"
+                                      color="primary" *ngIf="'/' + route.path === currentRoute">
+                                arrow_back_ios
+                            </mat-icon>
+                            <button class="nav__item" color="primary" mat-button >
+                                {{ route.header }}
+                            </button>
+                    </mat-list-item>
+                </mat-list>
+            </mat-sidenav>
+            <mat-sidenav-content class="side__nav__content">
+                <mat-toolbar *ngIf="state.user && state.user.isAdmin"
+                             class="toolbar mat-elevation-z6"
+                             color="primary">
+                    <div>
+                        <!-- <h1 class="mat-h1">{{ name }}</h1> -->
+                        <img src="assets/AirStreamWhite.png" height="48px"/>
+                        <!-- <img src="assets/AdminStyle.png" height="40px"/> -->
+                        <img src="assets/Admin.png" height="40px"/>
+                        <!-- <img src="assets/DreamOrphansWhite2.png" height="48px"/> -->
+                    </div>
+                    <div>
+                        <ng-container *ngIf="state.deviceType.desktop; else mobile">
+                            <ng-container *ngFor="let route of routes">
+                                <button color="accent" mat-button (click)="onNavigate(route.path)">
+                                    {{route.header}}
+                                </button>
+                            </ng-container>
+                        </ng-container>
+                        <button mat-icon-button [matMenuTriggerFor]="accountMenu">
+                                <mat-icon>person</mat-icon>
+                        </button>
+                        <mat-menu #accountMenu="matMenu">
+                            <button (click)="onLogOut()" mat-menu-item>
+                                <mat-icon>
+                                    exit_to_app
+                                </mat-icon>
+                                Log out
+                            </button>
+                        </mat-menu>
+                    </div>
+                    <ng-template #mobile>
+                            <button (click)="toggleSideNav()" mat-icon-button>
+                                <mat-icon>
+                                    {{ sidenav.opened ? 'menu_open' : 'menu' }}
+                                </mat-icon>
+                            </button>
+                    </ng-template>
+                </mat-toolbar>
+                <div class="content">
+                    <ng-container *ngIf="backText$ | async as backText">
+                        <mat-toolbar *ngIf="backText.visible" style="left: 0; right: 0;" color="accent" class="mat-elevation-z2">
+                            <button (click)="onBack()" color="primary" mat-icon-button>
+                                <mat-icon>arrow_back_ios</mat-icon>
+                                <h1 class="mat-button">{{ backText.text }}</h1>
+                            </button>
+                        </mat-toolbar>
+                    </ng-container>
+                    <router-outlet></router-outlet>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+   
+</ng-container>

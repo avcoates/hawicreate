@@ -1,6 +1,47 @@
+@import 'mixins';
+
 .content {
-    overflow-x: hidden;
-    width: 80%;
-    margin: 10%;
-    margin-top: 6em;
+    padding-top: 64px; // mat-toolbar height
+
+    @include respond-below(mobile) {
+        padding-top: 56px; // mat-toolbar height in mobile
+    }
+}
+
+.toolbar {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.side__bar {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-areas:
+        "page__indicator nav__item";
+    
+    .page__indicator {
+
+        grid-area: page__indicator;
+    }
+    
+    .nav__item {
+
+        grid-area: nav__item;
+    }
+}
+
+.side__nav__content {
+    // height: calc(100vh + 64px);
+    height: calc(100vh);
+
+    // @include respond-below(mobile) {
+    //     height: calc(100vh);
+    //     // height: calc(100vh + 56px);
+    // }
 }

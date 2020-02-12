@@ -1,0 +1,105 @@
+<ng-container *ngIf="state$ | async as state" >
+    <ng-container [formGroup]="artPieceForm">
+    
+        <div formArrayName="images" class="art__piece__images">
+            <ng-container *ngIf="images.controls">
+                <div
+                    *ngFor="let image of images.controls; let i=index"
+                    [formGroupName]="i"
+                    class="art__piece__images__image"
+                >
+                        <img [src]="image.get('downloadUrl').value" width="250px"/>
+                        <button (click)="onRemoveImage(i)" mat-icon-button>
+                                <mat-icon color="warn">
+                                    cancel
+                                </mat-icon>
+                        </button>
+                </div>
+            </ng-container>
+        </div>
+        <div class="dynamic__container--center">
+            <div class="art__piece">
+                <hc-image-upload #hcupload (fileListChanged)="onFileListChanged($event)"></hc-image-upload>
+    
+                <mat-form-field>
+                    <input 
+                        formControlName="name"
+                        placeholder="Name"
+                        [value]="name.value"
+                        matInput
+                    >
+                </mat-form-field>
+                    
+                <mat-form-field>
+                    <textarea 
+                        formControlName="description"
+                        placeholder="Decription"
+                        [value]="description.value"
+                        matInput
+                    >
+                    </textarea>
+                </mat-form-field>
+            
+                <mat-form-field>
+                    <input 
+                        formControlName="price"
+                        placeholder="Price"
+                        type="number"
+                        [value]="price.value"
+                        matInput
+                    >
+                </mat-form-field>
+            
+                <mat-form-field>
+                        <input 
+                            formControlName="height"
+                            placeholder="Height"
+                            [value]="height.value"
+                            matInput
+                        >
+                    </mat-form-field>
+        
+                <mat-form-field>
+                    <input 
+                        formControlName="width"
+                        placeholder="Width"
+                        [value]="width.value"
+                        matInput
+                    >
+                </mat-form-field>
+        
+        
+                <mat-form-field>
+                    <input matInput [formControl]="createdDate" [matDatepicker]="picker" placeholder="Created Date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            
+                <div>
+                    <mat-checkbox color="primary" formControlName="isSold">Sold</mat-checkbox>
+                </div>
+                
+                <div class="bottom__buttons">
+                    <div class="bottom__buttons__left">
+                        <button
+                            [disabled]="!(this.artPieceForm.valid && (this.artPieceForm.dirty || state.filesHaveChanges))"
+                            (click)="onSave()"
+                            mat-raised-button
+                            color="primary"
+                        >
+                            Save
+                        </button>
+                        <button (click)="onCancel()" mat-stroked-button>
+                            Cancel
+                        </button>
+                    </div>
+                    <div class="bottom__buttons_right">
+                        <button (click)="onDelete()" mat-button color="warn">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</ng-container>    
