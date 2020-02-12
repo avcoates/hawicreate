@@ -5,7 +5,7 @@ import { Observable, from, ReplaySubject } from 'rxjs';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { UpdateUser, UpdateActiveUser } from '@admin/actions/app.actions';
 import { User } from '@admin/shared/models/user';
-import { tap, takeUntil, map, switchMap, filter } from 'rxjs/operators';
+import { tap, takeUntil, switchMap, filter } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
 import { FirebaseApp } from '@angular/fire';

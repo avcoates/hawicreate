@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Store, Select } from '@ngxs/store';
-import { GetAllPhotos } from './actions/images.actions';
 import { NavbarRoute, DeviceType } from './shared/models';
 import { InitiateDeviceListener, UpdateBackText } from './actions/app.actions';
 import { AppState } from './state/app.state';
@@ -74,11 +73,11 @@ export class AppComponent implements OnInit {
                 private auth: AuthService,
                 private router: Router,
                 private _location: Location) {
-        this.store.dispatch([new GetAllPhotos(),
+        this.store.dispatch(
             new InitiateDeviceListener({
                 mobileListener: window.matchMedia('(max-width: 600px)'),
                 tabletListener: window.matchMedia('(max-width: 900px)'),
-            })]);
+            }));
     }
 
     public toggleSideNav(): void {

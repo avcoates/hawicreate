@@ -4,9 +4,12 @@
     "baseUrl": "src",
     "paths": {
       "@admin/*": ["app/*"],
+      "@admin-actions/*": ["app/actions"],
       "@admin-componets/*": ["app/components/*"],
       "@admin-services/*": ["app/services/*"],
       "@admin-shared/*": ["app/shared/*"],
+      "@admin-state/*": ["app/state/*"],
+      "@admin-utilities/*": ["app/utilities/*"],
       "@public/*": ["projects/*"]
     },
     "outDir": "./dist/out-tsc",

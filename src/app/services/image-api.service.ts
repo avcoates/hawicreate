@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
     AngularFirestore,
-    AngularFirestoreCollection,
     AngularFirestoreDocument,
     QueryDocumentSnapshot,
     DocumentReference
 } from '@angular/fire/firestore';
 import { Observable, from, zip } from 'rxjs';
-import { map, switchMap, filter, switchMapTo, mapTo, tap } from 'rxjs/operators';
+import { map, switchMap, filter, switchMapTo, mapTo } from 'rxjs/operators';
 import { Image } from '@admin-shared/models';
 import { ImageStorageApiService } from './image-storage-api.service';
 
@@ -17,10 +16,9 @@ import { ImageStorageApiService } from './image-storage-api.service';
 export class ImageApiService {
 
     private readonly imageCollectionString = 'Image';
-    private imageCollection: AngularFirestoreCollection<Image>;
 
     constructor(private firestore: AngularFirestore,
-                private imagesStorageApiService: ImageStorageApiService) { }
+                private imagesStorageApiService: ImageStorageApiService) {}
 
     /**
      * @description Adds an Image to the Image collection
@@ -40,29 +38,55 @@ export class ImageApiService {
             );
     }
 
+    /**
+     * deletes the given image
+     * @param param0 iamge to delete
+     */
     public deleteImage({ id }: Image): Observable<any> {
-        return this.imagesStorageApiService.deleteImage(id)
-            .pipe(switchMapTo(this.firestore.doc(`${this.imageCollectionString}/${id}`).delete()));
+        return this.deleteImageById(id);
     }
 
+    /**
+     * @description deletes image of the given id
+     * @param id of image to delete
+     */
     public deleteImageById(id: string): Observable<void> {
-        const imageDoc = this.firestore.doc(`${this.imageCollectionString}/${id}`);
+        const imageDoc = this.getDocById(id);
         return from(this.imagesStorageApiService.deleteImage(id))
             .pipe(switchMapTo(imageDoc.delete()));
     }
 
+    /**
+     * @description get image by ud
+     * @param id of image to get
+     */
     public getImageById(id: string): Observable<Image | null> {
-        const imageDoc: AngularFirestoreDocument<Image> = this.firestore.doc(`${this.imageCollectionString}/${id}`);
-        const docData = from(imageDoc.ref.get());
-        return docData.pipe(filter(doc => doc.exists), map(this.toImage));
+        const imageDoc = this.getDocById(id);
+        return from(imageDoc.ref.get()).pipe(filter(doc => doc.exists), map(this.toImage));
     }
 
+    /**
+     * @description gets images by ids
+     * @param ids of Images to get
+     */
     public getImagesByIds(ids: Array<string>): Observable<Array<Image>> {
         const images$ = ids.map(id => this.getImageById(id));
 
         return zip(...images$);
     }
 
+    /**
+     * @description gets image document reference by id
+     * @param id of image
+     */
+    private getDocById(id: string): AngularFirestoreDocument {
+        return this.firestore.doc(`${this.imageCollectionString}/${id}`);
+    }
+
+    /**
+     * @description converts document snapshot to Image
+     * @param doc to convert to Image
+     */
     private toImage(doc: QueryDocumentSnapshot<Image>): Image  {
         return doc.data();
     }

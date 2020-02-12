@@ -45,11 +45,11 @@ export class ArtPieceState {
         return this.artPiecesService.getAll()
             .pipe(tap(artPieces => patchState({ artPieces })));
     }
-    
+
     @Action(RefreshSelectedArtPiece)
     public refreshSelectedArtPiece({ patchState, getState }: StateContext<ArtPieceStateModel>): Observable<ArtPiece> {
         const { artPieces, selectedArtPiece } = getState();
-        
+
         return this.artPiecesService.getById(selectedArtPiece.id)
             .pipe(
                 tap((artPiece) => patchState({ selectedArtPiece: artPiece }))
@@ -70,9 +70,9 @@ export class ArtPieceState {
     @Action(UpdateArtPiece)
     public updateArtPiece(
         { dispatch }: StateContext<ArtPieceStateModel>,
-        { payload: { artPiece, filesToAdd, imageIdsToRemove} }: UpdateArtPiece
+        { payload }: UpdateArtPiece
     ): Observable<void> {
-        return this.artPiecesService.update(artPiece, filesToAdd, imageIdsToRemove)
+        return this.artPiecesService.update(payload)
             .pipe(tap(() => dispatch(new GetAllArtPieces())));
     }
 

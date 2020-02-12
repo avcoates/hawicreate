@@ -1,6 +1,5 @@
-import { Component, Output, EventEmitter, Input, OnDestroy } from '@angular/core';
+import { Component, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Upload } from '@admin/shared/models';
-import { untilDestroyed } from 'ngx-take-until-destroy';
 
 export interface FileUpload {
     url: string | ArrayBuffer;
@@ -12,7 +11,6 @@ export interface FileUpload {
     styleUrls: ['./image-upload.component.scss']
 })
 export class ImageUploadComponent implements OnDestroy {
-
 
     @Output()
     public fileListChanged = new EventEmitter<Array<File>>();

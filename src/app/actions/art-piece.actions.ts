@@ -1,4 +1,5 @@
 import { ArtPiece, ArtPieceDto } from '@admin/shared/models';
+import { ArtPieceActionEntity } from './action-models/art-piece-action-models';
 
 export class GetAllArtPieces {
     static readonly type = '[ArtPiece] Get all';
@@ -11,7 +12,7 @@ export class AddArtPiece {
 
 export class UpdateArtPiece {
     static readonly type = '[ArtPiece] Update';
-    constructor(public payload: { artPiece: ArtPiece, filesToAdd: Array<File>, imageIdsToRemove: Array<string> }) {}
+    constructor(public payload: ArtPieceActionEntity) {}
 }
 
 export class DeleteArtPiece {
@@ -31,5 +32,3 @@ export class RefreshSelectedArtPiece {
 export class ClearSelectedArtPiece {
     static readonly type = '[ArtPiece] Clear active';
 }
-
-

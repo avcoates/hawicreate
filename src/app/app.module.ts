@@ -8,7 +8,6 @@ import { AdminRoutes } from './app.routing';
 
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { SharedModule } from './shared/shared.module';
-import { AppState } from './state/app.state';
 
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -17,21 +16,24 @@ import { ImageApiService } from './services/image-api.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'environments/environment';
-import { AdminHomeComponent } from './components/admin-home/admin-home.component';
-import { AdminGalleryComponent } from './components/admin-gallery/admin-gallery.component';
-import { AdminContactComponent } from './components/admin-contact/admin-contact.component';
-import { AdminLogInComponent } from './components/admin-log-in/admin-log-in.component';
+
 
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { ArtPieceDetailComponent } from './components/admin-art-piece/art-piece-detail/art-piece-detail.component';
-import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { UserApiService, ArtPieceApiService, ImageStorageApiService } from './services';
-import { AdminUserComponent } from './components/admin-user/admin-user.component';
-import { GalleryState } from './state/gallery.state';
-import { ArtPieceState } from './state/art-piece.state';
-import { AdminArtPieceComponent } from './components/admin-art-piece/admin-art-piece.component';
-import { NewArtPieceDialogComponent } from './components/dialogs/new-art-piece-dialog/new-art-piece-dialog.component';
-import { ImageUploadComponent } from './components/image-upload/image-upload.component';
+
+import {
+  AdminHomeComponent,
+  AdminGalleryComponent,
+  AdminContactComponent,
+  AdminLogInComponent,
+  ImageUploadComponent,
+  AdminUserComponent,
+  AdminUsersComponent,
+  AdminArtPieceComponent,
+  NewArtPieceDialogComponent
+} from './components';
+import { AppState, ArtPieceState, GalleryState } from './state';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +42,6 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
     AdminGalleryComponent,
     AdminContactComponent,
     AdminLogInComponent,
-    ArtPieceDetailComponent,
     ImageUploadComponent,
     AdminUsersComponent,
     AdminUserComponent,
@@ -59,9 +60,7 @@ import { ImageUploadComponent } from './components/image-upload/image-upload.com
     AngularFirestoreModule,
     SharedModule
   ],
-  exports: [
-    
-  ],
+  exports: [],
   providers: [ArtPieceApiService, ImageApiService, ImageStorageApiService, UserApiService],
   bootstrap: [AppComponent],
   entryComponents: [ NewArtPieceDialogComponent ]
