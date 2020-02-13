@@ -21,6 +21,8 @@ import {
   MatSnackBarModule,
 } from '@angular/material';
 
+import { TextFieldModule } from '@angular/cdk/text-field';
+
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -41,6 +43,7 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    TextFieldModule,
   ],
   exports: [
     BrowserAnimationsModule,
@@ -61,6 +64,8 @@ import {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
+    TextFieldModule,
+
   ],
   providers: [
     MatDatepickerModule,

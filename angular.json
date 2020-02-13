@@ -151,16 +151,16 @@
             "tsConfig": "projects/hawicreate/tsconfig.app.json",
             "aot": false,
             "assets": [
-              "projects/hawicreate/src/favicon.ico",
+              "projects/hawicreate/src/hcFaviconWhite.ico",
               "projects/hawicreate/src/assets"
             ],
             "styles": [
-              "projects/hawicreate/src/styles.scss"
+              "src/styles.scss"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/assets/styles"
+                "../../src/assets/styles"
               ]
             }
           },
@@ -221,7 +221,7 @@
             "tsConfig": "projects/hawicreate/tsconfig.spec.json",
             "karmaConfig": "projects/hawicreate/karma.conf.js",
             "assets": [
-              "projects/hawicreate/src/favicon.ico",
+              "projects/hawicreate/src/hcFaviconWhite.ico",
               "projects/hawicreate/src/assets"
             ],
             "styles": [

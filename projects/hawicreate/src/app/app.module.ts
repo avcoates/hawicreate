@@ -4,12 +4,9 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from '@admin/shared/shared.module';
-import { MaterialModule } from '@admin/shared/material.module';
 import { PublicRoutes } from './app.routing';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxsModule } from '@ngxs/store';
-import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'environments/environment';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -30,8 +27,6 @@ import { ContactComponent } from './components/contact/contact.component';
     BrowserAnimationsModule,
     RouterModule.forRoot(PublicRoutes),
     AppRoutingModule,
-    NgxsModule,
-    NgxsReduxDevtoolsPluginModule.forRoot(),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFirestoreModule,
