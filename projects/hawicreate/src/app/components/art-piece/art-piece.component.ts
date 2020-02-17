@@ -15,33 +15,7 @@ import { tap, combineLatest, map } from 'rxjs/operators';
 })
 export class ArtPieceComponent implements OnInit, OnDestroy {
 
-    public artPiece$: Observable<ArtPiece>;
-
-    public galleryOptions: Array<NgxGalleryOptions> = [
-        {
-            imageSize: 'contain',
-            preview: true,
-            previewAnimation: false,
-            arrowPrevIcon: 'fa fa-angle-left',
-            arrowNextIcon: 'fa fa-angle-right',
-            closeIcon: 'fa fa-times',
-            imageSwipe: true,
-            previewCloseOnClick: true,
-            previewCloseOnEsc: true,
-            previewKeyboardNavigation: true,
-            previewSwipe: true,
-            previewZoom: true,
-            imageInfinityMove: true,
-            previewInfinityMove: true,
-            thumbnailSize: 'contain',
-        }
-    ];
-
-
     public state$: Observable<{ options: Array<NgxGalleryOptions>, images: Array<NgxGalleryImage>, artPiece: ArtPiece }>;
-
-    public images: Array<NgxGalleryImage> = [];
-
 
     constructor(private route: ActivatedRoute,
                 private artPieceApiService: ArtPieceApiService) { }
@@ -54,7 +28,7 @@ export class ArtPieceComponent implements OnInit, OnDestroy {
                     .pipe(
                         map(artPiece => {
                             return {
-                                images: this.images = artPiece.images.map(i => {
+                                images: artPiece.images.map(i => {
                                     return { small: i.downloadUrl,
                                             medium: i.downloadUrl,
                                             big: i.downloadUrl,
@@ -68,6 +42,7 @@ export class ArtPieceComponent implements OnInit, OnDestroy {
                                         {
                                             imageSize: 'contain',
                                             preview: true,
+                                            imageArrows: artPiece.images.length > 1,
                                             previewAnimation: false,
                                             arrowPrevIcon: 'fa fa-angle-left',
                                             arrowNextIcon: 'fa fa-angle-right',
