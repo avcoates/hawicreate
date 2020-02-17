@@ -18,13 +18,17 @@ import { RECAPTCHA_V3_SITE_KEY,
          RecaptchaV3Module, RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
 import { HttpClientModule } from '@angular/common/http';
 import { ContactService, RecaptchaService } from '../services';
+import { ArtPieceComponent } from './components/art-piece/art-piece.component';
+import { NgxGalleryModule } from 'ngx-gallery';
+import 'hammerjs';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GalleryComponent,
-    ContactComponent
+    ContactComponent,
+    ArtPieceComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,9 @@ import { ContactService, RecaptchaService } from '../services';
     RecaptchaModule,
     RecaptchaV3Module,
     RecaptchaFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxGalleryModule,
+    
   ],
   providers: [
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: '6LdlxdgUAAAAAFeng-hOh5zebEeEgGVwxSMEJ22x' },

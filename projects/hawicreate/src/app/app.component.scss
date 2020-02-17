@@ -10,7 +10,8 @@
 
 .toolbar {
     position: fixed;
-    z-index: 2;
+    /* https://github.com/lukasz-galka/ngx-gallery/issues/71 */
+    z-index: 2001;
     top: 0;
     left: 0;
     width: 100% !important;

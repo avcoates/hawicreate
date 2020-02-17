@@ -1,0 +1,27 @@
+<ng-container *ngIf="state$ | async as state">
+    <div class="dynamic__container--center--column">
+        <h1 class="mat-display-1">
+            {{ state.artPiece.name }}
+        </h1>
+        <h1 class="mat-h2" matTooltip="Height X Width">
+            {{ state.artPiece.height }}" X {{ state.artPiece.width}}"
+        </h1>
+    </div>
+    <div class="dynamic__container--center">
+        <ngx-gallery [options]="state.options" NgxGalleryImageSize="contain" [images]="state.images"></ngx-gallery>
+    </div>
+    <div class="dynamic__container--center--column">
+        <h1 class="mat-h4">
+            $ {{ state.artPiece.price }}
+        </h1>
+        <p class="mat-h4">
+            {{ state.artPiece.createdDate.toLocaleDateString() }}
+        </p>
+        <p class="mat-h4">
+            {{ state.artPiece.description }}
+        </p>
+        <button mat-raised-button [disabled]="state.artPiece.isSold" color="primary" mat-label class="mat-h4">
+            {{ state.artPiece.isSold ? 'Sold' : 'For Sale' }}
+        </button>
+    </div>
+</ng-container>
