@@ -12,14 +12,14 @@ import { SharedModule } from './shared/shared.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { ImageApiService } from './services/image-api.service';
+import { ImageApiService } from './shared/services/data/image-api.service';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { environment } from 'environments/environment';
 
 
 import { NgxsStoragePluginModule } from '@ngxs/storage-plugin';
-import { UserApiService, ArtPieceApiService, ImageStorageApiService } from './services';
+import { UserApiService, ArtPieceApiService, ImageStorageApiService } from '@shared/services/data';
 
 import {
   AdminHomeComponent,

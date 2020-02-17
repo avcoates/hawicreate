@@ -160,7 +160,7 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "../../src/assets/styles"
+                "src/assets/styles"
               ]
             }
           },
@@ -225,9 +225,14 @@
               "projects/hawicreate/src/assets"
             ],
             "styles": [
-              "projects/hawicreate/src/styles.scss"
+              "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/assets/styles"
+              ]
+            }
           }
         },
         "lint": {

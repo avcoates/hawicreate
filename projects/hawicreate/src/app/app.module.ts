@@ -14,6 +14,10 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { HomeComponent } from './components/home/home.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { RECAPTCHA_V3_SITE_KEY,
+         RecaptchaV3Module, RecaptchaModule, RecaptchaFormsModule} from 'ng-recaptcha';
+import { HttpClientModule } from '@angular/common/http';
+import { ContactService, RecaptchaService } from '../services';
 
 @NgModule({
   declarations: [
@@ -30,9 +34,17 @@ import { ContactComponent } from './components/contact/contact.component';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFirestoreModule,
-    SharedModule
+    SharedModule,
+    RecaptchaModule,
+    RecaptchaV3Module,
+    RecaptchaFormsModule,
+    HttpClientModule
   ],
-  providers: [],
+  providers: [
+    { provide: RECAPTCHA_V3_SITE_KEY, useValue: '6LdlxdgUAAAAAFeng-hOh5zebEeEgGVwxSMEJ22x' },
+    ContactService,
+    RecaptchaService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

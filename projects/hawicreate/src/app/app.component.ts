@@ -59,8 +59,13 @@ export class AppComponent implements OnInit {
         this.sidenav.toggle();
     }
 
+    public closeSideNav(): void {
+        this.sidenav.close();
+    }
+
     public onNavigate(path: string): void {
         this.router.navigateByUrl(path);
+        this.closeSideNav();
     }
 
     public onSelectPath(path: string): void {

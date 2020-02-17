@@ -1,6 +1,6 @@
 import { State, Selector, Action, StateContext } from '@ngxs/store';
 import { Collection } from '@admin/shared/models';
-import { CollectionApiService } from '@admin/services/collection-api.service';
+import { CollectionApiService } from '@admin/shared/services/data/collection-api.service';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GetAllCollections } from '../actions/gallery.actions';

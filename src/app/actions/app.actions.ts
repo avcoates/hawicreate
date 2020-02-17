@@ -1,4 +1,4 @@
-import { NavbarRoute, DeviceListener, User } from '@admin-shared/models';
+import { NavbarRoute, DeviceListener, User } from '@shared/models';
 
 export class UpdatePageRoutesFromChild {
     static readonly type = '[child] Update Page Routes';
