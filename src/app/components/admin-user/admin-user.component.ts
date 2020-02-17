@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { UserApiService } from '@admin/services';
+import { UserApiService } from '@admin/shared/services/data';
 import { Observable } from 'rxjs';
 import { User } from '@admin/shared/models/user';
 import { Location } from '@angular/common';

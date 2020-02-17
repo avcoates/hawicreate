@@ -1,22 +1,34 @@
-// import * as functions from 'firebase-functions';
 
+// import * as functions from 'firebase-functions';
 const functions = require('firebase-functions');
 const cors = require('cors')({ origin: true});
+const https = require('https');
+const bent = require('bent')
 
-// // Start writing Firebase Functions
-// // https://firebase.google.com/docs/functions/typescript
-//
-// export const helloWorld = functions.https.onRequest((request, response) => {
-//  response.send("Hello from Firebase!");
-// });
+// load environment files
+require('dotenv').config();
 
-exports.uploadFile = functions.https.onRequest((req: any, res: any) => {
+
+/* TODO: https://stackoverflow.com/questions/42755131/enabling-cors-in-cloud-functions-for-firebase */
+exports.reCaptcha = functions.https.onRequest(async (req: any, res: any) => {
+    res.set('Access-Control-Allow-Origin', '*');
     if (req.method !== 'POST') {
-        return req.status(500).json({
-            messgae: 'Not Allowed'
-        });
+        return res.status(500).json({
+            message: 'Not Allowed'
+        })
     }
-    res.status(200).json({
-        message: 'It worked'
-    })
+    const params = req.url
+    const response = params.substring(params.indexOf("=") + 1, params.length);
+
+    const post = bent(
+        `https://recaptcha.google.com/recaptcha/api/siteverify?secret=${process.env.API_KEY}&response=${response}`,
+        'POST',
+        'json',
+        200
+    );
+    const postResp = await post('');
+
+    res.status(200).json(postResp);
 });
+
+

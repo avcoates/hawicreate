@@ -246,7 +246,7 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
 
 .dynamic__container {
     width: 80%;
-    margin: 10%;
+    margin: 5% 10%;
 
     @include respond-below(tablet) {
         width: 90%;
@@ -261,7 +261,7 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
     &--center {
         display: flex;
         justify-content: center;
-        margin: 10%;
+        margin: 5% 10%;
         
         @include respond-below(tablet) {
             width: 90%;
@@ -272,7 +272,7 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
             width: 95%;
             margin: 2.5%;
         }
-    
+
     }
 }
 

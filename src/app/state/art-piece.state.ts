@@ -12,7 +12,7 @@ import {
         ClearSelectedArtPiece,
         RefreshSelectedArtPiece
 } from '@admin/actions/art-piece.actions';
-import { ArtPieceApiService } from '@admin/services';
+import { ArtPieceApiService } from '@admin/shared/services/data';
 import { DocumentReference } from '@angular/fire/firestore';
 
 export interface ArtPieceStateModel {

@@ -7,7 +7,7 @@ import {
 } from '@angular/fire/firestore';
 import { Observable, from, zip } from 'rxjs';
 import { map, switchMap, filter, switchMapTo, mapTo } from 'rxjs/operators';
-import { Image } from '@admin-shared/models';
+import { Image } from '@shared/models';
 import { ImageStorageApiService } from './image-storage-api.service';
 
 @Injectable({

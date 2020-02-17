@@ -1,15 +1,16 @@
 import { Component, OnInit } from '@angular/core';
+import { ContactApiService } from '@shared/services/data';
 
 @Component({
-  selector: 'hawicreate-admin-contact',
-  templateUrl: './admin-contact.component.html',
-  styleUrls: ['./admin-contact.component.scss']
+    selector: 'hc-admin-contact',
+    templateUrl: './admin-contact.component.html',
+    styleUrls: ['./admin-contact.component.scss']
 })
 export class AdminContactComponent implements OnInit {
 
-  constructor() { }
+    constructor(private contactApiService: ContactApiService) { }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

@@ -1,6 +1,62 @@
-<div>
-    <hc-navbar [routes]="routes" [name]="name"></hc-navbar>
-    <div class="content">
-        <router-outlet ></router-outlet>
-    </div>
-</div>
+        <mat-sidenav-container>
+            <mat-sidenav #sidenav position="end" mode="side" >
+                <mat-toolbar color="primary">
+                    <button (click)="toggleSideNav()" mat-icon-button>
+                        <mat-icon>
+                            {{ sidenav.opened ? 'menu_open' : 'menu' }}
+                        </mat-icon>
+                    </button>
+                </mat-toolbar>
+                <mat-list>
+                    <mat-list-item (click)="onSelectPath(route.path)"
+                                   *ngFor="let route of routes"
+                                   class="side__bar">
+                            <mat-icon class="page__indicator"
+                                      color="primary" *ngIf="'/' + route.path === currentRoute">
+                                arrow_back_ios
+                            </mat-icon>
+                            <button class="nav__item" color="primary" mat-button >
+                                {{ route.header }}
+                            </button>
+                    </mat-list-item>
+                </mat-list>
+            </mat-sidenav>
+            <mat-sidenav-content class="side__nav__content">
+                <mat-toolbar
+                             class="toolbar mat-elevation-z6"
+                             color="primary">
+                    <div>
+                        <img class="cursor--pointer" (click)="onNavigate('home')" src="assets/betterC.png" height="48px"/>
+                    </div>
+                    <div>
+                        <ng-container *ngIf="device$ | async as device">
+                            <ng-container *ngIf="!device.isMobile; else mobile">
+                                <ng-container *ngFor="let route of routes">
+                                    <button color="accent" mat-button (click)="onNavigate(route.path)">
+                                        {{route.header}}
+                                    </button>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    <ng-template #mobile>
+                        <button (click)="toggleSideNav()" mat-icon-button>
+                            <mat-icon>
+                                {{ sidenav.opened ? 'menu_open' : 'menu' }}
+                            </mat-icon>
+                        </button>
+                    </ng-template>
+                </mat-toolbar>
+                <div class="content">
+                    <!-- <ng-container *ngIf="backText$ | async as backText">
+                        <mat-toolbar *ngIf="backText.visible" style="left: 0; right: 0;" color="accent" class="mat-elevation-z2">
+                            <button (click)="onBack()" color="primary" mat-icon-button>
+                                <mat-icon>arrow_back_ios</mat-icon>
+                                <h1 class="mat-button">{{ backText.text }}</h1>
+                            </button>
+                        </mat-toolbar>
+                    </ng-container> -->
+                    <router-outlet></router-outlet>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>

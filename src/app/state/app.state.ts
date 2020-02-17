@@ -14,7 +14,7 @@ import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
-import { UserApiService } from '@admin/services';
+import { UserApiService } from '@admin/shared/services/data';
 import { GalleryState } from './gallery.state';
 import { ArtPieceState } from './art-piece.state';
 

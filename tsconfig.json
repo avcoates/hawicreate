@@ -7,10 +7,11 @@
       "@admin-actions/*": ["app/actions"],
       "@admin-componets/*": ["app/components/*"],
       "@admin-services/*": ["app/services/*"],
-      "@admin-shared/*": ["app/shared/*"],
+      "@shared/*": ["app/shared/*"],
+      "@shared/services*": ["app/shared/services*"],
       "@admin-state/*": ["app/state/*"],
       "@admin-utilities/*": ["app/utilities/*"],
-      "@public/*": ["projects/*"]
+      "@public/*": ["../projects/*"],
     },
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
