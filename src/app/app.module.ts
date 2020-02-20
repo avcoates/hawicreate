@@ -24,7 +24,7 @@ import { UserApiService, ArtPieceApiService, ImageStorageApiService } from '@sha
 import {
   AdminHomeComponent,
   AdminGalleryComponent,
-  AdminContactComponent,
+  AdminContactRequestComponent,
   AdminLogInComponent,
   ImageUploadComponent,
   AdminUserComponent,
@@ -40,7 +40,7 @@ import { AppState, ArtPieceState, GalleryState } from './state';
     AppComponent,
     AdminHomeComponent,
     AdminGalleryComponent,
-    AdminContactComponent,
+    AdminContactRequestComponent,
     AdminLogInComponent,
     ImageUploadComponent,
     AdminUsersComponent,

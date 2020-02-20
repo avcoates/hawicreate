@@ -3,7 +3,7 @@ export { AdminUserComponent } from './admin-user/admin-user.component';
 export { AdminLogInComponent } from './admin-log-in/admin-log-in.component';
 export { AdminHomeComponent } from './admin-home/admin-home.component';
 export { AdminGalleryComponent } from './admin-gallery/admin-gallery.component';
-export { AdminContactComponent } from './admin-contact/admin-contact.component';
+export { AdminContactRequestComponent } from './admin-contact-request/admin-contact-request.component';
 export { AdminUsersComponent } from './admin-users/admin-users.component';
 export { AdminArtPieceComponent } from './admin-art-piece/admin-art-piece.component';
 export { NewArtPieceDialogComponent } from './dialogs';

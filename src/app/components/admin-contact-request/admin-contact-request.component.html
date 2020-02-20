@@ -1,0 +1,16 @@
+<ng-container *ngIf="state$ | async as state">
+    <div class="dynamic__container">
+        Active Requests
+        <div *ngFor="let request of state.activeRequests">
+            {{ request.name }}
+            {{ request.email }}
+            {{ request.message }}
+        </div>
+        Archived Requests
+        <div *ngFor="let request of state.activeRequests">
+            {{ request.name }}
+            {{ request.email }}
+            {{ request.message }}
+        </div>
+    </div>
+</ng-container>

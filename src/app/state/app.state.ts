@@ -5,16 +5,20 @@ import { UpdatePageRoutesFromChild,
          UpdateActiveUser,
          DeleteUser,
          InitiateDeviceListener,
-         UpdateBackText
+         UpdateBackText,
+         GetAllContactRequests,
+         DeleteContactRequest,
+         ArchiveContactRequest,
+         RecoverContactRequest
 } from '../actions/app.actions';
-import { NavbarRoute, DeviceType, mobileDevice, tabletDevice, desktopDevice } from '@admin/shared/models';
+import { NavbarRoute, DeviceType, mobileDevice, tabletDevice, desktopDevice, ContactRequest } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { FirebaseApp } from '@angular/fire';
 import { Router } from '@angular/router';
-import { UserApiService } from '@admin/shared/services/data';
+import { UserApiService, ContactRequestApiService } from '@admin/shared/services/data';
 import { GalleryState } from './gallery.state';
 import { ArtPieceState } from './art-piece.state';
 
@@ -22,6 +26,7 @@ export interface AppStateModel {
     routes: Array<NavbarRoute>;
     activeUser: User;
     users: Array<User>;
+    contactRequests: Array<ContactRequest>;
     deviceType: DeviceType;
     backText: { text: string, visible: boolean };
 }
@@ -32,6 +37,7 @@ export interface AppStateModel {
       routes: [],
       activeUser: null,
       users: [],
+      contactRequests: [],
       deviceType: {
           mobile: true,
           tablet: false,
@@ -47,6 +53,16 @@ export class AppState {
     @Selector()
     public static deviceType({ deviceType }: AppStateModel): DeviceType {
         return deviceType;
+    }
+
+    @Selector()
+    public static archivedContactRequests({ contactRequests }: AppStateModel): Array<ContactRequest> {
+        return contactRequests.filter(r => r.archived);
+    }
+
+    @Selector()
+    public static contactRequests({ contactRequests }: AppStateModel): Array<ContactRequest> {
+        return contactRequests.filter(r => !r.archived);
     }
 
     @Selector()
@@ -74,6 +90,7 @@ export class AppState {
                 private store: Store,
                 private router: Router,
                 private userApiService: UserApiService,
+                private contactRequestApiService: ContactRequestApiService
     ) {
         this.firebase.auth().onAuthStateChanged(user => {
             if (user) {
@@ -144,6 +161,30 @@ export class AppState {
                     : desktopDevice,
             });
         });
+    }
+
+    @Action(GetAllContactRequests)
+    public getAllContactRequests({ patchState }: StateContext<AppStateModel>): Observable<Array<ContactRequest>> {
+        return this.contactRequestApiService.getAllContacts()
+            .pipe(tap(contactRequests => patchState({ contactRequests })));
+    }
+
+    @Action(DeleteContactRequest)
+    public deleteContactRequest({ dispatch }: StateContext<AppStateModel>, { payload }: DeleteContactRequest): Observable<void> {
+        return this.contactRequestApiService.delete(payload)
+            .pipe(tap(() => dispatch( new GetAllContactRequests())));
+    }
+
+    @Action(ArchiveContactRequest)
+    public archiveContactRequest({ dispatch }: StateContext<AppStateModel>, { payload }: ArchiveContactRequest): Observable<void> {
+        return this.contactRequestApiService.archive(payload)
+            .pipe(tap(() => dispatch( new GetAllContactRequests())));
+    }
+
+    @Action(RecoverContactRequest)
+    public recoverContactRequest({ dispatch }: StateContext<AppStateModel>, { payload }: RecoverContactRequest): Observable<void> {
+        return this.contactRequestApiService.archive(payload)
+            .pipe(tap(() => dispatch( new GetAllContactRequests())));
     }
 
 }

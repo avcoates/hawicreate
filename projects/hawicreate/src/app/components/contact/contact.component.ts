@@ -3,6 +3,7 @@ import { FormBuilder, Validators, AbstractControl, ValidationErrors, FormGroup }
 import { Subscription } from 'rxjs';
 import { ContactService } from '../../../services';
 import { SnackBarService } from '@admin/shared/services';
+import { ContactRequestDto } from '@admin/shared/models';
 
 @Component({
     selector: 'app-contact',
@@ -48,8 +49,13 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     public onSend(): void {
+        const contact: ContactRequestDto = {
+            ...this.form.getRawValue(),
+            archived: false
+        };
+
         this.singleExecutionSubscription = this.contactService
-            .add(this.form.getRawValue())
+            .add(contact)
             .subscribe(added => {
                 if (added) {
                     this.snackBarService.openSnackBar('Message sent!');

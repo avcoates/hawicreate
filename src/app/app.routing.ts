@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { AdminHomeComponent,
          AdminGalleryComponent,
-         AdminContactComponent,
+         AdminContactRequestComponent,
          AdminLogInComponent,
          AdminUsersComponent,
          AdminUserComponent,
@@ -32,7 +32,7 @@ export const AdminRoutes: Routes = [
     {
         path: 'admin-contact',
         canActivate: [AuthGuard],
-        component: AdminContactComponent
+        component: AdminContactRequestComponent
     },
     {
         path: 'admin-users',

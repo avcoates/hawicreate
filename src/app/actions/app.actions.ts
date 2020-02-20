@@ -1,4 +1,4 @@
-import { NavbarRoute, DeviceListener, User } from '@shared/models';
+import { NavbarRoute, DeviceListener, User, ContactRequest } from '@shared/models';
 
 export class UpdatePageRoutesFromChild {
     static readonly type = '[child] Update Page Routes';
@@ -34,5 +34,24 @@ export class UpdateActiveUser {
 
 export class GetAllUsers {
     static readonly type = '[Admin] Get All Users';
+}
+
+export class GetAllContactRequests {
+    static readonly type = '[Admin] Get All Contact Requests';
+}
+
+export class DeleteContactRequest {
+    static readonly type = '[Admin] Delete ContactRequest';
+    constructor(public payload: ContactRequest) {}
+}
+
+export class ArchiveContactRequest {
+    static readonly type = '[Admin] Archive ContactRequest';
+    constructor(public payload: ContactRequest) {}
+}
+
+export class RecoverContactRequest {
+    static readonly type = '[Admin] Recover ContactRequest';
+    constructor(public payload: ContactRequest) {}
 }
 
