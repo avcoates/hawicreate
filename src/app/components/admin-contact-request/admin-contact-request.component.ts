@@ -49,7 +49,3 @@ export class AdminContactRequestComponent implements OnInit {
     }
 
 }
-export interface ConfirmDialogData {
-    confirmText: string;
-    affirmButton: string;
-}
