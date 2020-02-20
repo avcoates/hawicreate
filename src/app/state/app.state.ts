@@ -183,7 +183,7 @@ export class AppState {
 
     @Action(RecoverContactRequest)
     public recoverContactRequest({ dispatch }: StateContext<AppStateModel>, { payload }: RecoverContactRequest): Observable<void> {
-        return this.contactRequestApiService.archive(payload)
+        return this.contactRequestApiService.recover(payload)
             .pipe(tap(() => dispatch( new GetAllContactRequests())));
     }
 

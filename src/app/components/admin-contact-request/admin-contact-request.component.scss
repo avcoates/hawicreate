@@ -1,28 +1,19 @@
-.contact {
-    width: 100%;
-    max-width: 500px;
+@import 'mixins';
 
-    display: flex;
-    flex-direction: column;
+.request {
+    padding: 1em;
 
-    &__form {
-        display: flex;
-        flex-direction: column;
-        margin-bottom: 5em;
+    @include respond-below(tablet) {
+        width: 50vw;
     }
-    
+
+    @include respond-below(mobile) {
+        width: 100%;
+        padding: 1em 0em;
+    }
 }
-.socials {
-    display: flex;
-    flex-direction: column;
-    
-    &__row {
-        display: flex;
-        justify-content: center;
 
-        &__link {
-            width: 64px;
-            margin: 1em;
-        }
-    }
+.requests {
+    display: flex;
+    flex-wrap: wrap;
 }

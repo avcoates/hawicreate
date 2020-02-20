@@ -31,20 +31,21 @@ export class AdminContactRequestComponent implements OnInit {
             .pipe(map(([activeRequests, archivedRequests]) => ({ activeRequests, archivedRequests})));
     }
 
-    public delete(contactRequest: ContactRequest): void {
+    public onDelete(contactRequest: ContactRequest): void {
         this.dialogService.openConfirmDialog({
-            confirmText: `Delete request from ${contactRequest.name}?\n There is no way to undo this`,
+            confirmText: `Delete request from ${contactRequest.name}?`,
+            confirmBodyText: 'There is no way to undo this',
             affirmButton: 'Delete'
         })
         .pipe(filter(resut => resut === 'Affirm'))
         .subscribe(() => this.store.dispatch(new DeleteContactRequest(contactRequest)));
     }
 
-    public archive(contactRequest: ContactRequest): void {
+    public onArchive(contactRequest: ContactRequest): void {
         this.store.dispatch(new ArchiveContactRequest(contactRequest));
     }
 
-    public recover(contactRequest: ContactRequest): void {
+    public onRecover(contactRequest: ContactRequest): void {
         this.store.dispatch(new RecoverContactRequest(contactRequest));
     }
 
