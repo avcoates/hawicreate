@@ -49,10 +49,6 @@ export class AppComponent implements OnInit {
             path: 'admin-gallery',
         },
         {
-            header: 'Art Pieces',
-            path: 'admin-artpieces',
-        },
-        {
             header: 'Contact',
             path: 'admin-contact',
         },
