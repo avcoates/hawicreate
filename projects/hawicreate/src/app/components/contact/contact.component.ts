@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { map, filter, switchMap } from 'rxjs/operators';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { ArtPieceApiService } from '@admin/shared/services/data';
-import { isDefined } from '@angular/compiler/src/util';
+import { filterEmpty } from '@admin/utilities/map';
 
 @Component({
     selector: 'app-contact',
@@ -51,7 +51,7 @@ export class ContactComponent implements OnInit, OnDestroy {
             .pipe(
                 untilDestroyed(this),
                 map(paramMap => paramMap.get('id')),
-                filter(isDefined),
+                filterEmpty(),
                 switchMap(id => this.artPieceApiService.getById(id))
             )
             .subscribe(artPiece => {
