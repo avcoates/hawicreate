@@ -1,0 +1,57 @@
+<ng-container *ngIf="state$ | async as state">
+    <div class="dynamic__container">
+        <h1 class="mat-headline">
+            Active Requests
+        </h1>
+        <div class="requests">
+            <div *ngFor="let request of state.activeRequests" class="request">
+                <mat-card>
+                    <mat-card-header>
+                        <mat-card-title>
+                            {{ request.name }}
+                        </mat-card-title>
+                        <mat-card-subtitle>
+                            {{ request.email }}
+                        </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                            {{ request.message }}
+                    </mat-card-content>
+                    <mat-card-actions>
+                        <button (click)="onArchive(request)" mat-stroked-button color="primary">
+                            Archive
+                        </button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+        <h1 class="mat-headline">
+            Archived Requests
+        </h1>
+        <div class="requests">
+                <div *ngFor="let request of state.archivedRequests" class="request">
+                    <mat-card>
+                        <mat-card-header>
+                            <mat-card-title>
+                                {{ request.name }}
+                            </mat-card-title>
+                            <mat-card-subtitle>
+                                {{ request.email }}
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                                {{ request.message }}
+                        </mat-card-content>
+                        <mat-card-actions>
+                            <button (click)="onRecover(request)" mat-raised-button color="primary">
+                                Recover
+                            </button>
+                            <button (click)="onDelete(request)" mat-button color="warn">
+                                Delete
+                            </button>
+                        </mat-card-actions>
+                    </mat-card>
+                </div>
+            </div>
+    </div>
+</ng-container>

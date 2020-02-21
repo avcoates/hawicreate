@@ -262,15 +262,72 @@ $hc-app-theme: mat-light-theme($hc-app-primary, $hc-app-accent, $hc-app-warn);
         display: flex;
         justify-content: center;
         margin: 5% 10%;
+
+        &--flush {
+            display: flex;
+            justify-content: center;
+            margin: 1vh 10%; 
+        }
         
         @include respond-below(tablet) {
             width: 90%;
             margin: 5%;
+
+            &--flush {
+                width: 90%;
+                margin: 5%;
+                margin: 1vh 5%; 
+            }
         }
     
         @include respond-below(mobile) {
             width: 95%;
             margin: 2.5%;
+
+            &--flush {
+                width: 95%;
+                margin: 2.5%;    
+                margin: 1vh 2.5%; 
+            }
+        }
+
+    }
+
+    &--center--column {
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        align-items: center;
+        flex-direction: column;
+        margin: 5% 10%;
+
+        &--flush {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            align-items: center;
+            flex-direction: column;
+            margin: 1vh 10%; 
+        }
+        
+        @include respond-below(tablet) {
+            width: 90%;
+            margin: 5%;
+
+            &--flush {
+                width: 90%;
+                margin: 1vh 5%; 
+            }
+        }
+    
+        @include respond-below(mobile) {
+            width: 95%;
+            margin: 2.5%;
+
+            &--flush {
+                width: 95%;
+                margin: 1vh 2.5%; 
+            }
         }
 
     }

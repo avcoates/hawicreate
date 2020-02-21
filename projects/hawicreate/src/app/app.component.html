@@ -1,5 +1,5 @@
         <mat-sidenav-container>
-            <mat-sidenav #sidenav position="end" mode="side" >
+            <mat-sidenav #sidenav position="end" mode="over" >
                 <mat-toolbar color="primary">
                     <button (click)="toggleSideNav()" mat-icon-button>
                         <mat-icon>
@@ -26,7 +26,7 @@
                              class="toolbar mat-elevation-z6"
                              color="primary">
                     <div>
-                        <img class="cursor--pointer" (click)="onNavigate('home')" src="assets/betterC.png" height="48px"/>
+                        <img class="cursor--pointer" (click)="onNavigateHome()" src="assets/betterC.png" height="48px"/>
                     </div>
                     <div>
                         <ng-container *ngIf="device$ | async as device">

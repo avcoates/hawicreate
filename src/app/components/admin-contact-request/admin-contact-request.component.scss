@@ -1,0 +1,19 @@
+@import 'mixins';
+
+.request {
+    padding: 1em;
+
+    @include respond-below(tablet) {
+        width: 50vw;
+    }
+
+    @include respond-below(mobile) {
+        width: 100%;
+        padding: 1em 0em;
+    }
+}
+
+.requests {
+    display: flex;
+    flex-wrap: wrap;
+}
