@@ -107,16 +107,6 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
                 return { filesHaveChanges, selectedArtPiece };
             }),
         );
-        // this.state$ = combineLatest([
-        //         this.filesHaveChanges$,
-        //         this.artPieceForm.statusChanges
-        //             .pipe(mapTo({ dirty: this.artPieceForm.dirty, valid: this.artPieceForm.valid }))
-        // ])
-        // .pipe(
-        //     map(([filesHaveChanges, formStatus]) => {
-        //         return { filesHaveChanges, formStatus };
-        //     }),
-        // );
 
         this.actions
             .pipe(

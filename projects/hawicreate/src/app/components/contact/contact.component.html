@@ -1,4 +1,9 @@
-
+<mat-toolbar *ngIf="artPieceId !== ''" style="left: 0; right: 0;" color="accent" class="mat-elevation-z2">
+    <button (click)="onBack()" color="primary" mat-icon-button>
+        <mat-icon>arrow_back_ios</mat-icon>
+        <h1 class="mat-button">back</h1>
+    </button>
+</mat-toolbar>
 <div class="dynamic__container--center">
     <div class="contact">
 
@@ -17,7 +22,6 @@
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5" placeholder="Message" matInput></textarea>
             </mat-form-field>
-            <!-- <re-captcha formControlName="recaptcha" (resolved)="resolved($event)" siteKey="6LdlxdgUAAAAAFeng-hOh5zebEeEgGVwxSMEJ22x"></re-captcha> -->
             <button (click)="onSend()" [disabled]="form.invalid || !form.dirty" mat-raised-button color="primary">
                 Send
             </button>

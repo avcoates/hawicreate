@@ -6,6 +6,7 @@ import { untilDestroyed } from 'ngx-take-until-destroy';
 import { ArtPieceApiService } from '@admin/shared/services/data';
 import { NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery';
 import { map } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-art-piece',
@@ -19,7 +20,8 @@ export class ArtPieceComponent implements OnInit, OnDestroy {
 
     constructor(private route: ActivatedRoute,
                 private artPieceApiService: ArtPieceApiService,
-                private router: Router) { }
+                private router: Router,
+                private _location: Location) { }
 
     public ngOnInit() {
         this.route.paramMap
@@ -72,6 +74,10 @@ export class ArtPieceComponent implements OnInit, OnDestroy {
 
     public onSelectBuy(artPiece: ArtPiece): void {
         this.router.navigate(['contact', artPiece.id]);
+    }
+
+    public onBack(): void {
+        this._location.back();
     }
 
 }

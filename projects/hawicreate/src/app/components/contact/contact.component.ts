@@ -9,6 +9,7 @@ import { map, filter, switchMap } from 'rxjs/operators';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { ArtPieceApiService } from '@admin/shared/services/data';
 import { filterEmpty } from '@admin/utilities/map';
+import { Location } from '@angular/common';
 
 @Component({
     selector: 'app-contact',
@@ -37,14 +38,16 @@ export class ContactComponent implements OnInit, OnDestroy {
         return this.form.get('message');
     }
 
+    public artPieceId = '';
+    
     private singleExecutionSubscription: Subscription;
-    private artPieceId = '';
 
     constructor(private fb: FormBuilder,
                 private contactService: ContactService,
                 private snackBarService: SnackBarService,
                 private route: ActivatedRoute,
-                private artPieceApiService: ArtPieceApiService) { }
+                private artPieceApiService: ArtPieceApiService,
+                private _location: Location) { }
 
     public ngOnInit(): void {
         this.route.paramMap
@@ -90,6 +93,10 @@ export class ContactComponent implements OnInit, OnDestroy {
                 this.email.reset();
                 this.message.reset();
             });
+    }
+
+    public onBack(): void {
+        this._location.back();
     }
 
 }
