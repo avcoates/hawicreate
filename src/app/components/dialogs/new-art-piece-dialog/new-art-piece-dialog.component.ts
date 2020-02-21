@@ -18,6 +18,7 @@ export class NewArtPieceDialogComponent  {
         width: [, [Validators.required, Validators.min(1)]],
         height: [, [Validators.required, Validators.min(1)]],
         isSold: [false, [Validators.required]],
+        isFeatured: [false, [Validators.required]],
     });
 
     private files = new Array<File>();
@@ -32,7 +33,8 @@ export class NewArtPieceDialogComponent  {
                 createdDate,
                 width,
                 height,
-                isSold
+                isSold,
+                isFeatured
         } = this.form.getRawValue();
 
         const artPieceDto: ArtPieceDto = {
@@ -44,9 +46,10 @@ export class NewArtPieceDialogComponent  {
             width,
             height,
             isSold,
+            isFeatured,
             files: this.files
         };
-    
+
         this.dialogRef.close(artPieceDto);
     }
 

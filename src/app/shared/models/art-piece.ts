@@ -11,6 +11,7 @@ export interface ArtPiece {
     width: number;
     height: number;
     isSold: boolean;
+    isFeatured: boolean;
 }
 
 export interface ArtPieceDto {
@@ -23,4 +24,5 @@ export interface ArtPieceDto {
     width: number;
     height: number;
     isSold: boolean;
+    isFeatured: boolean;
 }

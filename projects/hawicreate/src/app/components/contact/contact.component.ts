@@ -39,7 +39,7 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     public artPieceId = '';
-    
+
     private singleExecutionSubscription: Subscription;
 
     constructor(private fb: FormBuilder,

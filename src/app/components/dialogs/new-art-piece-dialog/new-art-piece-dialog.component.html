@@ -52,6 +52,10 @@
             <div>
                 <mat-checkbox color="primary" formControlName="isSold">Sold</mat-checkbox>
             </div>
+
+            <div>
+                <mat-checkbox color="primary" matTooltip="(Makes it show up on the home page)" formControlName="isFeatured">Featured</mat-checkbox>
+            </div>
     </form>
     <hc-image-upload (fileListChanged)="onFileListChanged($event)"></hc-image-upload>
 </div>

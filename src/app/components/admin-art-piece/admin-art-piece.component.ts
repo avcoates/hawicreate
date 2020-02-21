@@ -60,6 +60,10 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
         return this.artPieceForm.get('isSold');
     }
 
+    public get isFeatured(): AbstractControl {
+        return this.artPieceForm.get('isFeatured');
+    }
+
     public get filesHaveChanges$(): Observable<boolean> {
         return this.filesToAdd$
             .pipe(
@@ -78,6 +82,7 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
         width: ['', [Validators.required, Validators.min(1)]],
         height: ['', [Validators.required, Validators.min(1)]],
         isSold: [false, [Validators.required]],
+        isFeatured: [false, [Validators.required]],
         images: this.fb.array([])
     });
 
@@ -192,7 +197,7 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
                             })
                         );
                     });
-            
+
                     this.name.setValue(artPiece.name);
                     this.description.setValue(artPiece.description);
                     this.price.setValue(artPiece.price);
@@ -200,6 +205,7 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
                     this.width.setValue(artPiece.width);
                     this.height.setValue(artPiece.height);
                     this.isSold.setValue(artPiece.isSold);
+                    this.isFeatured.setValue(artPiece.isFeatured);
                     this.artPieceForm.setControl('images', imagesArray);
                     this.artPieceForm.markAsPristine();
                     this.artPieceForm.markAsUntouched();

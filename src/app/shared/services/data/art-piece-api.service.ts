@@ -39,6 +39,25 @@ export class ArtPieceApiService {
     }
 
     /**
+     * @description returns all the artPieces that are deatured
+     *
+     */
+    public getAllFeatured(): Observable<Array<ArtPiece>> {
+        return from(this.firestore.collection(this.artPieceCollectionString)
+            .ref
+            .where('isFeatured', '==', true)
+            .get()
+            )
+            .pipe(
+                switchMap(snapshot => {
+                    const artPieces$ = snapshot.docs
+                        .map((s: QueryDocumentSnapshot<ArtPieceDto>) => toArtPiece(s, this.imageApiService));
+                    return zip(...artPieces$);
+                    })
+            );
+    }
+
+    /**
      * @description Gets the artPiece by the id given
      * @param id of the artPiece to retreive
      */
@@ -63,6 +82,7 @@ export class ArtPieceApiService {
             width: artPiece.width,
             height: artPiece.height,
             isSold: artPiece.isSold,
+            isFeatured: artPiece.isFeatured
         };
 
         // No need to add images if there are no Files
@@ -192,7 +212,7 @@ export class ArtPieceApiService {
      * @param doc raw doument snapshot to be converted
      */
     private toArtPieceDto(doc: QueryDocumentSnapshot<ArtPieceDto>): ArtPieceDto {
-        const { imageIds, isSold, price, name, description, width, height, createdDate } = doc.data();
+        const { imageIds, isSold, price, name, description, width, height, createdDate, isFeatured } = doc.data();
 
         return {
             imageIds,
@@ -202,7 +222,8 @@ export class ArtPieceApiService {
             description,
             width,
             height,
-            createdDate
+            createdDate,
+            isFeatured
         };
     }
 
@@ -215,7 +236,7 @@ export class ArtPieceApiService {
  * @param imageApiService used to get the iamges
  */
 const toArtPiece = (doc: QueryDocumentSnapshot<ArtPieceDto>, imageApiService: ImageApiService): Observable<ArtPiece> => {
-    const { imageIds, isSold, price, name, description, width, height, createdDate} = doc.data();
+    const { imageIds, isSold, price, name, description, width, height, createdDate, isFeatured } = doc.data();
     const id = doc.id;
 
     // convert TimeStamp to date (seconds => miliseconds)
@@ -228,6 +249,7 @@ const toArtPiece = (doc: QueryDocumentSnapshot<ArtPieceDto>, imageApiService: Im
         imageIds,
         id,
         isSold,
+        isFeatured,
         price,
         name,
         description,
