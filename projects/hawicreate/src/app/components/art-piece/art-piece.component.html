@@ -20,7 +20,7 @@
         <p class="mat-h4">
             {{ state.artPiece.description }}
         </p>
-        <button mat-raised-button [disabled]="state.artPiece.isSold" color="primary" mat-label class="mat-h4">
+        <button mat-raised-button [disabled]="state.artPiece.isSold" (click)="onSelectBuy(state.artPiece)" color="primary" mat-label class="mat-h4">
             {{ state.artPiece.isSold ? 'Sold' : 'For Sale' }}
         </button>
     </div>

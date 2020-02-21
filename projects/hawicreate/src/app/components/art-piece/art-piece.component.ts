@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { Route, ActivatedRoute } from '@angular/router';
+import { Route, ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ArtPiece } from '@admin/shared/models';
 import { untilDestroyed } from 'ngx-take-until-destroy';
@@ -18,7 +18,8 @@ export class ArtPieceComponent implements OnInit, OnDestroy {
     public state$: Observable<{ options: Array<NgxGalleryOptions>, images: Array<NgxGalleryImage>, artPiece: ArtPiece }>;
 
     constructor(private route: ActivatedRoute,
-                private artPieceApiService: ArtPieceApiService) { }
+                private artPieceApiService: ArtPieceApiService,
+                private router: Router) { }
 
     public ngOnInit() {
         this.route.paramMap
@@ -69,5 +70,8 @@ export class ArtPieceComponent implements OnInit, OnDestroy {
         // Nedded for untilDestroyed();
     }
 
+    public onSelectBuy(artPiece: ArtPiece): void {
+        this.router.navigate(['contact', artPiece.id]);
+    }
 
 }

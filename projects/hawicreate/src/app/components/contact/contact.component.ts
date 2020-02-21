@@ -1,9 +1,14 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, Validators, AbstractControl, ValidationErrors, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { ContactService } from '../../../services';
 import { SnackBarService } from '@admin/shared/services';
 import { ContactRequestDto } from '@admin/shared/models';
+import { ContactService } from '@public/hawicreate/src/services';
+import { Route, ActivatedRoute } from '@angular/router';
+import { map, filter, switchMap, tap } from 'rxjs/operators';
+import { untilDestroyed } from 'ngx-take-until-destroy';
+import { ArtPieceApiService } from '@admin/shared/services/data';
+import { isDefined } from '@angular/compiler/src/util';
 
 @Component({
     selector: 'app-contact',
@@ -33,12 +38,26 @@ export class ContactComponent implements OnInit, OnDestroy {
     }
 
     private singleExecutionSubscription: Subscription;
+    private artPieceId = '';
 
     constructor(private fb: FormBuilder,
                 private contactService: ContactService,
-                private snackBarService: SnackBarService) { }
+                private snackBarService: SnackBarService,
+                private route: ActivatedRoute,
+                private artPieceApiService: ArtPieceApiService) { }
 
-    ngOnInit() {
+    public ngOnInit(): void {
+        this.route.paramMap
+            .pipe(
+                untilDestroyed(this),
+                map(paramMap => paramMap.get('id')),
+                filter(isDefined),
+                switchMap(id => this.artPieceApiService.getById(id))
+            )
+            .subscribe(artPiece => {
+                this.artPieceId = artPiece.id;
+                this.message.setValue(`Hi!\nI am contacting you regarding the art piece titled: ${artPiece.name}\n`);
+            });
     }
 
     public ngOnDestroy() {
@@ -53,6 +72,11 @@ export class ContactComponent implements OnInit, OnDestroy {
             ...this.form.getRawValue(),
             archived: false
         };
+
+        // Add id to end of message if they are inquiring about a specific artPiece
+        if (this.artPieceId !== '') {
+            contact.message = contact.message + '\n id: ' + this.artPieceId;
+        }
 
         this.singleExecutionSubscription = this.contactService
             .add(contact)

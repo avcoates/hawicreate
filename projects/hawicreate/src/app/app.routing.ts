@@ -17,6 +17,10 @@ export const PublicRoutes: Routes = [
         component: ArtPieceComponent,
     },
     {
+        path: 'contact/:id',
+        component: ContactComponent
+    },
+    {
         path: 'contact',
         component: ContactComponent
     },
