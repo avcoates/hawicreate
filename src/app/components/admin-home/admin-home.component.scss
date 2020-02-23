@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .featured_image {
     width: 50%;
     height: auto;
@@ -6,4 +8,18 @@
     margin: 1em 6em 1em 6em;
     display: flex;
     justify-content: center;
+}
+.home__page {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    
+    @include respond-below(tablet) {
+        width: 75vw;
+    }
+    
+    @include respond-below(mobile) {
+        width: 95vw;
+    }
+
 }

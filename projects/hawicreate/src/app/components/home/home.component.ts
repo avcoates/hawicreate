@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ArtPieceApiService } from '@admin/shared/services/data';
+import { ArtPieceApiService, PageApiService } from '@admin/shared/services/data';
 import { Observable } from 'rxjs';
-import { ArtPiece } from '@admin/shared/models';
+import { ArtPiece, HomePage } from '@admin/shared/models';
 import { map, tap } from 'rxjs/operators';
 import { NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery';
 
@@ -12,13 +12,18 @@ import { NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery';
 })
 export class HomeComponent implements OnInit {
 
+    public text = 'The world always seems brighter when you\'ve just made something that wasn\'t there before.';
+    public author = '- Neil Gaiman';
     public featuredArtPieces$!: Observable<Array<ArtPiece>>;
+    public homePage$!: Observable<HomePage>;
 
     public state$: Observable<{ images: Array<NgxGalleryImage>, options: NgxGalleryOptions }>;
-    constructor(private artPieceApiService: ArtPieceApiService) { }
+    constructor(private artPieceApiService: ArtPieceApiService,
+                private pageApiService: PageApiService) { }
 
     public ngOnInit(): void {
         this.featuredArtPieces$ = this.artPieceApiService.getAllFeatured();
+        this.homePage$ = this.pageApiService.getHomePage();
 
         this.state$ = this.artPieceApiService.getAllFeatured()
             .pipe(

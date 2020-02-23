@@ -6,3 +6,4 @@ export * from './image';
 export * from './device-type';
 export { User } from './user';
 export * from './contact-request';
+export * from './home-page';

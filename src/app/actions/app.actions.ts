@@ -1,4 +1,4 @@
-import { NavbarRoute, DeviceListener, User, ContactRequest } from '@shared/models';
+import { NavbarRoute, DeviceListener, User, ContactRequest, HomePage } from '@shared/models';
 
 export class UpdatePageRoutesFromChild {
     static readonly type = '[child] Update Page Routes';
@@ -13,6 +13,17 @@ export class InitiateDeviceListener {
 export class UpdateBackText {
     public static readonly type = '[Base] Update Back Text';
     constructor(public readonly payload: { text: string, visible: boolean }) {}
+}
+
+// Pages
+
+export class GetHomePageData {
+    static readonly type = '[Admin] Get Home Page Data';
+}
+
+export class UpdateHomePageData {
+    static readonly type = '[Admin] Update Home Page Data';
+    constructor(public payload: HomePage) {}
 }
 
 // Users

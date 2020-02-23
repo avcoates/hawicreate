@@ -138,7 +138,8 @@ export class ArtPieceApiService {
                         createdDate: new Date(artPiece.createdDate),
                         width: artPiece.width,
                         height: artPiece.height,
-                        isSold: artPiece.isSold
+                        isSold: artPiece.isSold,
+                        isFeatured: artPiece.isFeatured
                     };
 
                     return from(artPieceRef.update(updatedArtPiece));

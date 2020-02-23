@@ -1,3 +1,49 @@
-<ng-container *ngIf="user$ | async as user">
-    Hello {{ user.displayName }}
+<ng-container *ngIf="state$ | async as state">
+    <div class="dynamic__container--center--column">
+        <h1 class="mat-h1">
+            Hello {{ state.user.displayName }}
+        </h1>
+        <form class="home__page" [formGroup]="state.form">
+            <mat-form-field>
+                <textarea 
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    formControlName="quote"
+                    placeholder="Quote"
+                    [value]="state.form.get('quote').value"
+                    matInput
+                >
+                </textarea>
+            </mat-form-field>
+            <mat-form-field>
+                <input 
+                    formControlName="author"
+                    placeholder="Author"
+                    [value]="state.form.get('author').value"
+                    matInput
+                />
+            </mat-form-field>
+            <mat-form-field>
+                <textarea 
+                    cdkTextareaAutosize
+                    cdkAutosizeMinRows="1"
+                    cdkAutosizeMaxRows="5"
+                    formControlName="aboutMe"
+                    placeholder="About Me"
+                    [value]="state.form.get('aboutMe').value"
+                    matInput
+                >
+                </textarea>
+            </mat-form-field>
+            <div>
+                <button [disabled]="!state.form.dirty" (click)="onUpdateHomePage(state.form)" mat-raised-button color="primary">
+                    Update
+                </button>
+                <button [disabled]="!state.form.dirty" (click)="onCancel()" mat-button color="primary">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
 </ng-container>

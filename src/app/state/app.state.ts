@@ -9,9 +9,11 @@ import { UpdatePageRoutesFromChild,
          GetAllContactRequests,
          DeleteContactRequest,
          ArchiveContactRequest,
-         RecoverContactRequest
+         RecoverContactRequest,
+         GetHomePageData,
+         UpdateHomePageData
 } from '../actions/app.actions';
-import { NavbarRoute, DeviceType, mobileDevice, tabletDevice, desktopDevice, ContactRequest } from '@admin/shared/models';
+import { NavbarRoute, DeviceType, mobileDevice, tabletDevice, desktopDevice, ContactRequest, HomePage } from '@admin/shared/models';
 import { User } from '@admin/shared/models/user';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { tap } from 'rxjs/operators';
@@ -21,11 +23,13 @@ import { Router } from '@angular/router';
 import { UserApiService, ContactRequestApiService } from '@admin/shared/services/data';
 import { GalleryState } from './gallery.state';
 import { ArtPieceState } from './art-piece.state';
+import { PageApiService } from '@admin/shared/services/data/page-api.service';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
     activeUser: User;
     users: Array<User>;
+    homePage: HomePage;
     contactRequests: Array<ContactRequest>;
     deviceType: DeviceType;
     backText: { text: string, visible: boolean };
@@ -38,6 +42,7 @@ export interface AppStateModel {
       activeUser: null,
       users: [],
       contactRequests: [],
+      homePage: null,
       deviceType: {
           mobile: true,
           tablet: false,
@@ -53,6 +58,11 @@ export class AppState {
     @Selector()
     public static deviceType({ deviceType }: AppStateModel): DeviceType {
         return deviceType;
+    }
+
+    @Selector()
+    public static homePage({ homePage }: AppStateModel): HomePage {
+        return homePage;
     }
 
     @Selector()
@@ -88,9 +98,9 @@ export class AppState {
     constructor(private auth: AuthService,
                 private firebase: FirebaseApp,
                 private store: Store,
-                private router: Router,
                 private userApiService: UserApiService,
-                private contactRequestApiService: ContactRequestApiService
+                private contactRequestApiService: ContactRequestApiService,
+                private pageApiService: PageApiService,
     ) {
         this.firebase.auth().onAuthStateChanged(user => {
             if (user) {
@@ -185,6 +195,18 @@ export class AppState {
     public recoverContactRequest({ dispatch }: StateContext<AppStateModel>, { payload }: RecoverContactRequest): Observable<void> {
         return this.contactRequestApiService.recover(payload)
             .pipe(tap(() => dispatch( new GetAllContactRequests())));
+    }
+
+    @Action(GetHomePageData)
+    public getHomePageData({ patchState }: StateContext<AppStateModel>): Observable<HomePage> {
+        return this.pageApiService.getHomePage()
+            .pipe(tap((homePage) => patchState({ homePage })));
+    }
+
+    @Action(UpdateHomePageData)
+    public updateHomePageData({ dispatch }: StateContext<AppStateModel>, { payload }: UpdateHomePageData): Observable<void> {
+        return this.pageApiService.uppdateHomePage(payload)
+            .pipe(tap(() => dispatch( new GetHomePageData())));
     }
 
 }
