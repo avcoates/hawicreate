@@ -34,6 +34,7 @@ import {
 } from './components';
 import { AppState, ArtPieceState, GalleryState } from './state';
 
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { AppState, ArtPieceState, GalleryState } from './state';
     AngularFireModule.initializeApp(environment.firebase),
     AngularFireStorageModule,
     AngularFirestoreModule,
+    AngularFireAuthModule,
     SharedModule
   ],
   exports: [],

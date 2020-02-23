@@ -2,6 +2,7 @@
 
 .content {
     padding-top: 64px; // mat-toolbar height
+    padding-bottom: 2em;
 
     @include respond-below(mobile) {
         padding-top: 56px; // mat-toolbar height in mobile
@@ -9,7 +10,7 @@
 }
 
 .toolbar {
-    position: fixed;
+    position: sticky;
     z-index: 2;
     top: 0;
     left: 0;
@@ -37,11 +38,5 @@
 }
 
 .side__nav__content {
-    // height: calc(100vh + 64px);
     height: calc(100vh);
-
-    // @include respond-below(mobile) {
-    //     height: calc(100vh);
-    //     // height: calc(100vh + 56px);
-    // }
 }

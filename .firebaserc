@@ -5,11 +5,11 @@
   "targets": {
     "hawicreate": {
       "hosting": {
-        "admin": [
-          "hawicreate-admin"
-        ],
-        "public": [
+        "hawicreate": [
           "hawicreate"
+        ],
+        "hawicreate-admin": [
+          "hawicreate-admin"
         ]
       }
     }

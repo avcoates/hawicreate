@@ -15,11 +15,17 @@
   },
   "hosting": [
     {
-      "target": "public",
-      "public": "dist/hawicreate"
+      "target": "hawicreate",
+      "public": "dist/hawicreate",
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
     },
     {
-      "target": "admin",
+      "target": "hawicreate-admin",
       "public": "dist/hawicreate-admin",
       "ignore": [
         "firebase.json",
@@ -29,7 +35,7 @@
       "rewrites": [
         {
           "source": "**",
-          "destination": "index.html"
+          "destination": "/index.html"
         }
       ]
 

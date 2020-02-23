@@ -12,10 +12,19 @@
 .main__image {
     max-width: 500px;
     width: 50vw;
+    height: auto;
+    display: flex;
+    align-self: center;
 
     @include respond-below(tablet){
-        width: 75vw;
+        width: 300px;
     }
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .header {
