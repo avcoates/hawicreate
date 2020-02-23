@@ -12,8 +12,6 @@ import { NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery';
 })
 export class HomeComponent implements OnInit {
 
-    public text = 'The world always seems brighter when you\'ve just made something that wasn\'t there before.';
-    public author = '- Neil Gaiman';
     public featuredArtPieces$!: Observable<Array<ArtPiece>>;
     public homePage$!: Observable<HomePage>;
 
