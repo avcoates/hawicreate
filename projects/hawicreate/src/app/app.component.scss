@@ -1,12 +1,7 @@
 @import 'mixins';
 
 .content {
-    padding-top: 64px; // mat-toolbar height
     padding-bottom: 2em;
-
-    @include respond-below(mobile) {
-        padding-top: 56px; // mat-toolbar height in mobile
-    }
 }
 
 .toolbar {
