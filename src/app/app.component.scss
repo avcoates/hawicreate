@@ -1,11 +1,8 @@
 @import 'mixins';
 
-.content {
-    padding-bottom: 2em;
-}
-
 .toolbar {
     position: sticky;
+    position: -webkit-sticky;
     z-index: 2;
     top: 0;
     left: 0;
@@ -33,5 +30,6 @@
 }
 
 .side__nav__content {
-    height: calc(100vh);
+    min-height: 100vh;
+    padding-bottom: 2em;
 }

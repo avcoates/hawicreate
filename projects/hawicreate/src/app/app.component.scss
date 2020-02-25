@@ -1,11 +1,8 @@
 @import 'mixins';
 
-.content {
-    padding-bottom: 2em;
-}
-
 .toolbar {
     position: sticky;
+    position: -webkit-sticky;
     /* https://github.com/lukasz-galka/ngx-gallery/issues/71 */
     z-index: 2001;
     top: 0;
@@ -34,5 +31,6 @@
 }
 
 .side__nav__content {
-    height: calc(100vh);
+    min-height: 100vh;
+    padding-bottom: 2em;
 }
