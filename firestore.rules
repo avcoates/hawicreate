@@ -7,16 +7,35 @@ service cloud.firestore {
     }
     
     match /User/{userId} {
-    	allow read;
-      allow write: if isAdmin(userId) || isOwner(userId);
+    	allow read: if isAdmin(request, database) || isOwner(userId);
+      allow write: if isAdmin(request, database) || isOwner(userId);
     }
-    
-    match /{document=**} {
-      allow read;
+
+    match /ArtPiece/{id} {
+    	allow read;
       allow write: if isAdmin(request, database);
     }
-    
-    
+
+    match /Collection/{id} {
+    	allow read;
+      allow write: if isAdmin(request, database);
+    }
+
+    match /Image/{id} {
+    	allow read;
+      allow write: if isAdmin(request, database);
+    }
+
+    match /Page/{id} {
+    	allow read;
+      allow write: if isAdmin(request, database);
+    }
+
+    match /ContactRequest/{id} {
+      allow get, create, update;
+      allow list, delete: if isAdmin(request, database);
+    }
+
   }
   
 }
