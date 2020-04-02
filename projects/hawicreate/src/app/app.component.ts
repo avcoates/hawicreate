@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { NavbarRoute } from '@admin/shared/models';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';

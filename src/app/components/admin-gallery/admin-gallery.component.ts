@@ -5,7 +5,7 @@ import { ArtPiece, ArtPieceDto } from '@admin/shared/models';
 import { GetAllArtPieces, UpdateSelectedArtPiece, AddArtPiece } from '@admin/actions/art-piece.actions';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { NewArtPieceDialogComponent } from '../dialogs';
 import { untilDestroyed } from 'ngx-take-until-destroy';
 import { isNullOrUndefined } from 'util';

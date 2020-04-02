@@ -10,7 +10,7 @@ import { User } from 'firebase';
 import { Router } from '@angular/router';
 import { AuthService } from './shared/services/auth/auth.service';
 import { map } from 'rxjs/operators';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Location } from '@angular/common';
 
 
