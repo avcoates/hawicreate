@@ -13,7 +13,7 @@ export class NewArtPieceDialogComponent  {
     public form = this.fb.group({
         name: ['', [Validators.required]],
         description: '',
-        price: [, [Validators.required]],
+        price: [, []],
         createdDate: [new Date(), [Validators.required]],
         width: [, [Validators.required, Validators.min(1)]],
         height: [, [Validators.required, Validators.min(1)]],
