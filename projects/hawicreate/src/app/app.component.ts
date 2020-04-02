@@ -12,7 +12,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
 
-    @ViewChild('sidenav', {static: false})
+    @ViewChild('sidenav')
     public sidenav: MatSidenav;
 
     public isOpened = true;

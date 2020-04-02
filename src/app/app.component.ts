@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
     @Select(AppState.deviceType)
     public deviceType$!: Observable<DeviceType>;
 
-    @ViewChild('sidenav', {static: false})
+    @ViewChild('sidenav')
     public sidenav: MatSidenav;
 
     public state$: Observable<{ user: User, deviceType: DeviceType}>;

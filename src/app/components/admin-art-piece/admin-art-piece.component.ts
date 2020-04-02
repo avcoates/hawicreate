@@ -23,7 +23,7 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
     @Select(ArtPieceState.selectedArtPiece)
     public selectedArtPiece$: Observable<ArtPiece>;
 
-    @ViewChild('hcupload', { static: false })
+    @ViewChild('hcupload')
     public hcUpload!: ImageUploadComponent;
 
     public artPiece: ArtPiece;
