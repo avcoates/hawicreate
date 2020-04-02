@@ -79,6 +79,7 @@ export class ArtPieceApiService {
             description: artPiece.description,
             price: artPiece.price,
             createdDate: artPiece.createdDate,
+            addedDate: artPiece.addedDate,
             width: artPiece.width,
             height: artPiece.height,
             isSold: artPiece.isSold,
@@ -136,6 +137,7 @@ export class ArtPieceApiService {
                         description: artPiece.description,
                         price: artPiece.price,
                         createdDate: new Date(artPiece.createdDate),
+                        addedDate: new Date(artPiece.addedDate),
                         width: artPiece.width,
                         height: artPiece.height,
                         isSold: artPiece.isSold,
@@ -213,7 +215,7 @@ export class ArtPieceApiService {
      * @param doc raw doument snapshot to be converted
      */
     private toArtPieceDto(doc: QueryDocumentSnapshot<ArtPieceDto>): ArtPieceDto {
-        const { imageIds, isSold, price, name, description, width, height, createdDate, isFeatured } = doc.data();
+        const { imageIds, isSold, price, name, description, width, height, createdDate, addedDate, isFeatured } = doc.data();
 
         return {
             imageIds,
@@ -224,6 +226,7 @@ export class ArtPieceApiService {
             width,
             height,
             createdDate,
+            addedDate,
             isFeatured
         };
     }
@@ -237,12 +240,15 @@ export class ArtPieceApiService {
  * @param imageApiService used to get the iamges
  */
 const toArtPiece = (doc: QueryDocumentSnapshot<ArtPieceDto>, imageApiService: ImageApiService): Observable<ArtPiece> => {
-    const { imageIds, isSold, price, name, description, width, height, createdDate, isFeatured } = doc.data();
+    const { imageIds, isSold, price, name, description, width, height, createdDate, addedDate, isFeatured } = doc.data();
     const id = doc.id;
 
     // convert TimeStamp to date (seconds => miliseconds)
-    const date = new Date();
-    date.setTime(createdDate.seconds * 1000);
+    const createdDateConvert = new Date();
+    createdDateConvert.setTime(createdDate.seconds * 1000);
+
+    const addedDateConvert = new Date();
+    createdDateConvert.setTime(addedDate.seconds * 1000);
 
 
     const artPiece = {
@@ -256,7 +262,8 @@ const toArtPiece = (doc: QueryDocumentSnapshot<ArtPieceDto>, imageApiService: Im
         description,
         width,
         height,
-        createdDate: date
+        createdDate: createdDateConvert,
+        addedDate: addedDateConvert
     };
 
     if (imageIds.length === 0) {

@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Component } from '@angular/core';
+import { MatDialogRef } from '@angular/material';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ArtPieceDto } from '@admin/shared/models';
 
@@ -15,6 +15,7 @@ export class NewArtPieceDialogComponent  {
         description: '',
         price: [, []],
         createdDate: [new Date(), [Validators.required]],
+        addedDate: new Date(),
         width: [, [Validators.required, Validators.min(1)]],
         height: [, [Validators.required, Validators.min(1)]],
         isSold: [false, [Validators.required]],
@@ -31,6 +32,7 @@ export class NewArtPieceDialogComponent  {
                 description,
                 price,
                 createdDate,
+                addedDate,
                 width,
                 height,
                 isSold,
@@ -43,6 +45,7 @@ export class NewArtPieceDialogComponent  {
             description,
             price,
             createdDate,
+            addedDate,
             width,
             height,
             isSold,
