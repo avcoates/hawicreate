@@ -119,7 +119,6 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
                 untilDestroyed(this)
             )
             .subscribe(action => {
-                console.log(action.status);
                 if (action.status === 'SUCCESSFUL') {
                     this.snackBarService.openSnackBar('Art piece updated successfully!');
                 } else if (action.status === 'ERRORED' || action.status === 'CANCELED') {
@@ -154,7 +153,6 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
             ...this.artPieceForm.getRawValue()
         };
 
-        console.log('artPeiceForm: ', newArtPiece);
         this.store.dispatch(
             new UpdateArtPiece(
                 {

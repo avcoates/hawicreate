@@ -39,7 +39,6 @@ export class AdminGalleryComponent implements OnInit, OnDestroy {
             untilDestroyed(this)
         )
         .subscribe(action => {
-            console.log(action.status);
             if (action.status === 'SUCCESSFUL') {
                 this.snackBarService.openSnackBar('Art piece added successfully!');
             } else if (action.status === 'ERRORED' || action.status === 'CANCELED') {
