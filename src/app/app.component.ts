@@ -105,4 +105,8 @@ export class AppComponent implements OnInit {
         this._location.back();
         this.store.dispatch(new UpdateBackText({ text: '', visible: false }));
     }
+
+    public onNavigateHome(): void {
+        this.router.navigateByUrl('admin-home');
+    }
 }

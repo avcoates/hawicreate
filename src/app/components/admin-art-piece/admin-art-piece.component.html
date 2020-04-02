@@ -20,11 +20,11 @@
         <div class="dynamic__container--center">
             <div class="art__piece">
                 <hc-image-upload #hcupload (fileListChanged)="onFileListChanged($event)"></hc-image-upload>
-                <mat-form-field>
+                <mat-form-field *ngIf="state.selectArtPiece">
                     <input
                         disabled="true"
                         placeholder="Id"
-                        [value]="state.selectedArtPiece.id "
+                        [value]="state.selectedArtPiece.id"
                         matInput
                     >
                 </mat-form-field>
