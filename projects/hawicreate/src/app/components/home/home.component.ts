@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ArtPiece, HomePage } from '@admin/shared/models';
 import { map, tap } from 'rxjs/operators';
 import { NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-home',
@@ -14,10 +15,11 @@ export class HomeComponent implements OnInit {
 
     public featuredArtPieces$!: Observable<Array<ArtPiece>>;
     public homePage$!: Observable<HomePage>;
+    public state$: Observable<{ images: Array<NgxGalleryImage>, options: NgxGalleryOptions[] }>;
 
-    public state$: Observable<{ images: Array<NgxGalleryImage>, options: NgxGalleryOptions }>;
     constructor(private artPieceApiService: ArtPieceApiService,
-                private pageApiService: PageApiService) { }
+                private pageApiService: PageApiService,
+                private router: Router) { }
 
     public ngOnInit(): void {
         this.featuredArtPieces$ = this.artPieceApiService.getAllFeatured();
@@ -28,7 +30,7 @@ export class HomeComponent implements OnInit {
                 map(artPieces => {
                     const options: NgxGalleryOptions[] = [{
                             imageSize: 'contain',
-                            preview: false,
+                            preview: true,
                             imageAutoPlay: true,
                             imageBullets: true,
                             imageArrows: artPieces.length > 1,
@@ -39,7 +41,15 @@ export class HomeComponent implements OnInit {
                             imageInfinityMove: true,
                             thumbnailSize: 'contain',
                             thumbnails: false,
-                            imageAutoPlayInterval: 5000
+                            imageAutoPlayInterval: 5000,
+                            actions: [ {
+                                icon: 'fa fa-eye',
+                                disabled: false,
+                                titleText: 'View',
+                                onClick: ($event: any, index: number) => {
+                                    this.router.navigate(['art-piece', artPieces[index].id]);
+                                }
+                            }]
                     }];
                     return {
                         images: artPieces
@@ -55,8 +65,7 @@ export class HomeComponent implements OnInit {
                         }),
                         options
                     };
-                }),
-                tap(console.log)
+                })
             );
     }
 

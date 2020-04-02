@@ -6,7 +6,7 @@
     </div>
     <div class="dynamic__container--center--flush" >
         <ng-container *ngIf="state$ | async as state">
-            <div class="dynamic__container--center--flush" >
+            <div class="dynamic__container--center--flush">
                 <ngx-gallery [options]="state.options" NgxGalleryImageSize="contain" [images]="state.images"></ngx-gallery>
             </div>
         </ng-container>
