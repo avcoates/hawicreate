@@ -17,7 +17,7 @@
         <ngx-gallery [options]="state.options" NgxGalleryImageSize="contain" [images]="state.images"></ngx-gallery>
     </div>
     <div class="dynamic__container--center--column--flush">
-        <h1 class="mat-h4">
+        <h1 *ngIf="state.artPiece.price" class="mat-h4">
             $ {{ state.artPiece.price }}
         </h1>
         <p class="mat-h4">
@@ -27,7 +27,7 @@
             {{ state.artPiece.description }}
         </p>
         <button mat-raised-button [disabled]="state.artPiece.isSold" (click)="onSelectBuy(state.artPiece)" color="primary" mat-label class="mat-h4">
-            {{ state.artPiece.isSold ? 'Sold' : 'For Sale' }}
+            {{ state.artPiece.isSold ? 'Not Available' : 'Available' }}
         </button>
     </div>
 </ng-container>
