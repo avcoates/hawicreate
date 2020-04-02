@@ -43,7 +43,6 @@ import { NgxGalleryModule } from 'ngx-gallery';
     RecaptchaFormsModule,
     HttpClientModule,
     NgxGalleryModule,
-    
   ],
   providers: [
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: '6LdlxdgUAAAAAFeng-hOh5zebEeEgGVwxSMEJ22x' },
