@@ -4,6 +4,7 @@ import { CollectionApiService } from '@admin/shared/services/data/collection-api
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { GetAllCollections } from '../actions/gallery.actions';
+import { Injectable } from '@angular/core';
 
 export interface GalleryStateModel {
     collections: Array<Collection>;
@@ -17,6 +18,8 @@ export interface GalleryStateModel {
         selectedCollection: null
     }
 })
+
+@Injectable()
 export class GalleryState {
     @Selector()
     public static collections(state: GalleryStateModel): Array<Collection> {
@@ -33,7 +36,7 @@ export class GalleryState {
     @Action(GetAllCollections)
     public getAllCollections({ patchState }: StateContext<GalleryStateModel>): Observable<Array<Collection>> {
         return this.collectionApiService.getAllCollcetions()
-            .pipe(tap(collections => patchState({ collections })));
+            .pipe(tap(collections => setTimeout(() => patchState({ collections }))));
     }
 
 }

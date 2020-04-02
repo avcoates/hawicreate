@@ -14,6 +14,7 @@ import {
 } from '@admin/actions/art-piece.actions';
 import { ArtPieceApiService } from '@admin/shared/services/data';
 import { DocumentReference } from '@angular/fire/firestore';
+import { Injectable } from '@angular/core';
 
 export interface ArtPieceStateModel {
     artPieces: Array<ArtPiece>;
@@ -27,6 +28,8 @@ export interface ArtPieceStateModel {
         selectedArtPiece: null
     }
 })
+
+@Injectable()
 export class ArtPieceState {
     @Selector()
     public static artPieces(state: ArtPieceStateModel): Array<ArtPiece> {
@@ -43,7 +46,7 @@ export class ArtPieceState {
     @Action(GetAllArtPieces)
     public getAllArtPieces({ patchState }: StateContext<ArtPieceStateModel>): Observable<Array<ArtPiece>> {
         return this.artPiecesService.getAll()
-            .pipe(tap(artPieces => patchState({ artPieces })));
+            .pipe(tap(artPieces => setTimeout(() => patchState({ artPieces }))));
     }
 
     @Action(RefreshSelectedArtPiece)
@@ -52,7 +55,7 @@ export class ArtPieceState {
 
         return this.artPiecesService.getById(selectedArtPiece.id)
             .pipe(
-                tap((artPiece) => patchState({ selectedArtPiece: artPiece }))
+                tap((artPiece) => setTimeout(() => patchState({ selectedArtPiece: artPiece })))
             );
     }
     @Action(AddArtPiece)
@@ -78,18 +81,21 @@ export class ArtPieceState {
 
     @Action(UpdateSelectedArtPiece)
     public updateSelectedArtPiece({ patchState }: StateContext<ArtPieceStateModel>, { payload }: UpdateSelectedArtPiece): void {
-        patchState({
-            selectedArtPiece: payload
+        setTimeout(() => {
+            patchState({
+                selectedArtPiece: payload
+            });
         });
     }
 
     @Action(ClearSelectedArtPiece)
     public clearSelectedArtPiece({ patchState }: StateContext<ArtPieceStateModel>): void {
-        patchState({
-            selectedArtPiece: null
+        setTimeout(() => {
+            patchState({
+                selectedArtPiece: null
+            });
         });
     }
-
 
 }
 
