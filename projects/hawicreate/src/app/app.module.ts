@@ -19,7 +19,7 @@ import { RECAPTCHA_V3_SITE_KEY,
 import { HttpClientModule } from '@angular/common/http';
 import { ContactService, RecaptchaService } from '../services';
 import { ArtPieceComponent } from './components/art-piece/art-piece.component';
-import { NgxGalleryModule } from 'ngx-gallery';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 @NgModule({
   declarations: [
