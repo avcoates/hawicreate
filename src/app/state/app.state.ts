@@ -24,6 +24,7 @@ import { UserApiService, ContactRequestApiService } from '@admin/shared/services
 import { GalleryState } from './gallery.state';
 import { ArtPieceState } from './art-piece.state';
 import { PageApiService } from '@admin/shared/services/data/page-api.service';
+import { Injectable } from '@angular/core';
 
 export interface AppStateModel {
     routes: Array<NavbarRoute>;
@@ -53,6 +54,7 @@ export interface AppStateModel {
     children: [ArtPieceState, GalleryState]
 })
 
+@Injectable()
 export class AppState {
 
     @Selector()
@@ -112,15 +114,19 @@ export class AppState {
 
     @Action(UpdatePageRoutesFromChild)
     public updatePageRoutesFromChild({ patchState }: StateContext<AppStateModel>, { payload }: UpdatePageRoutesFromChild): void {
-        patchState({
-            routes: payload
+        setTimeout(() => {
+            patchState({
+                routes: payload
+            });
         });
     }
 
     @Action(UpdateBackText)
     public updateBackText({ patchState }: StateContext<AppStateModel>, { payload }: UpdateBackText): void {
-        patchState({
-            backText: payload
+        setTimeout(() => {
+            patchState({
+                backText: payload
+            });
         });
     }
 
@@ -137,13 +143,13 @@ export class AppState {
 
     @Action(UpdateActiveUser)
     public updateActiveUser({ patchState }: StateContext<AppStateModel>, { payload }: UpdateUser): void {
-        patchState({ activeUser: payload });
+        setTimeout(() => patchState({ activeUser: payload }));
     }
 
     @Action(GetAllUsers)
     public getAllUsers({ patchState }: StateContext<AppStateModel>): Observable<Array<User>> {
         return this.userApiService.getAllUsers()
-            .pipe(tap(users => patchState({ users })));
+            .pipe(tap(users => setTimeout(() => patchState({ users }))));
     }
 
     @Action(InitiateDeviceListener)
@@ -157,18 +163,20 @@ export class AppState {
             : tabletListener.matches
             ? tabletDevice
             : desktopDevice;
-        patchState({ deviceType });
+        setTimeout(() => patchState({ deviceType }));
 
         tabletListener.addEventListener('change', ({ matches }) => {
-            patchState({ deviceType: matches ? tabletDevice : desktopDevice });
+            setTimeout(() => patchState({ deviceType: matches ? tabletDevice : desktopDevice }));
         });
         return mobileListener.addEventListener('change', ({ matches }) => {
-            patchState({
-                deviceType: matches
-                    ? mobileDevice
-                    : tabletListener.matches
-                    ? tabletDevice
-                    : desktopDevice,
+            setTimeout(() => {
+                patchState({
+                    deviceType: matches
+                        ? mobileDevice
+                        : tabletListener.matches
+                        ? tabletDevice
+                        : desktopDevice,
+                });
             });
         });
     }
@@ -176,7 +184,7 @@ export class AppState {
     @Action(GetAllContactRequests)
     public getAllContactRequests({ patchState }: StateContext<AppStateModel>): Observable<Array<ContactRequest>> {
         return this.contactRequestApiService.getAllContacts()
-            .pipe(tap(contactRequests => patchState({ contactRequests })));
+            .pipe(tap(contactRequests => setTimeout(() => patchState({ contactRequests }))));
     }
 
     @Action(DeleteContactRequest)
@@ -200,7 +208,7 @@ export class AppState {
     @Action(GetHomePageData)
     public getHomePageData({ patchState }: StateContext<AppStateModel>): Observable<HomePage> {
         return this.pageApiService.getHomePage()
-            .pipe(tap((homePage) => patchState({ homePage })));
+            .pipe(tap((homePage) => setTimeout(() => patchState({ homePage }))));
     }
 
     @Action(UpdateHomePageData)

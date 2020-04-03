@@ -19,8 +19,7 @@ import { RECAPTCHA_V3_SITE_KEY,
 import { HttpClientModule } from '@angular/common/http';
 import { ContactService, RecaptchaService } from '../services';
 import { ArtPieceComponent } from './components/art-piece/art-piece.component';
-import { NgxGalleryModule } from 'ngx-gallery';
-import 'hammerjs';
+import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 
 @NgModule({
   declarations: [
@@ -44,7 +43,6 @@ import 'hammerjs';
     RecaptchaFormsModule,
     HttpClientModule,
     NgxGalleryModule,
-    
   ],
   providers: [
     { provide: RECAPTCHA_V3_SITE_KEY, useValue: '6LdlxdgUAAAAAFeng-hOh5zebEeEgGVwxSMEJ22x' },

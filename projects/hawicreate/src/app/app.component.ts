@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from '@angular/core';
 import { NavbarRoute } from '@admin/shared/models';
-import { MatSidenav } from '@angular/material';
+import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class AppComponent implements OnInit {
 
-    @ViewChild('sidenav', {static: false})
+    @ViewChild('sidenav')
     public sidenav: MatSidenav;
 
     public isOpened = true;

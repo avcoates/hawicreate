@@ -35,6 +35,7 @@ import {
 import { AppState, ArtPieceState, GalleryState } from './state';
 
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
     AngularFireStorageModule,
     AngularFirestoreModule,
     AngularFireAuthModule,
-    SharedModule
+    SharedModule,
+    FontAwesomeModule
   ],
   exports: [],
   providers: [ArtPieceApiService, ImageApiService, ImageStorageApiService, UserApiService],
