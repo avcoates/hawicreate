@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ArtPieceApiService, PageApiService } from '@admin/shared/services/data';
 import { Observable } from 'rxjs';
 import { ArtPiece, HomePage } from '@admin/shared/models';
-import { map, tap } from 'rxjs/operators';
-import { NgxGalleryImage, NgxGalleryOptions } from 'ngx-gallery';
+import { map } from 'rxjs/operators';
+import { NgxGalleryImage, NgxGalleryOptions, NgxGalleryAnimation } from 'ngx-gallery';
 import { Router } from '@angular/router';
 
 @Component({
@@ -33,11 +33,13 @@ export class HomeComponent implements OnInit {
                             preview: true,
                             imageAutoPlay: true,
                             imageBullets: true,
+                            previewCloseOnClick: true,
                             imageArrows: artPieces.length > 1,
                             arrowPrevIcon: 'fa fa-angle-left',
                             arrowNextIcon: 'fa fa-angle-right',
                             closeIcon: 'fa fa-times',
                             imageSwipe: true,
+                            imageAnimation: NgxGalleryAnimation.Slide,
                             imageInfinityMove: true,
                             thumbnailSize: 'contain',
                             thumbnails: false,
