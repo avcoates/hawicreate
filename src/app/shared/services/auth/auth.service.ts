@@ -26,11 +26,11 @@ export class AuthService {
 
     public googleSignIn(): void {
         const provider = new auth.GoogleAuthProvider();
-        this.afAuth.auth.signInWithRedirect(provider);
+        this.afAuth.signInWithRedirect(provider);
     }
 
     public async signOut() {
-        this.afAuth.auth.signOut();
+        this.afAuth.signOut();
         this.store.dispatch(new UpdateActiveUser(null));
         this.router.navigate(['']);
     }

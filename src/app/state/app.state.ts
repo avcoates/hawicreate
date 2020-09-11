@@ -18,8 +18,7 @@ import { User } from '@admin/shared/models/user';
 import { AuthService } from '@admin/shared/services/auth/auth.service';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { FirebaseApp } from '@angular/fire';
-import { Router } from '@angular/router';
+import { AngularFireAuth } from '@angular/fire/auth';
 import { UserApiService, ContactRequestApiService } from '@admin/shared/services/data';
 import { GalleryState } from './gallery.state';
 import { ArtPieceState } from './art-piece.state';
@@ -98,13 +97,13 @@ export class AppState {
     }
 
     constructor(private auth: AuthService,
-                private firebase: FirebaseApp,
+                private angularFireAuth: AngularFireAuth,
                 private store: Store,
                 private userApiService: UserApiService,
                 private contactRequestApiService: ContactRequestApiService,
                 private pageApiService: PageApiService,
     ) {
-        this.firebase.auth().onAuthStateChanged(user => {
+        this.angularFireAuth.onAuthStateChanged(user => {
             if (user) {
                 this.auth.getUserByUId(user.uid)
                     .subscribe(u => this.store.dispatch(new UpdateActiveUser(u)));
