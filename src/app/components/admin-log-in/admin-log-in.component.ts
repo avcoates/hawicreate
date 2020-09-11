@@ -8,7 +8,7 @@ import { User } from '@admin/shared/models/user';
 import { tap, takeUntil, switchMap, filter } from 'rxjs/operators';
 import { isNullOrUndefined } from 'util';
 import { Router } from '@angular/router';
-import { FirebaseApp } from '@angular/fire';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 @Component({
     selector: 'hc-log-in',
@@ -34,14 +34,14 @@ export class AdminLogInComponent implements OnInit {
     constructor(private store: Store,
                 public auth: AuthService,
                 private router: Router,
-                private firebase: FirebaseApp) {
+                private angularFireAuth: AngularFireAuth,) {
     }
 
     /*
     https://github.com/firebase/firebase-js-sdk/issues/266
     */
     public ngOnInit(): void {
-        from(this.firebase.auth()
+        from(this.angularFireAuth
                 .getRedirectResult()
             )
             .pipe(

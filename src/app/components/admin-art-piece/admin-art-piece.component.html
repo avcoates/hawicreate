@@ -19,6 +19,12 @@
         </div>
         <div class="dynamic__container--center">
             <div class="art__piece">
+                <div *ngIf="images.value.length == 0">
+                    <h1 class="mat-caption flex-center">
+                        <mat-icon color="warn" >warning</mat-icon>
+                        This art piece has no image and will not be shown on the public website!!
+                    </h1>
+                </div>
                 <hc-image-upload #hcupload (fileListChanged)="onFileListChanged($event)"></hc-image-upload>
                 <mat-form-field *ngIf="state.selectArtPiece">
                     <input

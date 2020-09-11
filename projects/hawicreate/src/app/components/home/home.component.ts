@@ -53,8 +53,10 @@ export class HomeComponent implements OnInit {
                                 }
                             }]
                     }];
+
                     return {
                         images: artPieces
+                            .filter(ap => ap.images.length > 0)
                             .map(p => p.images[0])
                             .map(i => {
                                 const im: NgxGalleryImage = {
