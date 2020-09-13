@@ -1,10 +1,21 @@
-# hawicreate-admin
-
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.0.
+# HawiCreate
+There are two websites in this prject.
+1. Is the admin website. It is located in hawicreate
+2. Is the public website. It is located in hawicreate>projects>hawicreate
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1. Admin dev server: Run `ng serve`, navigate to `http://localhost:4200/`
+2. Public dev serer: Run `ng serve hawicreate`, navigate to `http://localhost:4200/`
+
+## Production Build
+1. Admin build to prod: Run `ng build --prod`
+2. Public build to prod: Run `ng build hawicreate --prod`
+
+## Firebase Hosting Deploy
+Depolys only web code
+1. Admin deploy: Run `firebase deploy --only hosting`
+2. Public deploy: Run `firebase deploy --only hosting:hawicreate`
 
 ## Code scaffolding
 
