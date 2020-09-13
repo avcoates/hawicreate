@@ -169,7 +169,7 @@ export class AdminArtPieceComponent implements OnInit, OnDestroy {
     }
 
     public onCancel(): void {
-        // this.initializeArtPieceForm();
+        this.initializeArtPieceForm();
         this.hcUpload.clearFiles();
     }
     public onFileListChanged(files: Array<File>): void {
