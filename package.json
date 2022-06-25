@@ -38,7 +38,7 @@
     "ng-recaptcha": "^5.0.0",
     "ngx-gallery": "^5.10.0",
     "ngx-take-until-destroy": "^5.4.0",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "rxjs": "^6.6.3",
     "rxjs-compat": "^6.6.3",
     "terser": "^3.17.0",
